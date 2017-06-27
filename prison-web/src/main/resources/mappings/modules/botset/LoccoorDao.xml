@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.botset.dao.LoccoorDao">
+
+
+	<insert id="saveAdmLoccoorInfo" useGeneratedKeys="true"
+		keyProperty="id" parameterType="com.gt.prison.modules.botset.entity.AdmLoccoorInfo">
+		insert into adm_loccoor_info (
+		id,
+		coo_name,
+		coo_level,
+		coo_mainx,
+		coo_mainy,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		) values (
+		#{id},
+		#{cooName},
+		#{cooLevel},
+		#{cooMainx},
+		#{cooMainy},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag})
+	</insert>
+
+	<update id="deleteAdmLoccoorInfo" parameterType="String">
+		update
+		adm_loccoor_info set del_flag=1 where id=#{id};
+	</update>
+
+	<update id="updateAdmLoccoorInfo" parameterType="com.gt.prison.modules.botset.entity.AdmLoccoorInfo">
+		update
+		adm_loccoor_info set
+		coo_name=#{cooName},
+		coo_level=#{cooLevel},
+		coo_mainx=#{cooMainx},
+		coo_mainy=#{cooMainy},
+		update_by =
+		#{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		where
+		id=#{id};
+	</update>
+
+
+	<sql id="loccoorColumns">
+		a.id,
+		a.coo_name,
+		a.coo_level,
+		a.coo_mainx,
+		a.coo_mainy,
+		a.remarks,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS
+		"updateBy.id",
+		a.update_date,
+		a.del_flag
+	</sql>
+
+	<!-- 分页查询区域信息 -->
+	<select id="loadAdmLoccoorInfo" resultType="com.gt.prison.modules.botset.entity.AdmLoccoorInfo">
+		SELECT
+		<include refid="loccoorColumns" />
+		FROM adm_loccoor_info a
+		where a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="cooName != null and cooName !='' ">
+			AND a.coo_name LIKE CONCAT(CONCAT('%',#{cooName}),'%')
+		</if>
+	</select>
+
+	<select id="get" resultType="AdmLoccoorInfo">
+		SELECT
+		<include refid="loccoorColumns" />
+		FROM adm_loccoor_info a
+		where a.del_flag=0
+		AND a.id = #{id}
+
+	</select>
+
+	<!-- 查询全部用户 -->
+	<select id="findAllList" resultType="AdmLoccoorInfo">
+		SELECT
+		<include refid="loccoorColumns" />
+		FROM adm_loccoor_info a
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+	<select id="findAdmLoccoorInfo" resultType="AdmLoccoorInfo" parameterType="string">
+		SELECT
+		a.id,
+		a.coo_name,
+		a.coo_level,
+		a.coo_mainx,
+		a.coo_mainy
+		FROM adm_loccoor_info a
+		WHERE a.del_flag = 0
+		AND id=#{id}
+	</select>
+</mapper>

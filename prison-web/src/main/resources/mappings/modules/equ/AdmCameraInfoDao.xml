@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.equ.dao.AdmCameraInfoDao">
+    
+	<sql id="admCameraInfoColumns">
+		a.id AS "id",
+		a.cam_mainx AS "camMainx",
+		a.cam_mainy AS "camMainy",
+		a.loc_id AS "locId",
+		a.cam_name AS "camName",
+		a.cam_ip AS "camIp",
+		a.cam_recevie_ip AS "camRecevieIp",
+		a.cam_channel AS "camChannel",
+		a.cam_login_name AS "camLoginName",
+		a.cam_login_pwd AS "camLoginPwd",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="admCameraInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="AdmCameraInfo">
+		SELECT 
+			<include refid="admCameraInfoColumns"/>
+		FROM adm_camera_info a
+		<include refid="admCameraInfoJoins"/>
+		WHERE a.id = #{id}
+		and a.del_flag=0
+	</select>
+	
+	<select id="findList" resultType="AdmCameraInfo">
+		SELECT 
+			a.id ,
+			a.cam_mainx ,
+			a.cam_mainy ,
+			a.loc_id AS "loc.id",
+			a.cam_name ,
+			a.cam_ip ,
+			a.cam_recevie_ip ,
+			a.cam_channel,
+			a.cam_login_name ,
+			a.cam_login_pwd ,
+			a.create_by ,
+			a.create_date ,
+			a.update_by ,
+			a.update_date ,
+			a.remarks ,
+			a.del_flag ,
+			b.loc_name AS "loc.locName",
+			b.loc_mainx AS "loc.locMainx",
+			b.loc_mainy AS "loc.locMainy",
+			c.pic_name AS "pic.picName",
+			c.id AS "pic.id",
+			c.pic_path AS "pic.picPath",
+			d.id AS "coo.id",
+			d.coo_name AS "coo.cooName"
+		FROM adm_camera_info a
+        LEFT JOIN adm_locarea_info b ON  a.loc_id=b.id
+        LEFT JOIN adm_picture_info c ON  b.pic_id=c.id
+        LEFT JOIN adm_loccoor_info d ON  c.coo_id=d.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} 
+			and b.del_flag = #{DEL_FLAG_NORMAL} 
+			and c.del_flag = #{DEL_FLAG_NORMAL} 
+			and d.del_flag = #{DEL_FLAG_NORMAL} 
+			<if test="camName != null and camName != ''">
+				AND a.cam_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{camName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{camName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{camName},'%')</if>
+			</if>
+			<if test="coo!=null and coo.id != null and coo.id != ''">
+				AND d.id = #{coo.id}
+			</if>
+			<if test="pic!=null and pic.id != null and pic.id != ''">
+				AND c.id = #{pic.id}
+			</if>
+			<if test="loc!=null and loc.id != null and loc.id != ''">
+				AND a.loc_id = #{loc.id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="AdmCameraInfo">
+		SELECT 
+			<include refid="admCameraInfoColumns"/>
+		FROM adm_camera_info a
+		<include refid="admCameraInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adm_camera_info(
+			id,
+			cam_mainx,
+			cam_mainy,
+			loc_id,
+			cam_name,
+			cam_ip,
+			cam_recevie_ip,
+			cam_channel,
+			cam_login_name,
+			cam_login_pwd,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{camMainx},
+			#{camMainy},
+			#{locId},
+			#{camName},
+			#{camIp},
+			#{camRecevieIp},
+			#{camChannel},
+			#{camLoginName},
+			#{camLoginPwd},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adm_camera_info SET 	
+			cam_mainx = #{camMainx},
+			cam_mainy = #{camMainy},
+			loc_id = #{locId},
+			cam_name = #{camName},
+			cam_ip = #{camIp},
+			cam_recevie_ip = #{camRecevieIp},
+			cam_channel=#{camChannel},
+			cam_login_name = #{camLoginName},
+			cam_login_pwd = #{camLoginPwd},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE adm_camera_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findListByLocId" resultType="AdmCameraInfo">
+		SELECT 
+			a.id AS "id",
+			a.cam_mainx AS "camMainx",
+			a.cam_mainy AS "camMainy",
+			a.loc_id AS "locId",
+			a.cam_name AS "camName",
+			a.cam_ip AS "camIp",
+			a.cam_recevie_ip AS "camRecevieIp",
+			a.cam_channel AS "camChannel",
+			a.cam_login_name AS "camLoginName",
+			a.cam_login_pwd AS "camLoginPwd"
+		FROM adm_camera_info a
+		<include refid="admCameraInfoJoins"/>
+		<where>
+			a.del_flag = 0
+			AND loc_id = #{locId}
+		</where>		
+	</select>
+	<select id="findCameraInfoByLocId" resultType="AdmCameraInfo" parameterType="string">
+		SELECT 
+			a.id AS "id",
+			a.cam_mainx AS "camMainx",
+			a.cam_mainy AS "camMainy",
+			a.loc_id AS "locId",
+			a.cam_name AS "camName",
+			a.cam_ip AS "camIp",
+			a.cam_recevie_ip AS "camRecevieIp",
+			a.cam_channel AS "camChannel",
+			a.cam_login_name AS "camLoginName",
+			a.cam_login_pwd AS "camLoginPwd"
+		FROM adm_camera_info a
+		<include refid="admCameraInfoJoins"/>
+		<where>
+			a.del_flag = 0
+			AND loc_id = #{id}
+		</where>		
+	</select>
+</mapper>

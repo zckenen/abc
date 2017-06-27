@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.per.dao.AdmWorkerDao">
+    
+	<sql id="admWorkerColumns">
+		a.id AS "id",
+		a.loc_id AS "locId",
+		a.wrk_name AS "wrkName",
+		a.wrk_num AS "wrkNum",
+		a.wrk_mainx AS "wrkMainx",
+		a.wrk_mainy AS "wrkMainy",
+		a.wrk_sizex AS "wrkSizex",
+		a.wrk_sizey AS "wrkSizey",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	
+	<sql id="admWorkerJoins">
+	</sql>
+    
+	<select id="get" resultType="AdmWorker">
+		SELECT 
+			<include refid="admWorkerColumns"/>
+		FROM adm_worker a
+		<include refid="admWorkerJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AdmWorker">
+		SELECT 
+			a.id AS "id",
+			a.loc_id AS "locId",
+			a.wrk_name AS "wrkName",
+			a.wrk_num AS "wrkNum",
+			a.wrk_mainx AS "wrkMainx",
+			a.wrk_mainy AS "wrkMainy",
+			a.wrk_sizex AS "wrkSizex",
+			a.wrk_sizey AS "wrkSizey",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.remarks AS "remarks",
+			a.del_flag AS "delFlag",
+			b.loc_name AS "loc.locName",
+			b.id AS "loc.id",
+			c.id AS "pic.id",
+			c.pic_name AS "pic.picName",
+			d.id AS "coo.id",
+			d.coo_name AS "coo.cooName"
+		FROM adm_worker a
+		LEFT JOIN adm_locarea_info b ON a.loc_id=b.id
+		LEFT JOIN adm_picture_info c ON b.pic_id=c.id
+		LEFT JOIN adm_loccoor_info d ON c.coo_id=d.id
+		where  a.del_flag = #{DEL_FLAG_NORMAL}
+		and b.del_flag = #{DEL_FLAG_NORMAL}
+		and c.del_flag = #{DEL_FLAG_NORMAL}
+		and d.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="id != null and id != ''">
+				AND a.id = #{id}
+		</if>
+		<if test="wrkName != null and wrkName != ''">
+				AND a.wrk_name LIKE CONCAT(CONCAT('%',#{wrkName}),'%') 
+		</if>
+	</select>
+	
+	<select id="findAllList" resultType="AdmWorker">
+		SELECT 
+			<include refid="admWorkerColumns"/>
+		FROM adm_worker a
+		<include refid="admWorkerJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adm_worker(
+			id,
+			loc_id,
+			wrk_name,
+			wrk_num,
+			wrk_mainx,
+			wrk_mainy,
+			wrk_sizex,
+			wrk_sizey,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{locId},
+			#{wrkName},
+			#{wrkNum},
+			#{wrkMainx},
+			#{wrkMainy},
+			#{wrkSizex},
+			#{wrkSizey},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adm_worker SET 	
+			loc_id = #{locId},
+			wrk_name = #{wrkName},
+			wrk_num = #{wrkNum},
+			wrk_mainx = #{wrkMainx},
+			wrk_mainy = #{wrkMainy},
+			wrk_sizex = #{wrkSizex},
+			wrk_sizey = #{wrkSizey},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE adm_worker SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<select id="findAdmWorker" resultType="AdmWorker">
+		SELECT 
+			<include refid="admWorkerColumns"/>
+		FROM adm_worker a
+	</select>
+	<select id="findWorkerListByLocId" resultType="AdmWorker">
+		SELECT 
+			a.id AS "id",
+			a.loc_id AS "locId",
+			a.wrk_name AS "wrkName",
+			a.wrk_num AS "wrkNum",
+			a.wrk_mainx AS "wrkMainx",
+			a.wrk_mainy AS "wrkMainy",
+			a.wrk_sizex AS "wrkSizex",
+			a.wrk_sizey AS "wrkSizey"
+		FROM adm_worker a
+		<include refid="admWorkerJoins"/>
+		<where>
+			a.del_flag = 0
+			AND loc_id = #{locId}
+		</where>		
+	</select>
+</mapper>

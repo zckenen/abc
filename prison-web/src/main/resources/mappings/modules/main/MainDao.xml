@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.main.dao.MainDao">
+	
+	<select id="getLocarecByCooridAndGroupid" resultType="map" parameterType="map">
+		SELECT * FROM `adm_locarea_info` WHERE loc_coorid=#{loc_coorid} AND loc_groupid=#{loc_groupid} 
+	</select>
+	<select id="selAdmPeopleInfoByWatid" resultType="map">
+		SELECT * FROM adm_people_info WHERE wat_num in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		 </foreach>
+ 		 ORDER BY peo_type DESC
+	</select> 
+		<select id="loadLocAndPeoInfo" resultType="map" parameterType="map">
+		SELECT * FROM `adm_locarea_info` WHERE loc_coorid=#{loc_coorid} AND loc_groupid=#{loc_groupid} 
+	</select>
+	<select id="selOneLocGroupids" resultType="string" parameterType="map">
+		SELECT GROUP_CONCAT(DISTINCT peo_dorm) peo_groupid FROM `adm_people_info` WHERE pco_id=#{pco_no} AND plo_id=#{plo_no}
+	</select>
+	<select id="selOneGroupPeoInfo" resultType="map" parameterType="map">
+		SELECT id,peo_name,cri_id,peo_type,peo_dorm FROM `adm_people_info` WHERE pco_id=#{pco_no} AND plo_id=#{plo_no} AND peo_dorm=#{peo_groupid}  ORDER BY peo_type DESC
+	</select>
+	
+	<select id="loadInfoByCondition" resultType="AdmPeopleInfo" parameterType="map">
+		SELECT
+			a.id,
+			a.cri_id,
+			a.peo_name,
+			a.peo_num,
+			a.peo_type,
+			a.wat_num
+		FROM adm_people_info a 
+		WHERE (a.peo_num LIKE CONCAT(#{condition},'%') 
+		OR a.peo_name LIKE CONCAT(#{condition},'%'))
+		and peo_type!=3 and del_flag=0
+	</select>
+	<select id="loadLocInfoByLocid" resultType="map" parameterType="string">
+	<!-- 	 SELECT loc_name,pic_grpname,coo_name,coo_id,coo_mainx,coo_mainy FROM(SELECT * FROM(SELECT * FROM `adm_locarea_info` WHERE loc_id=#{loc_id}) b 
+		 JOIN `adm_picture_info` ON pic_coorid=b.loc_coorid AND pic_no=b.loc_groupid) a JOIN `adm_loccoor_info` ON coo_id=a.loc_coorid -->
+		 SELECT 
+			 a.loc_name,
+			 a.id loc_id,
+			 a.`loc_mainx`,
+			 a.`loc_mainy`,
+			 a.`loc_centx`,
+			 a.`loc_centy`,
+			 b.`pic_path`,
+			 b.pic_grpname,
+			 b.id pic_no,
+			 c.coo_name,
+			 c.id coo_id,	 
+			 c.coo_mainx,
+			 c.coo_mainy 
+		 FROM adm_locarea_info a
+		 LEFT JOIN adm_picture_info b ON a.loc_groupid=b.id
+		 LEFT JOIN adm_loccoor_info c ON a.loc_coorid=c.id
+		 WHERE a.id=#{id}
+		 AND a.`del_flag`=0
+		 AND b.`del_flag`=0
+		 AND c.`del_flag`=0
+	</select>
+	<select id="selInfoByPeoAndCri" resultType="map" parameterType="map">
+		SELECT * FROM adm_people_info LEFT OUTER JOIN `adm_criminal_info` ON cri_criminalno=peo_id WHERE peo_groupid=#{peo_groupid} 
+		AND peo_coo=#{peo_coo} AND peo_loc=#{peo_loc} AND peo_id NOT IN(#{peo_id})
+	</select>
+	<select id="loadInfoByPeono" resultType="map" parameterType="string">
+		SELECT peo_no,peo_id,peo_name,peo_type,peo_coo,peo_loc,peo_groupid,peo_watid,cri_picpath,cri_brithday,cri_origin,
+		cri_monitoringtime,cri_originalsentence,cri_currentsentence,cri_charge,cri_eventlvl FROM adm_people_info JOIN 
+		`adm_criminal_info` ON cri_criminalno=peo_id WHERE peo_id=#{peo_id};
+	</select>
+	<select id="loadPeoInfoByPeoid" resultType="map" parameterType="string">
+		SELECT 
+			a.`peo_id`,
+			a.`peo_name`,
+			a.`peo_type`,
+			a.`peo_coo`,
+			a.`peo_loc`,
+			a.`peo_groupid`,
+			a.`peo_grpid`,
+			a.`peo_watid`,
+			b.`cri_criminalno`,
+			b.`cri_criminalname`,
+			b.`cri_picpath` 
+		FROM`adm_people_info`a 
+		LEFT JOIN `adm_criminal_info` b ON a.peo_id= b.cri_criminalno
+		<where>
+			a.peo_id=#{peo_id}
+			AND a.del_flag=0 
+			AND b.del_flag=0
+		</where>
+	</select>
+	<select id="selBetweenTime" resultType="map" parameterType="map">
+		SELECT * FROM (SELECT * FROM `adm_warresult_info` WHERE nwar_crino=#{nwar_crino} AND 
+		nwar_time &gt;=#{startTime} AND nwar_time &lt;= #{endTime}) a 
+		JOIN (SELECT war_no,war_name FROM `adm_warnings_info` GROUP BY war_no) b ON a.nwar_id=b.war_no
+	</select>
+	<select id="selPeoInfoByNwarno" resultType="map" parameterType="string">
+		SELECT * FROM `adm_warresult_info`a, `adm_people_info` b  where peo_id=nwar_crino AND a.id=#{nwar_no}
+	</select>
+	<select id="selLocidsByLocid" resultType="map" parameterType="string">
+		SELECT GROUP_CONCAT(DISTINCT id) loc_id FROM `adm_locarea_info` WHERE loc_groupid=(SELECT loc_groupid FROM `adm_locarea_info` WHERE id=#{loc_id}) 
+	</select>
+	<select id="loadWarningsInfoById" resultType="map" parameterType="string">
+		SELECT 
+			a.`nwar_locid`,
+			a.`nwar_crino`,
+			b.`war_name`,
+			GROUP_CONCAT(DISTINCT b.`war_criid`) war_criid,
+			b.`war_type`
+		FROM `adm_warresult_info` a 
+		LEFT JOIN `adm_warnings_info` b ON a.`nwar_id` = b.`war_no`
+		 WHERE a.`id`=#{nwar_no} GROUP BY war_no
+	</select>
+	<select id="loadCriidByWarning" resultType="string" parameterType="int">
+		SELECT GROUP_CONCAT(DISTINCT war_criid) war_criid FROM `adm_warnings_info`WHERE war_no=#{war_no}
+	</select>
+	<!-- <select id="selAdmPeopleInfoByWatid" resultType="map">
+		SELECT * FROM adm_people_info WHERE peo_watid in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		 </foreach>
+ 		 ORDER BY peo_type DESC
+	</select>  -->
+	<select id="selLocinfoByLocid" resultType="map" parameterType="string">
+		SELECT * FROM `adm_locarea_info` WHERE id=#{id}
+	</select>
+	<select id="loadPeoInfoByWatid" resultType="map" parameterType="string">
+		SELECT peo_no,`peo_id`,`peo_name`,`peo_type`,`peo_coo`,`peo_loc`,`peo_groupid`,`peo_grpid`,`peo_watid`,`peo_rem`,`cri_criminalno`,`cri_criminalname`,`cri_picpath` 
+		FROM(SELECT * FROM `adm_people_info` WHERE peo_watid=#{peo_watid}) a JOIN `adm_criminal_info` ON a.peo_id= cri_criminalno
+	</select>
+	<select id="selGeneralCountByWatid" resultType="int" >
+		SELECT COUNT(*) FROM `adm_people_info` WHERE  peo_type=1 AND peo_watid in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		</foreach>
+	</select> 
+	<select id="selImportantCountByWatid" resultType="int" >
+		SELECT COUNT(*) FROM `adm_people_info` WHERE  peo_type=2 AND peo_watid in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		</foreach>
+	</select> 
+	<select id="selPoliceCountByWatid" resultType="int" >
+		SELECT COUNT(*) FROM `adm_people_info` WHERE  peo_type=3 AND peo_watid in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		</foreach>
+	</select> 
+	<select id="selCarCountByWatid" resultType="int" >
+		SELECT COUNT(*) FROM `adm_people_info` WHERE  peo_type=4 AND peo_watid in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		</foreach>
+	</select> 
+	<select id="selOtherCountByWatid" resultType="int" >
+		SELECT COUNT(*) FROM `adm_people_info` WHERE  peo_type=5 AND peo_watid in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		</foreach>
+	</select> 
+	<select id="loadInfoByWatidAndLocid" resultType="map" parameterType="map">
+		SELECT 
+		a.*,c.*,b.*,e.*,d.* 
+		FROM adm_people_info a,adm_criminal_info b,adm_locarea_info c,adm_picture_info d,adm_loccoor_info e 
+		WHERE a.peo_watid=#{peo_watid} AND c.id=#{loc_id} AND a.peo_id= b.cri_criminalno AND d.pic_coorid=c.loc_coorid AND d.id=c.loc_groupid 
+		AND e.id=c.loc_coorid
+	</select>
+	<select id="selAdmLoccoorInfo" resultType="map">
+		SELECT * FROM adm_loccoor_info where del_flag=0
+	</select>
+	<select id="selAdmPictureInfoByCooid" resultType="map" parameterType="string">
+		SELECT * FROM adm_picture_info WHERE pic_coorid=#{pic_coorid} and del_flag=0
+	</select>
+	<select id="selAdmLocareaInfoByGroupid" resultType="map" parameterType="string">
+		SELECT * FROM adm_locarea_info WHERE loc_groupid=#{loc_groupid} and del_flag=0
+	</select>
+	<select id="loadPeoCooAndLoc" resultType="map">
+		SELECT peo_coo, GROUP_CONCAT(DISTINCT peo_loc) peo_loc FROM `adm_people_info` GROUP BY peo_coo ORDER BY peo_no
+	</select>
+	<select id="selGroupids" resultType="map" parameterType="map">
+		SELECT peo_groupid FROM `adm_people_info` WHERE peo_coo=#{peo_coo} AND peo_loc=#{peo_loc} GROUP BY peo_groupid
+	</select>
+	<select id="selRelations" resultType="map" parameterType="map">
+		SELECT 
+			a.`id`,
+			a.`cloc_criid`,
+			a.`cloc_locid`,
+			a.`cloc_starttime`,
+			a.`cloc_endtime`,
+			b.`id` AS loc_id,
+			b.`loc_name`,
+			c.`id` AS pic_no,
+			c.`pic_grpname`,
+			d.`id` AS coo_id,
+			d.`coo_name`
+		 FROM `tra_criminalloc` a
+		LEFT JOIN `adm_locarea_info` b ON a.`cloc_locid`=b.`id`
+		LEFT JOIN `adm_picture_info` c ON b.`loc_groupid`=c.`id`
+		LEFT JOIN `adm_loccoor_info` d ON b.`loc_coorid`=d.`id`
+		WHERE cloc_criid=#{peo_id} AND cloc_starttime &lt; #{endTime} AND cloc_endtime &gt; #{startTime}
+	</select>
+	
+	<select id="selRelations1" resultType="map" parameterType="map">
+		SELECT 
+			a.`id`,
+			a.`cloc_criid`,
+			a.`cloc_locid`,
+			a.`cloc_starttime`,
+			a.`cloc_endtime`,
+			b.peo_name
+ 		FROM `tra_criminalloc` a
+		LEFT JOIN `adm_people_info` b ON a.`cloc_criid`=b.peo_id 
+		WHERE cloc_locid=#{loc_id} AND cloc_starttime &lt; #{endTime} AND cloc_endtime &gt; #{startTime}
+	</select>
+	<select id="selCooAndLocAndGroupid" resultType="map" parameterType="string">
+		SELECT 
+			a.`peo_coo`,
+			a.`peo_loc`,
+			a.`peo_groupid`,
+			b.`pco_name`,
+			c.`plo_name` 
+		FROM `adm_people_info` a
+		LEFT JOIN `adm_prisoncoo_info` b ON a.`peo_coo`=b.`pco_no`
+		LEFT JOIN `adm_prisonloc_info` c ON a.`peo_loc`=c.`plo_no`
+		 WHERE peo_id=#{peo_id}
+	</select>
+	<select id="selAdmPeopleInfo" resultType="map">
+		SELECT * FROM adm_people_info WHERE peo_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		 </foreach>
+	</select> 
+	<select id="selAdmCameraInfo" resultType="map" parameterType="string">
+		SELECT 
+			id,
+			cam_mainx,
+			cam_mainy,
+			cam_loc_id,
+			cam_name,
+			cam_ip,
+			cam_recevie_ip,
+			cam_channel,
+			cam_login_name,
+			cam_login_pwd 
+		FROM `adm_camera_info` 
+		WHERE cam_loc_id=#{loc_id} 
+		and del_flag=0;
+	</select> 
+	<select id="selEventByPeono" resultType="map" parameterType="com.gt.prison.modules.per.entity.AdmPeopleInfo" >
+		SELECT 
+		*
+		FROM `adm_people_info`a 
+		LEFT JOIN `adm_warresult_info`b ON a.peo_id=b.nwar_crino
+		LEFT JOIN `adm_warnings_info` c ON b.nwar_id=c.war_no 
+		WHERE  peo_id=#{peo_id}
+		ORDER BY nwar_time DESC
+	</select> 
+	
+	<select id="loadCameraInfo" resultType="AdmCameraInfo" parameterType="string" >
+		SELECT 
+			id,
+			cam_mainx,
+			cam_mainy,
+			loc_id,
+			cam_name,
+			cam_ip,
+			cam_recevie_ip,
+			cam_channel,
+			cam_login_name,
+			cam_login_pwd 
+		FROM `adm_camera_info` 
+		<where> 
+			loc_id=#{loc_id}
+			and del_flag=0
+		</where>
+	</select> 
+	
+	<select id="findGroupPeoid" resultType="string" parameterType="string" >
+		SELECT 
+			GROUP_CONCAT(DISTINCT peo_id) peo_id 
+		FROM `adm_people_info`
+		WHERE peo_coo=(SELECT peo_coo FROM `adm_people_info`WHERE peo_id=#{war_criids}) 
+		AND peo_groupid=(SELECT peo_groupid FROM `adm_people_info`WHERE peo_id=#{war_criids})
+	</select> 
+	
+	<select id="loadInfoById" resultType="AdmPeopleInfo" parameterType="com.gt.prison.modules.per.entity.AdmPeopleInfo" >
+		SELECT 
+			a.id,
+			a.peo_num,
+			a.cri_id,
+			a.peo_name,
+			a.wat_num,
+			a.peo_type,
+			a.pco_id,
+			a.plo_id,
+			a.peo_dorm,
+			b.id AS "pco.id",
+			b.pco_name AS "pco.pcoName",
+			c.id AS "plo.id",
+			c.plo_name AS "plo.ploName",
+				d.cri_num AS "cri.criNum",
+		d.cri_xuhao AS "cri.criXuhao",
+		d.cri_criminalname AS "cri.criCriminalname",
+		d.cri_sex AS "cri.criSex",
+		d.cri_prisonname AS "cri.criPrisonname",
+		d.cri_age AS "cri.criAge",
+		d.cri_prisonarea AS "cri.criPrisonarea",
+		d.cri_picpath AS "cri.criPicpath",
+		d.cri_criminallvl AS "cri.criCriminallvl",
+		d.cri_brithday AS "cri.criBrithday",
+		d.cri_idcard AS "cri.criIdcard",
+		d.cri_bed AS "cri.criBed",
+		d.cri_dorm AS "cri.criDorm",
+		d.cri_nation AS "cri.criNation",
+		d.cri_bedid AS "cri.criBedid",
+		d.cri_orgnum AS "cri.criOrgnum",
+		d.cri_origin AS "cri.criOrigin",
+		d.cri_homeaddress AS "cri.criHomeaddress",
+		d.cri_sslx AS "cri.criSslx",
+		d.cri_eventlvl AS "cri.criEventlvl",
+		d.cri_tglb AS "cri.criTglb",
+		d.cri_chargetype AS "cri.criChargetype",
+		d.cri_zyaflb AS "cri.criZyaflb",
+		d.cri_monitoringtime AS "cri.criMonitoringtime",
+		d.cri_charge AS "cri.criCharge",
+		d.cri_criminalfacts AS "cri.criCriminalfacts",
+		d.cri_originalsentence AS "cri.criOriginalsentence",
+		d.cri_enddate AS "cri.criEnddate",
+		d.cri_wanwei AS "cri.criWanwei",
+		d.cri_hybd AS "cri.criHybd"
+		FROM adm_people_info a 
+		LEFT JOIN adm_prisoncoo_info b ON b.id=a.pco_id
+		LEFT JOIN adm_prisonloc_info c ON c.id = a.plo_id
+		LEFT JOIN adm_criminal_info d ON a.cri_id=d.id
+		WHERE a.del_flag=0
+		<if test="id != null and id != ''">
+				AND a.id = #{id}
+		</if>
+		<if test="watNum != null and watNum != ''">
+				AND a.wat_num = #{watNum}
+		</if>
+	</select> 
+	
+	<select id="loadCooAndPicAndLoc" resultType="AdmLocareaInfo" parameterType="com.gt.prison.modules.botset.entity.AdmLocareaInfo" >
+		select 
+			a.id,
+			a.loc_name,
+			a.loc_mainx,
+			a.loc_mainy,
+			a.loc_sizex,
+			a.loc_sizey,
+			b.id AS "pic.id",
+			b.pic_path AS "pic.picPath",
+			b.pic_name AS "pic.picName",
+			c.id AS "coo.id",
+			c.coo_name AS "coo.cooName",
+			c.coo_mainx AS "coo.cooMainx",
+			c.coo_mainy AS "coo.cooMainy"
+		from `adm_locarea_info` a
+		left join `adm_picture_info` b on a.`pic_id`=b.`id`
+		left join `adm_loccoor_info` c on b.`coo_id`=c.`id`
+		where a.`del_flag`=0
+		and b.`del_flag`=0
+		and c.`del_flag`=0
+		and a.`id`=#{Id}
+	</select> 
+	
+	<select id="loadGroupPeoInfo" resultType="AdmPeopleInfo" parameterType="com.gt.prison.modules.per.entity.AdmPeopleInfo" >
+		SELECT
+			a.id,
+			a.peo_name,
+			a.peo_type,
+			a.wat_num
+		FROM `adm_people_info`a
+		WHERE a.`del_flag`=0
+		AND a.`pco_id`=#{pcoId}
+		AND a.`plo_id`=#{ploId}
+		AND a.`peo_dorm`=#{peoDorm}
+		AND a.`id`!=#{id}
+	</select> 
+	
+	<select id="findPcoInfo" resultType="AdmPrisoncooInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPrisoncooInfo" >
+		select 
+		* 
+		from `adm_prisoncoo_info` 
+	</select>
+	
+	<select id="findPloInfo" resultType="AdmPrisonlocInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPrisoncooInfo" >
+		select 
+		* 
+		from `adm_prisonloc_info` 
+		where pco_id=#{id}
+	</select>
+	
+	<select id="findDormInfo" resultType="AdmPeopleInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPrisonlocInfo" >
+		select 
+			pco_id,
+			plo_id,
+			peo_dorm
+		from `adm_people_info` 
+		where del_flag=0 
+		and pco_id=#{pcoId}
+		and plo_id=#{id}
+		group by peo_dorm
+	</select>
+	<select id="findPeoInfo" resultType="AdmPeopleInfo" parameterType="com.gt.prison.modules.per.entity.AdmPeopleInfo" >
+		select 
+			id,
+			peo_name,
+			peo_type,
+			wat_num,
+			cri_id
+		from `adm_people_info` 
+		where del_flag=0 
+		and pco_id=#{pcoId} 
+		and plo_id=#{ploId}
+		and peo_dorm=#{peoDorm}
+		AND wat_num !="0"
+		AND wat_num !=""
+		AND wat_num !="null"
+	</select>
+	<select id="findPcoAndPloById" resultType="AdmPrisoncooInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPictureInfo" >
+		select 
+			a.id,
+			a.pco_name,
+			b.`id` AS "plo.id",
+			b.pco_id AS "plo.pcoId",
+			b.`plo_name` AS "plo.ploName"
+		 from `adm_prisoncoo_info`a
+		 left join`adm_prisonloc_info`b on a.`id`=b.`pco_id`
+		 where  a.`id`=#{pcoId} and b.`id`=#{ploId}
+	</select>
+	
+	<select id="loadCooPicLocByLocId" resultType="AdmLocareaInfo" parameterType="string" >
+		SELECT 
+			a.id,
+			a.`loc_name`,
+			a.`loc_mainx`,
+			a.`loc_mainy`,
+			a.`loc_sizex`,
+			a.`loc_sizey`,
+			b.id AS "pic.id",
+			b.`pic_path` AS "pic.picPath",
+			b.`pic_name` AS "pic.picName",
+			b.`pic_level` AS "pic.picLevel",
+			c.id AS "coo.id",
+			c.`coo_name` AS "coo.cooName",
+			c.`coo_mainx` AS "coo.cooMainx",
+			c.`coo_mainy` AS "coo.cooMainy"
+		FROM `adm_locarea_info` a
+		LEFT JOIN `adm_picture_info` b ON b.`id`=a.`pic_id` AND b.`del_flag`=0
+		LEFT JOIN `adm_loccoor_info` c ON c.`id`=b.`coo_id` AND c.`del_flag`=0
+		WHERE a.`id`=#{locId}
+	</select>
+	
+	<select id="loadLocInfoByCooidAndPicid" resultType="AdmLocareaInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPictureInfo" >
+		select 
+			a.`id`,
+			a.`loc_name`,
+			a.`loc_type`
+		from `adm_locarea_info` a
+		where a.`pic_id`=#{id}
+		and a.`del_flag`=0
+	</select>
+</mapper>

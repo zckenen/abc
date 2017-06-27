@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.per.dao.AdmCriminalListDao">
+    
+	<sql id="admCriminalListColumns">
+		a.id AS "id",
+		a.pco_id AS "pco.id",
+		a.plo_id AS "plo.id",
+		a.cri_num AS "criNum",
+		a.imp_name AS "impName",
+		a.imp_idcard AS "impIdcard",
+		a.wat_num AS "watNum",
+		a.imp_type AS "impType",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		c.pco_name AS "pco.pcoName",
+		l.plo_name AS "plo.ploName"
+	</sql>
+	
+	<sql id="admCriminalListJoins">
+	LEFT JOIN adm_prisoncoo_info c ON c.id = a.pco_id
+	LEFT JOIN adm_prisonloc_info l ON l.id = a.plo_id
+	</sql>
+    
+	<select id="get" resultType="AdmCriminalList">
+		SELECT 
+			<include refid="admCriminalListColumns"/>
+		FROM adm_criminal_list a
+		<include refid="admCriminalListJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AdmCriminalList">
+		SELECT 
+			<include refid="admCriminalListColumns"/>
+		FROM adm_criminal_list a
+		<include refid="admCriminalListJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="pcoId != null and pcoId != ''">
+				AND a.pco_id = #{pcoId}
+			</if>
+			<if test="ploId != null and ploId != ''">
+				AND a.plo_id = #{ploId}
+			</if>
+			<if test="impIdcard != null and impIdcard != ''">
+				AND a.imp_idcard = #{impIdcard}
+			</if>
+			<if test="watNum != null and watNum != ''">
+				AND a.wat_num = #{watNum}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询重犯 DEL_FLAG_AUDIT=2-->
+	<select id="findAdmCriminalListBydef" resultType="AdmCriminalList">
+		SELECT 
+			<include refid="admCriminalListColumns"/>
+		FROM adm_criminal_list a
+		<include refid="admCriminalListJoins"/>
+		<where>
+			a.del_flag = '0'
+
+			AND a.imp_type='2'
+		</where>	
+		</select>	
+	
+	<select id="findAllList" resultType="AdmCriminalList">
+		SELECT 
+			<include refid="admCriminalListColumns"/>
+		FROM adm_criminal_list a
+		<include refid="admCriminalListJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adm_criminal_list(
+			id,
+			pco_id,
+			plo_id,
+			cri_num,
+			imp_name,
+			imp_idcard,
+			wat_num,
+			imp_type,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{pcoId},
+			#{ploId},
+			#{criNum},
+			#{impName},
+			#{impIdcard},
+			#{watNum},
+			#{impType},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adm_criminal_list SET 	
+			pco_id = #{pcoId},
+			plo_id = #{ploId},
+			cri_num = #{criNum},
+			imp_name = #{impName},
+			imp_idcard = #{impIdcard},
+			wat_num = #{watNum},
+			imp_type = #{impType},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE adm_criminal_list SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+		<update id="deleteByWatNum">
+		UPDATE adm_criminal_list SET 
+			del_flag = 1
+		WHERE wat_num = #{watNum}
+	</update>
+	
+	
+</mapper>

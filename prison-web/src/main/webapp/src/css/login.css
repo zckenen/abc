@@ -1,0 +1,265 @@
+/* Cubic Bezier Transition */
+/***
+Login page
+***/
+body {
+	font-family: "微软雅黑", tahoma;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "微软雅黑", tahoma !important;
+}
+
+/* logo page */
+.login-container {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 10086;
+	font-family: "微软雅黑", tahoma;
+}
+
+.login {
+  background-color: #444 !important;
+}
+
+.login .logo {
+  margin: 170px auto 48px auto;
+  padding: 15px;
+  text-align: center;
+}
+
+.login .content {
+	 background-color: #fff;
+	width: 450px;
+	margin: 0 auto;
+	margin-bottom: 0px;
+	padding: 30px;
+	padding-top: 30px;
+	padding-bottom: 15px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	-ms-border-radius: 7px;
+	-o-border-radius: 7px;
+	border-radius: 7px;
+	border: 1px solid #e2e2e2;
+
+}
+.login .content  .form-group{
+	margin-bottom: 20px;
+}
+.login .content  .form-group .form-control{
+	height: 42px;
+}
+.login .content h3 {
+  color: #000;
+}
+
+.login .content h4 {
+  color: #333;
+}
+
+.login .content p {
+  color: #222;
+}
+
+.login .content .login-form,
+.login .content .forget-form {
+  padding: 0px;
+  margin: 0px;
+}
+
+.login .content .input-icon {
+  border-left: 2px solid #3598dc !important;
+}
+
+.login .content .input-icon {
+ /*  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px; */
+}
+.login .content .input-icon .form-control {
+  border-left: 0;
+  border-radius: 0px;
+}
+
+.login .content .input-icon .form-control:focus {
+	border-width: 1px 1px 1px 0;
+	border-style: solid;
+	border-color: #3598dc;
+}
+
+.login .content .input-icon .form-control:focus + i {
+	color: #3598dc;
+}
+
+.login .content .forget-form {
+  display: none;
+}
+
+.login .content .register-form {
+  display: none;
+}
+
+.login .content .form-title {
+  font-weight: 300;
+  margin-bottom: 25px;
+}
+
+.login .content .form-actions {
+	background-color: #fff;
+	clear: both;
+	border: 0px;
+	padding: 6px 0 20px 0;
+	text-align: center;
+}
+
+.login .content .form-actions .checkbox {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.login .content .forget-form .form-actions {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 20px;
+}
+
+.login .content .register-form .form-actions {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0px;
+}
+
+.login .content .form-actions .checkbox {
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.login .content .form-actions .btn {
+	 margin: auto;
+	border-radius: 0px;
+	width: 100%;
+	height: 45px;
+	font-size: 16px;
+}
+.login .content .form-actions .btn i{
+	font-size: 16px;
+	line-height: 16px;
+}
+.login .content .forget-password {
+  margin-top: 25px;
+}
+
+.login .content .create-account {
+  border-top: 1px dotted #eee;
+  padding-top: 10px;
+  margin-top: 15px;
+}
+
+.login .content .create-account a {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+/* select2 dropdowns */
+.login .content .select2-container {
+  border-left: 2px solid #3598dc !important;
+}
+
+.login .content .select2-container .select2-choice {
+  border-left: none !important;
+}
+
+.login .content .select2-container i {
+  display: inline-block;
+  position: relative;
+  color: #ccc;
+  z-index: 1;
+  top: 1px;
+  margin: 4px 4px 0px -1px;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.login .content .has-error .select2-container i {
+  color: #b94a48;
+}
+
+.login .content .select2-container a span {
+  font-size: 13px;
+}
+
+.login .content .select2-container a span img {
+  margin-left: 4px;
+}
+
+.input-icon > i {
+	margin: -25px 2px 4px 10px;
+}
+
+/* footer copyright */
+.login .copyright {
+  text-align: center;
+  margin: 0 auto;
+  padding: 10px;
+  color: #999;
+  font-size: 13px;
+}
+
+.help-block {
+	color: red;
+	display: none;
+}
+
+@media (max-width: 480px) {
+  /***
+  Login page
+  ***/
+  .login .logo {
+    margin-top: 10px;
+  }
+
+  .login .content {
+    width: 280px;
+  }
+
+  .login .content h3 {
+    font-size: 22px;
+  }
+
+  .login .checkbox {
+    font-size: 13px;
+  }
+}
+
+.particles{
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #1c2a45;
+}
+
+.error {
+	color: red;
+}
+.login p.footer {
+	position: fixed;
+	bottom:-10px;
+	text-align: center;
+	font-size: 12px;
+	color: #ccc;
+	width: 100%;
+   background-color: #1C2A45;
+   padding: 10px 0;
+}
+			

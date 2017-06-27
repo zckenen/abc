@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.test.dao.IntAlarmLocSDao">
+    
+	<sql id="intAlarmLocSColumns">
+		a.id AS "id",
+		a.alltype AS "alltype",
+		a.allid AS "allid",
+		a.allwatid AS "allwatid",
+		a.alllocid AS "alllocid",
+		a.alltimestamp AS "alltimestamp",
+		a.allworkingstate AS "allworkingstate",
+		a.allrunningstate AS "allrunningstate"
+	</sql>
+	
+	<sql id="intAlarmLocSJoins">
+	</sql>
+    
+	<select id="get" resultType="IntAlarmLocS">
+		SELECT 
+			<include refid="intAlarmLocSColumns"/>
+		FROM int_alarm_loc_s a
+		<include refid="intAlarmLocSJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="IntAlarmLocS">
+		SELECT 
+			<include refid="intAlarmLocSColumns"/>
+		FROM int_alarm_loc_s a
+		<include refid="intAlarmLocSJoins"/>
+		<where>
+			
+			<if test="allwatid != null and allwatid != ''">
+				AND a.allwatid = #{allwatid}
+			</if>
+			<if test="alllocid != null and alllocid != ''">
+				AND a.alllocid = #{alllocid}
+			</if>
+			<if test="alltimestamp != null and alltimestamp != ''">
+				AND a.alltimestamp = #{alltimestamp}
+			</if>
+			<if test="allworkingstate != null and allworkingstate != ''">
+				AND a.allworkingstate = #{allworkingstate}
+			</if>
+			<if test="allrunningstate != null and allrunningstate != ''">
+				AND a.allrunningstate = #{allrunningstate}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="IntAlarmLocS">
+		SELECT 
+			<include refid="intAlarmLocSColumns"/>
+		FROM int_alarm_loc_s a
+		<include refid="intAlarmLocSJoins"/>
+		<where>
+			
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO int_alarm_loc_s(
+			id,
+			alltype,
+			allid,
+			allwatid,
+			alllocid,
+			alltimestamp,
+			allworkingstate,
+			allrunningstate
+		) VALUES (
+			#{id},
+			#{alltype},
+			#{allid},
+			#{allwatid},
+			#{alllocid},
+			#{alltimestamp},
+			#{allworkingstate},
+			#{allrunningstate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE int_alarm_loc_s SET 	
+			alltype = #{alltype},
+			allid = #{allid},
+			allwatid = #{allwatid},
+			alllocid = #{alllocid},
+			alltimestamp = #{alltimestamp},
+			allworkingstate = #{allworkingstate},
+			allrunningstate = #{allrunningstate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM int_alarm_loc_s
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findListByTime" resultType="IntAlarmLocS">
+		SELECT 
+			*
+		FROM int_alarm_loc_s a
+		<where>
+			allWatid=#{allwatid}
+			AND allTimestamp &gt;= #{sTime}  
+			AND allTimestamp &lt;= #{eTime}
+		</where>
+		ORDER BY allTimestamp,allSerialNum	
+	</select>
+</mapper>

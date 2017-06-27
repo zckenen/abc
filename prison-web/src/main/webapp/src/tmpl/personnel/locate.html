@@ -1,0 +1,76 @@
+<div class="content-box none" id='personnelLocate'>
+	<div class="container-box grid auto" >
+		<div class="container-left">
+			<div class="nav-header">
+				<div class="title"><i class="iconfont">&#xe633;</i>&nbsp;全局缩略图</div>
+			</div>
+			<div data-event="unbubble" class="search">
+				<input type="text" data-event="lookfor" name="condition" placeholder='请输入编号或人名'>
+				<a class="magnifier iconfont" data-event="search">&#xe668;</a>
+				<ul>
+					
+				</ul>
+			</div>
+			<div class="package">
+				<div class="page-quick-search show">
+					<div class="page-quick-title">
+						<ul id="" class="nav nav-tabs nav-search">
+							<li class="active"><a href="#by-floor" data-toggle="tab">按楼层</a></li>
+							<li class=""><a href="#by-organ" data-toggle="tab">按编制</a></li>
+						</ul>
+						<a data-event="closed" class="closed iconfont"></a>
+					</div>
+					<div class="tab-content nav-list-content ">
+					  	<div id="by-floor" class="tab-pane fade in active">
+					  		<div data-view="floor" class="panel-group accordion accordion-search" id="accordion-floor">
+								
+							</div>
+						</div>
+						<div id="by-organ" class="tab-pane fade in ">
+							<div data-view="organ" class="panel-group accordion accordion-search" id="accordion-organ">
+								
+							</div>
+					  	</div>
+					</div>
+				</div>
+			</div>
+			<div class="nav-header">
+				<div class="title"><i style="vertical-align: 1.5px;" class="iconfont"></i>&nbsp;全局缩略图</div>
+				<!-- <a data-event="slide" class="action color-666"><i class="iconfont"></i>&nbsp;&nbsp;</a> -->
+			</div>
+			<div class="tab-bodyer">
+				<div class="minify">
+					<div class="thumb">
+						<img id="area-thumb" src="">
+					</div>
+					<div id="area-thumb-point" class="point">
+						<div class="caption" data-value='coo'></div>
+						<svg height="55px" width="55px">
+							<defs>
+								<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-outer">
+									<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"/>
+									<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="50%"/>
+									<stop style="stop-color:rgb(230, 53, 30); stop-opacity:0.4" offset="100%"/>
+								</radialGradient>
+								<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-inner">
+									<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"/>
+									<stop style="stop-color:rgb(221, 179, 178); stop-opacity:0.7" offset="70%"/>
+									<stop style="stop-color:rgb(230, 53, 30); stop-opacity:1" offset="100%"/>
+								</radialGradient>
+							</defs>	
+							<circle style="fill:url(#rad-grad-outer)" stroke-width="1" stroke="rgba(242, 211, 207, 0.9)" r="27.5" cy="27.5" cx="27.5"/>
+							<circle style="fill:url(#rad-grad-inner)" stroke-width="1" stroke="rgba(230, 53, 30, 0.9)" r="14" cy="27.5" cx="27.5"/>
+							<text fill="rgba(230, 53, 30, 1)" dy="46%" dx="29%" style="font-size: 24px;" class="iconfont"></text>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-right">
+			<div class="area-map" id='map'>
+				<img src="" alt=""  />
+				<div class='bubble-model default' id='detail'></div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>浙江贯通智慧监管服务平台</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1" name="viewport" charset='utf-8'/>
+	<meta content="" name="description"/>
+	<meta content="" name="author"/>
+	<link rel="shortcut icon" type="image/ico" href="./favicon.ico">
+	<!-- BEGIN GLOBAL STYLES -->
+	<!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/> -->
+	<link href="./src/js/lib/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/glyphicons/css/glyphicons.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/bootstrap-fileinput/fileinput.min.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/bootstrap-timepicker/css/bootstrap-timepicker.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/select2/select2.min.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/js/lib/jsTree/css/style.min.css" rel="stylesheet" type="text/css"/>
+	<!-- END GLOBAL STYLES  -->
+	
+	<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+	<!-- END PAGE LEVEL PLUGIN SYTLES -->
+	
+	<!-- BEGIN PAGE STYLES -->
+	<!-- END PAGE STYLES -->
+	
+	<!-- BEGIN THEME STYLES -->
+	<link href="./src/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+	<link href="./src/css/plugins.css" rel="stylesheet" type="text/css"/>
+	<link href="./src/css/custom.css" rel="stylesheet" type="text/css"/> 
+	<link href="./src/css/layout.css" rel="stylesheet" type="text/css"/>
+	<!-- END THEME STYLES -->
+	<link rel="shortcut icon" href="favicon.ico"/>
+	<script type='text/javascript'>
+		if ( !sessionStorage.user ) { location.href = 'login.html' }
+	</script>
+</head><!-- page-sidebar-closed -->
+<body class='page-header-fixed page-quick-sildbar-over-content page-sildebar-closed-hide-logo page-container-bg-solid'  >
+<!-- 进度框  start-->
+<div class="pace  pace-inactive pace-inactive">
+	<div class="pace-progress" style="width: 0%;" >
+ 	 	<div class="pace-progress-inner"></div>
+	</div>
+	<div class="pace-activity"></div>
+</div>
+<div class='loading init' id='loading'>
+	<i class='fa fa-cog fa-spin fa-3x fa-fw margin-bottom'></i>
+</div>
+<div class='loading-async' id='loading-async'>
+	<div>
+		<canvas width='150px;' height='150px;' id='loading-async-canvas' ></canvas>
+		<span></span><em></em><em></em><em></em><em></em><p></p>
+	</div>
+</div>
+<!-- 进度框  end-->
+
+<!-- BEGIN HEADER -->
+<div class="page-header-wrapper navbar navbar-fixed-top">
+	<div class="page-logo"></div>
+	<div class="page-top-menu">
+		<ul id='topWarView'>
+			<li class='warning-relate' id='noticeView'>
+				<a class='on' data-toggle='layer' data-event='unique'>
+					<i class='iconfont color-0d8b4e '>&#xe622;&nbsp;&nbsp;</i>通知(&nbsp;<b class='color-0d8b4e iconfont ' data-name='notice' style='width: inherit;'>0</b>&nbsp;)
+				</a>
+				<div class="layer green" style='top: 70px; right: 0px; width: 550px;'>
+					<div class="layer-header">
+						<p class='title'>您有&nbsp;<span data-name='notice'>0</span>&nbsp;&nbsp;&nbsp;条通知</p>
+						<a class="closed iconfont" data-toggle-closed='layer'>&#xe658;</a>
+					</div>
+					<div class="layer-body iscroll" style='max-height: 270px; overflow: hidden;width: 550px'>
+						<table class='list'>
+							<tbody id='noticeList'>
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="layer-footer">
+						<a class='pull-left' href='#notice/management/list/p1' data-event='checkall' >查看全部通知<i class="fa fa-angle-double-right"></i></a>
+						<!-- <a class='pull-right' data-event='deal'>标记已读<i class="fa fa-angle-double-right"></i></a> -->
+					</div>
+				</div>
+			</li>
+			<li class='warning-relate' >
+				<a class='on' data-toggle='layer' data-event='unique'>
+					<i class='iconfont color-f7ad11'>&#xe610;&nbsp;&nbsp;</i>预警(&nbsp;<b class='color-f7ad11 iconfont ' data-name='advance' style='width: inherit;'>0</b>&nbsp;)
+				</a>
+				<div class="layer yellow" style='top: 70px; right: 0px; width: 550px;'>
+					<div class="layer-header">
+						<p class='title'>您有&nbsp;<span data-name='advance'>0</span>&nbsp;&nbsp;&nbsp;条新预警</p>
+						<a class="closed iconfont" data-toggle-closed='layer'>&#xe658;</a>
+					</div>
+					<div class="layer-body" class='iscroll' style='max-height: 270px; overflow: hidden;'>
+						<table class='list'>
+							<tbody id='advanceWarList'>
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="layer-footer">
+						<a class='pull-left' href='#event/management/list/p1' data-event='checkall' >查看全部预警<i class="fa fa-angle-double-right"></i></a>
+						<!-- <a class='pull-right' data-event='deal'>标记已读<i class="fa fa-angle-double-right"></i></a> -->
+					</div>
+				</div>
+			</li>
+			<li class='warning-relate' id='informWar'>
+				<a class='on' data-toggle='layer' data-event='unique'>
+					<i class='iconfont color-e6351e' >&#xe64e;&nbsp;&nbsp;</i>告警(&nbsp;<b class='color-e6351e iconfont ' data-name='inform' style='width: inherit;'>0</b>&nbsp;)
+				</a>
+				<div class="layer red" style='top: 70px; right: 0px; width: 550px;'>
+					<div class="layer-header">
+						<p class='title'>您有&nbsp;<span data-name='inform'>0</span>&nbsp;&nbsp;条新告警</p>
+						<a class="closed iconfont" data-toggle-closed='layer'>&#xe658;</a>
+					</div>
+					<div class="layer-body" class='iscroll' style='max-height: 300px;  overflow: hidden;'>
+						<table class='list'>
+							<tbody id='informWarList'>
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="layer-footer">
+						<a class='pull-left' href='#event/management/list/p1' data-event='checkall' >查看全部报警<i class="fa fa-angle-double-right"></i></a>
+					</div>
+				</div>
+			</li>
+			<li class='dropdown user-relate' id='userInfo'>
+				<a data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle">
+					<i class="iconfont">&#xe609;</i>
+					<span id='roleName'></span>：
+					<span id='userName'></span>
+					<i class="iconfont color-f7ad11">&#xe65b;</i>
+				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="javascript:;" id='logout' >
+						<i class="glyphicons glyphicons-power"></i>&ensp;退出</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<div class='layer magenta' id='topWarBreak' style='left: 50%; margin-left: -150px; top:155px; z-index: 9999;' >
+		
+		</div>
+	</div>
+</div>
+<!-- END HEADER -->
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container custom">
+	<div class="page-menu-wrapper">
+		<div class="page-menu-box" id='meunView'>
+			<script id='meunViewTpl'  type='text/template'>
+				<ul class="page-menu-list">
+					{{each child as itema a }}
+					<li class='{{a == 0 ? "active" : ""}}'>
+						<a title='{{itema.name}}' href='{{itema.child.length > 1 ? "javascript:;" : itema.href}}'>
+							<i class="iconfont">&{{itema.icon}}</i>
+						</a>
+						{{if itema.child.length > 1}}
+						<div class="page-submenu-list">
+							<p class="subject">{{itema.name}}</p>
+							<ul class='items-list'>
+								{{each itema.child as itemb b }}
+								<li>
+									<a href='{{itemb.child.length > 1 ? "javascript:;" : itemb.href}}'><i class="iconfont">&{{itemb.icon}}</i>&ensp;{{itemb.name}}</a>
+									{{if itemb.child.length > 1}}
+									<ul class="sub-items-list">
+										{{each itemb.child as itemc c }}
+										<li><a href="{{itemc.href}}">{{itemc.name}}</a></li>
+										{{/each}}
+									</ul>
+									{{/if}}
+								</li>
+								{{/each}}
+							</ul>
+						</div>
+						{{/if}}
+					</li>
+					{{/each}}
+				</ul>
+			</script>
+		</div>
+	</div>
+	<!-- BEGIN CONTENT -->
+	<div class="page-content-wrapper">
+		<div class="page-content">
+			<!-- 首页总体监视情况 start -->
+			<div id='main' class='main'>
+				<div class="history-range" id='historyRange'>
+					<div class="left-box">
+						<div class="header">
+							<div class="title"><i class="iconfont">&#xe671;</i>&ensp;历史范围查询</div>
+							<a class="action" data-event='hide'><i class="iconfont">&#xe658;</i></a>
+						</div>
+						<div class="bodyer no-padding">
+							<div class="find" data-event='unbubble'>
+								<a data-event="closed" class="closed iconfont">&#xe658;</a>
+								<input type="text" name='condition' data-event='lookfor' />
+								<ul>
+									<li>
+										<a data-id="1" data-event="findPerson">
+											<i class="iconfont color-gray"></i>
+											<span class="name">&ensp;无搜索结果</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="info" id='historyPerson'>
+								<div class='initial'>暂无人员信息</div>
+								<!-- 人物信息 -->
+							</div>
+							<div class="search">
+								<div class="time-box">
+									<div>起始时间：&ensp;<input class="datetimepicker" type="text" name='startTime' value='2016-11-13 05:04:10' /></div>
+									<div>结束时间：&ensp;<input class="datetimepicker" type="text" name='endTime' value='2016-12-13 24:04:10' /></div>
+								</div>
+								<a class="time-search button yellow" data-event='search'><i class="iconfont">&#xe668;</i><br>查询</a>
+							</div>
+							<div class="player">
+								<a class="button gray group">
+									<span data-event='prev'><i class="iconfont">&#xe67f;</i>上一条</span>
+									<span data-event='next'><i class="iconfont">&#xe680;</i>下一条</span>
+								</a>
+								<a class="button green" data-event='play'><i class="iconfont">&#xe681;</i>播放</a>
+								<a class="button green active none" data-event='pause'><i class="iconfont">&#xe68a;</i> 暂停</a>
+								<a class="button red" data-event='stop'><i class="iconfont">&#xe683;</i>&ensp;停止</a>
+							</div>
+							<div class="content" id='container'>
+								<div id="historyNoresult" class='noresult'>
+									<div>
+										<i class="iconfont">&#xe668;</i>
+										<br>
+										<span>暂无数据</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="header auto">
+							<div class="title"><i class="iconfont" style='vertical-align: 1.5px;'>&#xe687;</i>&nbsp;全局缩略图</div>
+							<a class="action color-666" data-event='slide'><i class="iconfont">&#xe653;</i>&nbsp;&nbsp;</a>
+						</div>
+						<div class="bodyer auto">
+							<div class="minify">
+								<div class="thumb" >
+									<img src="" id='overview-thumb' alt="" />
+									<div class="point" id='overview-thumb-point'>
+										<div class="caption"></div>
+										<svg width='55px' height='55px'>
+											<defs>
+												<radialGradient id="rad-grad-outer" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+													<stop offset="0%" style="stop-color:rgb(255, 255, 255); stop-opacity:0"/>
+													<stop offset="50%" style="stop-color:rgb(255, 255, 255); stop-opacity:0"/>
+													<stop offset="100%" style="stop-color:rgb(230, 53, 30); stop-opacity:0.4"/>
+												</radialGradient>
+												<radialGradient id="rad-grad-inner" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+													<stop offset="0%" style="stop-color:rgb(255, 255, 255); stop-opacity:0"/>
+													<stop offset="70%" style="stop-color:rgb(221, 179, 178); stop-opacity:0.7"/>
+													<stop offset="100%" style="stop-color:rgb(230, 53, 30); stop-opacity:1"/>
+												</radialGradient>
+											</defs>	
+											<circle cx="27.5" cy="27.5" r="27.5" stroke="rgba(242, 211, 207, 0.9)"  stroke-width="1"   style='fill:url(#rad-grad-outer)'/>
+											<circle cx="27.5" cy="27.5" r="14" stroke="rgba(230, 53, 30, 0.9)" 	stroke-width="1"  	style='fill:url(#rad-grad-inner)' />
+											<text class='iconfont' style='font-size: 24px;' dx='29%' dy="46%" fill="rgba(230, 53, 30, 1)" >&#xe65c;</text>
+										</svg>
+									</div>
+								</div>
+								
+							</div>
+						</div> -->
+					</div>
+					<div class="right-box" id='historyFloor'>
+						<div class="header">
+							<div class="title"><i class="iconfont">&#xe68b;</i>&nbsp;<span data-name='cooName'></span><span data-name='picName'></span></div>
+							<!-- <a class="action" data-event='rightHide'><i class="iconfont">&#xe69e;&nbsp;隐藏&nbsp;&nbsp;&nbsp;&nbsp;</i></a> -->
+						</div>
+						<div class="bodyer">
+							<div class="maps" id='historyMaps'>
+								<svg id='historyLocMap' version="1.1" xmlns="http://www.w3.org/2000/svg">
+									 <defs>
+									    <filter id="pathShadow" x="0" y="0" width="200%" height="200%">
+									      <feOffset result="offOut" in="SourceAlpha" dx="1" dy="1" />
+									      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1" />
+									      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+									    </filter>
+									  </defs>
+								</svg>
+								<img src=""  />
+							</div>
+							<div class="region none" id='history-loc'>
+								<a class='point'>
+									<div class="caption">
+										<ul>
+											<li><span data-name='peoName'></span>,<span data-name='peoNum'></span></li>
+											<li><span data-name='cooName'></span>><span data-name='picName'></span></li>
+											<li><span data-name='endTime'></span></li>
+										</ul>
+									</div>
+									<svg width='126px' height='126px'>
+										<defs>
+											<radialGradient id="rad-grad-outer-1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+												<stop offset="0%" style="stop-color:rgb(255, 255, 255); stop-opacity:0"/>
+												<stop offset="50%" style="stop-color:rgb(255, 255, 255); stop-opacity:0"/>
+												<stop offset="100%" style="stop-color:rgb(230, 53, 30); stop-opacity:0.3"/>
+											</radialGradient>
+											<radialGradient id="rad-grad-inner-1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+												<stop offset="0%" style="stop-color:rgb(255, 255, 255); stop-opacity:0"/>
+												<stop offset="50%" style="stop-color:rgb(255, 255, 255); stop-opacity:0"/>
+												<stop offset="100%" style="stop-color:rgb(230, 53, 30); stop-opacity:0.3"/>
+											</radialGradient>
+										</defs>	
+										<circle cx="63" cy="63" r="62" stroke="rgba(242, 211, 207, 0.9)"  stroke-width="1"   style='fill:url(#rad-grad-outer-1)'/>
+										<circle cx="63" cy="63" r="34" stroke="rgba(242, 211, 207, 0.9)" 	stroke-width="1"  	style='fill:url(#rad-grad-inner-1)' />
+										<text class='iconfont' style='font-size: 26px;' dx='40%' dy="50%" fill="rgba(51, 133, 255, 1)" >&#xe69c;</text>
+									</svg>
+								</a>
+								<div class="mark"><i class="iconfont">&#xe693;</i>&nbsp;&nbsp;<span data-name='locName'></span></div>
+							</div>
+						</div>
+						<div class="video-box" >
+							<div class="video-block" data-view='video'>
+								<div class="video-title">
+									<div class="caption">历史轨迹视频回放</div>
+									<div class="action">
+										<!-- <a title='开始/停止' data-event='start'><i class="iconfont">&#xe68a;&nbsp;</i></a> -->
+										<a title='全屏' data-event='max'><i class="iconfont">&#xe67d;&nbsp;</i></a>
+										<a data-event='close' title='关闭窗口'><i  class="iconfont">&#xe658;</i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="content-box relative" id='overview' >
+					<!-- 夜间模式 -->
+					<div class='overview-night-mode' id='nightMode'>
+						<div class='day'><i class='iconfont'>&#xe6c6;</i>&nbsp;白天模式</div>
+						<div class='night'><i class='iconfont'>&#xe6c7;</i>&nbsp;夜间模式</div>
+					</div>
+					<div class="overview" id='overviewBox' data-event='map' ><!-- data-event='moveMap' -->
+						<div class='bubble-model default' id='personnelInfo' style='transition: none; left: 30%;'></div>
+						<div class='layer default' id='personnelDetail' style='width: 330px;' data-event='unmove' >
+							<div class="layer-header">
+								<ul class="nav nav-tabs nav-search left-tabs">
+									<li class="active"><a data-event='toggle' data-value='yestoday' data-toggle="tab" href="#page-person-events" >事件记录</a></li>
+									<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-detail" >奖惩信息</a></li>
+									<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-action" >谈话信息</a></li>
+									<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-meeting" >会见信息</a></li>
+								</ul>
+								<a data-toggle-closed="layer" class="closed iconfont color-black"></a>
+							</div>
+							<div class="layer-body" style="max-height: 240px; overflow: auto;">
+								
+							</div>
+						</div>
+						<div class="overview-action" id='overview-action'>
+							<a data-event="appear"><i class="iconfont">&#xe694;</i></a>
+						</div>
+					</div>
+					<div id='overview-statistics'  style='position: fixed; top: 90px;left: 32%;'>
+						<div class='people-count' style='display: inline-block;'>
+							<ul>
+								<li class='color-333'>总罪犯：<span data-value='total'>0</span>人</li>
+								<li class='color-red'><em class='iconfont'>&#xe6ba; </em>重犯：<span data-value='important'>0</span></li>
+								<li class='color-green'><em class='iconfont'>&#xe6ba; </em>普犯：<span data-value='general'>0</span></li>
+								<li class='color-gray'><em class='iconfont'>&#xe6ba; </em>公共区域：<span data-value='publicData'>0</span></li>
+							</ul>
+						</div>
+						<div class='people-count' style='display: inline-block;'>
+							<ul>
+								<li class='color-blue'><em class='iconfont' >&#xe6b9; </em>民警：<span data-value='police'>0</span></li>
+								<li class='color-purple'><em class='iconfont' >&#xe6b8; </em>外来：<span data-value='other'>0</span></li>
+								<li class='color-gray' style='display: none !important;'><em class='iconfont' >&#xe6b8; </em>公共区域：<span data-value='offline'>0</span></li>
+							</ul>
+						</div>
+					</div>
+					<!-- 全局搜索  start 原本是外围的现在放在首页内维 -->
+					<div class="page-search-wrapper">
+						<form id='fullTextSearch' action="/prison/loadInfoByCondition.do" method="POST" onsubmit='return false;'>
+							<div class="page-search-box">
+								<input type="text" name='condition' autocomplete="off" data-event='keyword' placeholder="请输入名字或编号" />
+								<a class="closed iconfont none" data-event='clear'>&#xe658;</a>
+								<a class="action" data-event='search'><i class="iconfont">&#xe668;</i></a>
+								<a class="list" data-event='slide'><i class="iconfont">&#xe6a9;</i></a>
+							</div>
+							<div class="page-search-result" id='result'>
+								<ul></ul>
+							</div>
+						</form>
+						<div class="page-quick-search" id='rightView'>
+							<div class="page-quick-title">
+								<ul class="nav nav-tabs nav-search" id=''>
+									<li class="active" ><a data-toggle="tab" href='#by-area'>按区域</a></li>
+									<li class="none" data-event='renderGroups'><a data-toggle="tab" href='#by-group'>按组织</a></li>
+								</ul>
+								<a  data-name='refresh'  data-event="refresh" class="accordion-action" style='right: 32px'><i class="iconfont ">&#xe644;</i>&ensp;</a>
+								<a class="closed iconfont" data-event='closed'>&#xe658;</a>
+							</div>
+							<div class="tab-content nav-search-content index-quick auto" style='max-height: 270px;  height: auto;'>
+							  	<div class="tab-pane fade in active" id="by-area" >
+							  		<div id="accordion-build" class="panel-group accordion accordion-search" data-view='building'></div>
+							  	</div>
+							  	<div class="tab-pane fade in " id="by-group" >
+							  		<div id="accordion-group" class="panel-group accordion accordion-search" data-view='groups'></div>
+							  	</div>
+							</div>
+						</div>
+					</div>
+					<!-- 全局搜索  end -->
+					<!-- 右上角报表统计 start -->
+					<div class="page-chart-wrapper " id='chartView'>
+						<a class="action iconfont" data-event='show'>&#xe67b;</a>
+						<div class="page-chart-list" id='container'>
+							<div class="header">
+								<div class="left-action">
+									<ul class="nav nav-tabs nav-search left-tabs">
+										<li class="active"><a data-event='handleCriminal'  data-toggle="tab" href="#page-chart-criminal" >罪犯统计</a></li>
+										<li><a data-event='handleEvent'  data-toggle="tab" href="#page-chart-event" >事件数量</a></li>
+										<li><a data-event='handleScale'  data-toggle="tab" href="#page-chart-scale" >民警配比度</a></li>
+										<!-- <li><a data-event='handleCar'  data-toggle="tab" href="#page-chart-car" >在监车辆</a></li> -->
+									</ul>
+								</div>
+								<div class="right-action">
+									<!-- <a data-event='more'>查看全部</a> -->
+								</div>
+							</div>
+							<div class="body">
+								<div class="chart-body">
+									<div class="tab-content">
+										<div class="tab-pane fade in active" id="page-chart-criminal" >
+											<div class="chart-box" data-view='handleCriminal'>
+												<div class="header">
+													<span>总罪犯:<font data-value='allCount'></font></span>
+													<span>普犯：<font data-value='generalCount'></font></span>
+													<span>重犯：<font data-value='importCount'></font></span>
+													<!-- <span>外出：<font data-value='outCount'></font></span> -->
+												</div>
+												<div class="body">
+													<ul></ul>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="page-chart-event" >
+											<div class="chart-box">
+												<div class="header">
+													<ul>
+														<li class="active"><a data-event='changeDay' data-value='1' class='active'>今日</a></li>
+														<li><a data-event='changeDay' data-value='2' >昨日</a></li>
+														<li><a data-event='changeDay' data-value='3' >7天</a></li>
+														<li><a data-event='changeDay' data-value='4' >30天</a></li>
+													</ul>
+												</div>
+												<div class="body" id='handleEvent' style='width: 385px;'>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="page-chart-scale">
+											<div class="chart-box" >
+												<table class='table table-striped table-bordered table-hover'>
+													<thead>
+														<tr>
+															<th>序号</th>
+															<th>区域位置</th>
+															<th>民警数</th>
+															<th>罪犯数</th>
+															<th>民警配比</th>
+														</tr>
+													</thead>
+													<tbody id='handleScale'>
+														
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="page-chart-car">
+											<div class="chart-box" data-view='thirtyday'>
+												<table class='table table-striped table-bordered table-hover'>
+													<thead>
+														<tr>
+															<th>车牌</th>
+															<th>所在区域</th>
+															<th>责任民警</th>
+															<th>事由</th>
+															<th>停留时间</th>
+														</tr>
+													</thead>
+													<tbody id='handleCar'>
+														
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+					<!-- 右上角报表统计 end -->
+					<!-- 重控犯查看 start -->
+					<div class="page-vips-wrapper " >
+						<a data-event="vipCheck"><i class="iconfont">&#xe6be;</i></a>
+						<div role="dialog" id='vipCheckView' tabindex="-1"  class="bootbox modal fade in"  data-width='532' data-height='700'>
+							<div class="modal-dialog">
+								<form  onsubmit='return false;'>
+								<div class="modal-content">
+									<div class="modal-header">
+										<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+										<h4 class="modal-title">重控犯列表查看</h4>
+									</div>
+									<div class="modal-body">
+										
+									</div>
+									<div class="modal-footer">
+										<a class="btn default cancel">取消</a>
+										<a class="btn blue" data-event='close' href='#realtime/viptrack'>开始巡检</a> <!-- data-event='inspect' -->
+									</div>
+								</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- 重控犯查看 end -->
+				</div>
+			</div>
+			<!-- 首页总体监视情况 end -->
+			<!-- END PAGE HEADER-->
+		</div>
+	</div>
+	<div class="layer default" id='confirm-frame' style='position: fixed; top: 90px; left: 45%; width: 300px;'>
+		<div class="layer-header">
+			<p class='title'>提示</p>
+			<a class="closed iconfont" data-toggle-closed='layer'>&#xe658;</a>
+		</div>
+		<div class="layer-body">
+			<div class="layer-alert warning">
+				<div class="iconfont" id='icon'>&#xe623;</div>
+				<div class="text">
+					<div class="title" id='title'>确定进行此操作?</div>
+					<div class="detail" id='detail'></div>
+				</div>
+			</div>
+		</div>
+		<div class="layer-footer">
+			<a  class="btn gray btn-sm fr" data-toggle-closed='layer'>取消</a>
+			<a  class="btn blue btn-sm fr" id='confirm'>确定</a>
+		</div>
+	</div>
+	<div class="layer default" id='alert-frame' style='position: fixed; top: 90px; left: 45%; width: 300px;'>
+		<div class="layer-header">
+			<p class='title'>提示</p>
+			<a class="closed iconfont" data-toggle-closed='layer'>&#xe658;</a>
+		</div>
+		<div class="layer-body">
+			<div class="layer-alert success">
+				<div class="iconfont" id='icon'>&#xe61f;</div>
+				<div class="text">
+					<div class="title" id='title'>操作失败</div>
+					<div class="detail" id='detail'></div>
+				</div>
+			</div>
+		</div>
+		<div class="layer-footer">
+			<a  class="btn blue btn-sm fr" data-toggle-closed='layer'>确定</a>
+		</div>
+	</div>
+</div>
+<audio id='carwarning'>
+  <source src="warning.mp3" type="audio/mpeg">
+</audio>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<!-- <div class="page-footer">
+	<div class="page-footer-inner">
+		 2014 &copy; Metronic by keenthemes. <a href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" title="Purchase Metronic just for 27$ and get lifetime updates for free" target="_blank">Purchase Metronic!</a>
+	</div>
+	<div class="scroll-to-top">
+		<i class="icon-arrow-up"></i>
+	</div>
+</div> -->
+<!-- BEGIN CUSTOM AREA -->
+
+<!-- END CUSTOM AREA -->
+
+<!-- BEGIN CORE PLUGINS -->
+<script src="./src/js/lib/webVideoCtrl.js" type="text/javascript"></script>
+<script src="./src/js/lib/jquery.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/backbone/underscore.js" type="text/javascript"></script>
+<script src="./src/js/lib/backbone/backbone.js" type="text/javascript"></script>
+<script src="./src/js/lib/template.js" type="text/javascript"></script>
+<script src="./src/js/lib/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/jquery-mousewheel/jquery.mousewheel.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/bootstrap-fileinput/fileinput.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/jquery-slimscroll/jquery.slimscroll.js" type="text/javascript"></script>
+<script src="./src/js/lib/select2/select2.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/jsTree/jstree.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/echarts.min.js" type="text/javascript"></script>
+<script src="./src/js/lib/d3/d3.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+
+<script src="./src/js/app/compoent.js" type="text/javascript"></script>
+<script src="./src/js/app/common.js" type="text/javascript"></script>
+<script src="./src/js/app/layout.js" type="text/javascript"></script>
+<script src="./src/js/lib/require.js" type="text/javascript" data-main="./src/js/app/main" ></script>
+<div role="dialog" id='fileUpload' tabindex="-1"  class="bootbox modal fade in" >
+	<div class="modal-dialog">
+		<form  enctype='multipart/form-data' onsubmit='return false;'>
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+				<h4 class="modal-title">文件上传</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-3">
+							请选择文件:
+						</div>
+						<div class="col-md-9">
+							<input name="file" type="file" id='file-test' multiple class="file-loading" data-min-file-count="1" data-max-file-count="1"  data-allowed-file-extensions='["png", "jpg", "jpeg", "gif"]'> 
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<!-- 手环或胸牌绑定人员 -->
+<div role="dialog" id='noticeWatchBind'   class="bootbox modal fade in" data-width='540' data-height='600' >
+	<div class="modal-dialog">
+		<form action="/prison/bindWatchId.do" onsubmit='return false;'>
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+				<h4 class="modal-title">手环或胸牌绑定人员</h4>
+			</div>
+			<div class="modal-body">
+				<div class='alert-container'></div>
+				<input type="hidden" name='criChg.id' data-name='criChgId' />
+				<input type="hidden" name='peo.id' data-name='peoId' />
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3 control-label">人员</div>
+								<div class="col-md-9">
+									<input type='text' disabled data-name='value' class="form-control "  />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3 control-label">设备Rfid</div>
+								<div class="col-md-9">
+									<input type="number" max='88888888'  name='watRfid' data-event='scans' autofocus checked placeholder="扫描获取设备Rfid" class="form-control " required>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3 control-label">设备编号</div>
+								<div class="col-md-9">
+									<input  type="number" max='88888888' name='watNum' class="form-control " required>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-md-6 control-label">设备类型</div>
+								<div class="col-md-6">
+									<select class="form-control input-small" name='watType'  tabindex="0">
+										<option value="1">手环</option>
+										<option value="2">胸牌</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn blue" type="submit" id='noticeWatchSubmit' data-bb-handler="main">绑定</button>
+				<a class="btn default cancel" >取消</a>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<div role="dialog" id='noticeWrkSet'  class="bootbox modal fade in" data-width='450' data-height='700'>
+	<div class="modal-dialog">
+		<form action="/a/per/admPeopleInfo/bindWorkerId" onsubmit='return false;'>
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+				<h4 class="modal-title">人员绑定工位</h4>
+			</div>
+			<div class="modal-body">
+				<div class='alert-container'></div>
+				<input type="hidden" name='criChg.id' data-name='criChgId' />
+				<input type="hidden" name='id'  />
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">人员信息</label>
+						<div class="col-md-9">
+							<input data-name="value"  class='input-medium form-control'  disabled >
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属幢</label>
+						<div class="col-md-9">
+							<select data-name="cooId" data-placeholder='幢' class='input-small'  required>
+								<option value="1">1</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属层</label>
+						<div class="col-md-9">
+							<select data-name="picId"  data-placeholder='层' class='input-small'  required>
+								
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属区域</label>
+						<div class="col-md-9">
+							<select data-name='locId' data-placeholder='区域' class='input-small'  required>
+								
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">工位</label>
+						<div class="col-md-9">
+							<select name="workerId" data-placeholder='工位' class='input-small'  required>
+								
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn blue" type="submit" id='noticeWrkSubmit' data-bb-handler="main">绑定</button>
+				<a class="btn default cancel" >取消</a>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<!-- 人员设置床位 -->
+<div role="dialog" id='noticeBedSet'   class="bootbox modal fade in" data-width='450' data-height='700'>
+	<div class="modal-dialog">
+		<form action="/a/per/admPeopleInfo/bindBedId" onsubmit='return false;'>
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+				<h4 class="modal-title">人员绑定床位</h4>
+			</div>
+			<div class="modal-body">
+				<div class='alert-container'></div>
+				<input type="hidden" name='criChg.id' data-name='criChgId' />
+				<input type="hidden" name='id'  />
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">人员信息</label>
+						<div class="col-md-9">
+							<input data-name="value"  class='input-medium form-control'  disabled >
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属幢</label>
+						<div class="col-md-9">
+							<select data-name="cooId" data-placeholder='幢' class='input-medium'  required>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属层</label>
+						<div class="col-md-9">
+							<select data-name="picId"  data-placeholder='层' class='input-medium'  required>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属区域</label>
+						<div class="col-md-9">
+							<select data-name='locId' data-placeholder='区域' class='input-medium'  required>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">床位</label>
+						<div class="col-md-9">
+							<select name="bedId" data-placeholder='床位' class='input-medium'  required>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn blue" type="submit" id='noticeBedSubmit' data-bb-handler="main">保存</button>
+				<a class="btn default cancel" >取消</a>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<!-- 人员设置小组 -->
+<div role="dialog" id='noticeGroupSet'   class="bootbox modal fade in" data-width='450' data-height='700'>
+	<div class="modal-dialog">
+		<form action="/a/per/admPeopleInfo/bindBedId" onsubmit='return false;'>
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+				<h4 class="modal-title">小组设置</h4>
+			</div>
+			<div class="modal-body">
+				<div class='alert-container'></div>
+				<input type="hidden" name='criChg.id' data-name='criChgId' />
+				<input type="hidden" name='id'  />
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">人员信息</label>
+						<div class="col-md-9">
+							<input data-name="value"  class='input-medium form-control'  disabled >
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3 control-label">分监区</div>
+								<div class="col-md-9">
+									<select  class="form-control input-small" name='pcoId' data-name='pcoId' data-placeholder="监区" tabindex="0" required></select>
+								    <select class="form-control input-small" name='ploId' data-name='ploId' data-placeholder="分监区" tabindex="0" required></select>
+	                            </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3 control-label">小组</div>
+								<div class="col-md-9">
+									<input type="text" name='peoDorm' value=''  class="form-control " required>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn blue" type="submit" id='noticeGroupSubmit' data-bb-handler="main">保存</button>
+				<a class="btn default cancel" >取消</a>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<!-- 人员设置床位与工位-->
+<div role="dialog" id='noticeSet'   class="bootbox modal fade in" data-width='450' data-height='700'>
+	<div class="modal-dialog">
+		<form action="/a/per/admPeopleInfo/bindBedId" onsubmit='return false;'>
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+				<h4 class="modal-title">人员设置</h4>
+			</div>
+			<div class="modal-body">
+				<div class='alert-container'></div>
+				<input type="hidden" name='criChg.id' data-name='criChgId' />
+				<input type="hidden" name='id'  />
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">人员信息</label>
+						<div class="col-md-9">
+							<input data-name="value"  class='input-medium form-control'  disabled >
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属幢</label>
+						<div class="col-md-9">
+							<select data-name="cooId" data-placeholder='幢' class='input-medium'  required>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属层</label>
+						<div class="col-md-9">
+							<select data-name="picId"  data-placeholder='层' class='input-medium'  required>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">所属区域</label>
+						<div class="col-md-9">
+							<select data-name='locId' data-placeholder='区域' class='input-medium'  required>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="col-md-3 control-label">床位</label>
+						<div class="col-md-9">
+							<select name="bedId" data-placeholder='床位' class='input-medium'  required>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3 control-label">分监区</div>
+								<div class="col-md-9">
+									<select  class="form-control input-small" name='pcoId' data-name='pcoId' data-placeholder="监区" tabindex="0" required></select>
+								    <select class="form-control input-small" name='ploId' data-name='ploId' data-placeholder="分监区" tabindex="0" required></select>
+	                            </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3 control-label">小组</div>
+								<div class="col-md-9">
+									<input type="text"  data-name="dorm"  name='peoDorm' value=''  class="form-control " required>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn blue" type="submit" id='noticeSetSubmit' data-bb-handler="main">保存</button>
+				<a class="btn default cancel" >取消</a>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<!-- track-right-list 后面
+<select name="pco" class='form-control' data-event='search'>
+			<option value=''>所有监区</option>
+			{{each leftPers as peoples i}}
+			<option value="{{peoples[0].pco.id}}">{{peoples[0].pco.pcoName}}</option>
+			{{/each}}
+		</select> -->
+<script id="vipCheckTpl" type='text/template'>
+	<div class='alert-container'></div>
+	<div style='overflow: hidden'>
+	<div class="track-right-list" style='margin-right: 0;'>
+		
+		<div class='iscroll' style='width: 100%;'>
+			<table class='table' id='rightPers'>
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>编号</th>
+					<th>所属监区</th>
+					<th>上报时间</th>
+					<th>列控理由</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{each rightPers as cri i}}
+				<tr>
+					<td>{{cri.impName}}</td>
+					<td>{{cri.criNum}}</td>
+					<td>{{cri.pco.pcoName}}</td>
+					<td>{{cri.createDate}}</td>
+					<td>{{cri.remarks}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+			</table>
+		</div>
+	</div>
+	</div>
+</script>
+<!--<input type="text" class="form-control input-medium" name='remarks' value='{{cri.remarks}}' data-id='{{cri.criCriminalno}}' style='height: 28px'/>  -->
+<!-- <a data-event='playAudio' title='录音' class='iconfont'>&#xe6a3;</a> -->
+<script id='historyRangeTpl' type='text/template'>
+	<div class="tips">为您找到相关结果为{{data.length}}个</div>
+	<div class="result">
+		<ul id='historyResult'>
+			{{each data as item i}}
+				<li class='{{item.war ? "warning": ""}}'>
+					<div>
+						<span class='location'>{{item.locInfo.locName}}</span>
+						<span class='diff'><i class="iconfont">&#xe671;</i>&ensp;</span>
+						<span class='action'>
+						{{if item.locInfo.camera}}
+							<a data-event='videoPlay' title='视频' data-index='{{i}}' data-locid='{{item.locInfo.id}}' class='iconfont'>&#xe621;</a>
+						{{/if}}
+						</span>
+					</div>
+					<div>
+						<span class='place'>{{item.locInfo.coo.cooName}}</span>
+						<span class='time'>{{item.alarmLoc.allTimestamp}}</span>
+					</div>
+				</li>
+			{{/each}}
+		</ul>
+	</div>
+</script>
+<script id='handleScaleTpl' type='text/template' >
+	<tr key={{id}}>
+		<td>{{index}}</td>
+		<td>{{cooName}}</td>
+		<td><i class="iconfont color-blue"></i>{{police}}</td>
+		<td><i class="iconfont color-red"></i>{{total}}</td>
+		<td style='text-align: center'><span class='warning'>{{scale}}</span></td>
+	</tr>
+</script>
+<script id='handleCarTpl' type='text/template' >
+	<tr>
+		<td align='center'><span class='license '>{{vheNum}}</span></td>
+		<td align='center'>5号工厂</td>
+		<td align='center''>{{vhePapersNum}}</td>
+		<td align='center'>{{remarks}}</td>
+		<td align='center'>{{lastTime}}小时</td>
+	</tr>
+</script>
+<script id='handleCriminalTpl' type='text/template'>
+		<li>
+			<div class="first">{{pcoName}}</div>
+			<div class="second" data-event='handleCriminalShow'>
+				<div class="percetnge">
+					<div class="per-im" style='width: {{imAll}}'></div>
+					<div class="per-ge" style='width: {{geAll}}'></div>
+					
+				</div>
+                <div class="detail">
+						<dl>
+							<dd>
+                                <span>总罪犯:{{nomPeoNowCount + impPeoNowCount}}</span>
+								<span class='color-green'>普犯:{{nomPeoNowCount}}</span>
+								<span class="color-red">重犯:{{impPeoNowCount}}</span>
+							</dd>
+						</dl>
+					</div>
+			</div>
+			<div class="third">
+				<p>
+					<font class='color-333'>{{impPeoNowCount + nomPeoNowCount }}/</font><font class='color-green'>{{nomPeoNowCount}}</font><font class='color-red'>/{{impPeoNowCount}}</font>
+				</p>
+			</div>
+		</li>
+</script>
+<script id='topWarViewTpl' type='text/template'>
+	<tr class='{{cl}}' key='{{id}}' id='{{id}}'>
+		<td class='title'><i class='iconfont'>&#xe610;</i></td>
+		<td width='120' class='nowarp' >
+			{{if warRuleType === '10'}}
+				<a data-event='breakEvent' data-id='{{id}}'>
+					<span class='type'>[{{warName}}]</span>
+					<span class="name nowarp">{{warPeoName}}&ensp;</span>
+				</a>
+			{{else}}
+				<a href="#event/review/{{id}}">
+					<span class='type'>[{{warName}}]</span>
+					<span class="name nowarp">{{warPeoName}}&ensp;</span>
+				</a>
+			{{/if}}
+		</td>
+		<td>
+			{{if warRuleType === '10'}}
+				<a data-event='breakEvent' data-id='{{id}}'>
+					<span class='time'>{{time}}</span>
+				</a>
+			{{else}}
+				<a href="#event/review/{{id}}" >
+					<span class='time'>{{time}}</span>
+				</a>
+			{{/if}}
+		</td>
+		<td>
+			{{if warRuleType === '10'}}
+				<a data-event='breakEvent' data-id='{{id}}' class='message'>无区域信息</a>
+			{{else}}
+				<a href="#event/review/{{id}}" class='message'>
+					{{warLocName}}
+				</a>
+			{{/if}}
+		</td>
+		<td>
+			{{if warRuleType === '10'}}
+				<a data-event='breakEvent' data-id='{{id}}' class='action'><i class="iconfont">&#xe68c;&ensp;</i>查看</a>
+			{{else}}
+				<a  data-event='closeBox'  href="#event/review/{{id}}" class='action'><i class="iconfont">&#xe68c;&ensp;</i>查看</a>
+			{{/if}}
+		</td>
+	</tr>
+</script>
+<script id='noticeListTpl' type='text/template'>
+	<tr id='notice{{id}}'>
+		<td class='title' style='width: 100%; text-align: left; font-size: 12px;'>
+			&nbsp;&nbsp;
+			<span class='color-0d8b4e'><strong>{{name}}</strong>({{num}})</span>
+			{{if type === '1'}}罪犯释放，请确认
+			{{else if type === '2'}}新入监，请进行手环绑定
+			{{else if type === '3'}} 床位未分配，请分配床位
+			{{else if type === '4'}} 工位未分配，请分配工位
+			{{else if type === '5'}} 小组未设置，请设置小组
+			{{else if type === '6'}} 出现在非本人宿舍，请处理
+			{{/if}}
+		</td>
+		<td style='width: 50px;'>
+			{{if type === '1'}}<a data-event='ignore' id='{{id}}' >知道了</a>
+			{{else if type === '2'}} <a data-event='bindWatch' id='{{id}}' data-id='{{peoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}' >手环绑定</a>
+			{{else if type === '3'}} <a data-event='bindBed' id='{{id}}' data-id='{{peoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}' >床位绑定</a>
+			{{else if type === '4'}} <a data-event='bindWrk' id='{{id}}' data-id='{{peoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}' >工位绑定</a>
+			{{else if type === '5'}} <a data-event='bindGroup' id='{{id}}' data-id='{{peoId}}' data-pcoId='{{pcoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}' >设置小组</a>
+			{{else if type === '6'}} <a data-event='bindSet' id='{{id}}' data-id='{{peoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}' data-pcoId='{{peo.pcoId}}' data-ploId='{{peo.ploId}}' data-dorm='{{peo.peoDorm}}'>设置</a> 
+			{{/if}}
+		</td>
+	</tr>
+</script>
+<!-- 损坏报警详情 -->
+<script id='topWarBreakTpl' type='template/text'>
+	<div class="layer-header">
+		<p class="title nowarp"><i class="iconfont">&#xe64e;</i> {{war.warName}}</p>
+		<a data-toggle-closed="layer" class="closed iconfont"></a>
+	</div>
+	<div class="layer-body" style='width: 300px;'>
+		<div class="info-list">
+			<ul>
+				<li>
+					<label>触发人员:</label><span>
+					{{peoName}}
+				</li>
+				<li><label>发生时间:</label><span class='color-black'>{{war.warTime}}</span></li>
+				<li>
+					<label>所属监区:</label>
+					<span class='color-black'>{{pco ? '#' + pco.pcoName + '&gt;' : ''}}{{plo ? plo.ploName + '&gt;' : ''}}第{{peoDorm}}组</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</script>
+<script id='fullTextSearchTpl' type='text/template'>
+	<li>
+		<a data-event='detail' data-id='{{id}}'>
+			{{if peoType == 1}}<i class="iconfont color-green">&#xe6b8;</i>
+			{{else if peoType == 2}}<i class="iconfont color-red">&#xe6b8;</i>
+			{{else if peoType == 3}}<i class="iconfont color-blue">&#xe6b8;</i>
+			{{else }}<i class="iconfont color-green">&#xe6b8;</i>
+			{{/if}}
+			<span class='name'>&ensp;{{peoName}}</span>
+			<span class='info'>({{peoNum}})</span>
+		</a>
+	</li>
+</script>
+<script id='rigthViewGroupsTpl' type='text/template'>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#collapse-group-{{index}}" data-parent="#accordion-group" data-toggle="collapse" class="accordion-toggle collapsed nowarp" aria-expanded="false">
+					{{pcoName}}
+				</a>
+			</h4>
+		</div>
+		<div class="panel-collapse collapse" id="collapse-group-{{index}}" aria-expanded="false">
+			<div class="panel-body"  style='height: 186px; overflow-x: hidden'>
+				{{each ploList as plo}}
+					{{each plo.dormList as dorm}}
+					<div class="accordion-tree-container">
+						<div class="accordion-tree-list">
+							<div class="header">
+                                {{ if dorm.peoDorm }}
+								<a class="collapse tree"></a>
+								<a class="text" data-event='distribute' >
+									<i class="iconfont color-267be6">&#xe679;</i>&ensp;{{dorm.peoDorm== 0 ? '警察': '第'+dorm.peoDorm+'组'}}[{{plo.ploName}}]
+								</a>
+                               {{ /if }}
+							</div>
+							<div class="bodyer">
+								<ul class='index-tree auto'>
+									{{each dorm.peoList as peo}}
+										{{if peo.peoType == 1}}
+											<li><a data-event='detail' data-id='{{peo.id}}'><i class="iconfont color-green">&#xe6ba;&ensp;</i>{{peo.peoName}}（普通）</a></li>
+										{{else if peo.peoType == 2}}
+											<li><a data-event='detail' data-id='{{peo.id}}'><i class="iconfont color-red">&#xe6ba;&ensp;</i>{{peo.peoName}}（重点）</a></li>
+										{{else if peo.peoType == 3}}
+											<li><a data-event='detail' data-id='{{peo.id}}'><i class="iconfont color-blue">&#xe6b9;&ensp;</i>{{peo.peoName}}（民警）</a></li>
+										{{else}}
+											<li><a data-event='detail' data-id='{{peo.id}}'><i class="iconfont color-5c9cec">&#xe66c;&ensp;</i>{{peo.peoName}}（其他）</a></li>
+										{{/if}}
+									{{/each}}
+								</ul>
+							</div>
+						</div>
+					</div>
+					{{/each}}
+			    {{/each}}
+			</div>
+		</div>
+	</div>
+</script>
+<script  id='fetchAreaPersonTpl' type='text/template'>
+	{{if peoType == 1}}
+		<li><a data-event='detail' data-id='{{id}}'><i class="iconfont color-green">&#xe6ba;&ensp;</i>{{peoName}}（普通）</a></li>
+	{{else if peoType == 2}}
+		<li><a data-event='detail' data-id='{{id}}'><i class="iconfont color-red">&#xe6ba;&ensp;</i>{{peoName}}（重点）</a></li>
+	{{else if peoType == 3}}
+		<li><a data-event='detail' data-id='{{id}}'><i class="iconfont color-blue">&#xe6b9;&ensp;</i>{{peoName}}（民警）</a></li>
+	{{else}}
+		<li><a data-event='detail' data-id='{{id}}'><i class="iconfont color-5c9cec">&#xe66c;&ensp;</i>{{peoName}}（其他）</a></li>
+	{{/if}}
+</script>
+<script id='rigthViewBuildingTpl' type='text/template'>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#collapse-search-{{id}}" data-event='areaLocate' data-id='{{id}}' id='{{index == 0 ? "first": ""}}' data-parent="#accordion-build" data-toggle="collapse" class="accordion-toggle collapsed nowarp" aria-expanded="false">
+					{{cooName}}
+				</a>
+			</h4>
+		</div>
+		<div class="panel-collapse collapse" id="collapse-search-{{id}}" aria-expanded="false">
+			<div class="panel-body" style='height: 186px; overflow-x: hidden'>
+				<div class="accordion-tree-container">
+					{{each pictures as pic i}}
+					<div class="accordion-tree-list">
+						<div class="header">
+							<a class="collapse tree" data-event='fetchAreaPerson' data-cooId='{{id}}' data-picId='{{pic.id}}'></a>
+							<a class="text" href='#area/flat/{{id}}-{{pic.id}}'>
+								<i class="iconfont color-ff5a00">&#xe65d;</i>&ensp;{{pic.picName}}
+							</a>
+						</div>
+						<div class="bodyer">
+							<ul  class='index-tree auto'>
+								<li><a ><i class="iconfont color-5c9cec">&#xe66c;&ensp;</i>无人员信息（0）</a></li>
+							</ul>
+						</div>
+					</div>
+					{{/each}}
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script id='historyPersonListTpl' type='text/template'>
+	<li>
+		<a data-event='find' data-id='{{id}}'>
+			{{if peoType == 2}}
+				<i class="iconfont color-red">&#xe6b8;</i>
+			{{else if peoType == 1}}
+				<i class="iconfont color-green">&#xe6b8;</i>
+			{{else if peoType == 1}}
+				<i class="iconfont color-red">&#xe6b8;</i>
+			{{else}}
+				<i class="iconfont color-green">&#xe6b8;</i>
+			{{/if}}
+			<span class='name'>&ensp;{{peoName}}</span>
+			<span class='info'>({{peoNum}})</span>
+		</a>
+	</li>
+</script>
+<script id='historyPersonTpl' type='text/template'>
+	<div class="avatar">
+		<img src="{{cri.criPicpath}}"  />
+	</div>
+	<div>
+		<input type="hidden" name='watNum' value='{{watNum}}' />
+		<span class="name">{{peoName}}&ensp;</span>
+		{{if peoType == 1}}
+			<span class="type back-green">普通罪犯</span>
+		{{ else if peoType == 2 }}
+			<span class="type back-red">重点罪犯</span>
+		{{ else if peoType == 2 }}
+			<span class="type back-blue">民警</span>
+		{{ else }}
+			<span class="type back-pup">其他</span>
+		{{ /if }}
+	</div>
+	<div>
+		<span class='text nowarp' title='{{peoNum}}' style='width: 100px;'>编号：{{peoNum}}</span>
+		<span class='text nowarp'  title='{{locInfo ? locInfo.coo.cooName : ""}}'>当前位置： {{locInfo ? locInfo.coo.cooName : "无"}}</span>
+	</div>
+</script>
+<script id='personnelDetailTpl' type='text/template'>
+	<div class="tab-content">
+		<div class="tab-pane fade in active" id="page-person-events" >
+			<ul>
+				{{if type1}}
+					{{each type1 as t1}}
+						<li>
+							<span>{{type1.nwarTime}}&ensp;&ensp;</span>
+							<span class='color-ec6e5e'>[{{type1.warName}}]&ensp;&ensp;</span>
+							<span>{{type1.peoName}}</span>
+							<a href="#event/review/{{type1.id}}">查看</a>
+						</li>
+					{{/each}}
+				{{/if}}
+			</ul>
+		</div>
+		<div class="tab-pane fade" id="page-person-detail" >
+			<ul>
+				{{each type2 as t2}}
+				<li>
+					<span>{{t2.nwarTime}}&ensp;&ensp;</span>
+					<span class='color-ec6e5e'>[{{t2.warName}}]&ensp;&ensp;</span>
+					<span>{{t2.peoName}}</span>
+					<a href="javascript:;">查看</a>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+		<div class="tab-pane fade" id="page-person-action" >
+			<ul>
+				{{each type3 as t3}}
+				<li>
+					<span>{{t3.nwarTime}}&ensp;&ensp;</span>
+					<span class='color-ec6e5e'>[{{t3.warName}}]&ensp;&ensp;</span>
+					<span>{{t3.peoName}}</span>
+					<a href="javascript:;">查看</a>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+		<div class="tab-pane fade" id="page-person-meeting" >
+			<ul>
+				{{each type4 as t4}}
+				<li>
+					<span>{{t4.nwarTime}}&ensp;&ensp;</span>
+					<span class='color-ec6e5e'>[{{t4.warName}}]&ensp;&ensp;</span>
+					<span>{{t4.peoName}}</span>
+					<a href="javascript:;">查看</a>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+</script>
+<script id='personnelInfoTpl' type='text/template'>
+	<div class="bubble-header" >
+		<p class='title'>个人信息</p>
+		<a class="closed iconfont" data-event='close'>&#xe658;</a>
+	</div>
+	<div class="bubble-bodyer">
+		<div class='layout-left'>
+			<img src="{{cri.criPicpath}}" alt="" />
+		</div>
+		<div class='layout-right'>
+			<ul>
+				<li>
+					{{if peoType == 1}}<span class="type back-green">普</span>
+					{{else if peoType == 2}}<span class="type back-red">重</span>
+					{{else if peoType == 3}}<span class="type back-blue">警</span>
+					{{else}}<span class="type back-pup">其他</span>
+					{{/if}}
+					<span class="name">{{peoName}}</span>
+					<span class='color-666'>({{peoNum}})</span>
+				</li>
+				<li>
+					<span class='info'>
+						最新位置：
+						{{if locInfo}}
+						{{locInfo.coo.cooName}}>{{locInfo.pic.picName}}>{{locInfo.locName}}
+						{{else}}
+						无位置信息
+						{{/if}}
+					</span>
+					{{if type}}
+						<a class="iconfont color-blue" data-event='refresh'>&#xe644;</a>
+					{{/if}}
+				</li>
+				<li>
+					<span class='text'>所属监区：{{pco.pcoName}}>{{pco.ploName}}>第{{peoDorm}}小组</span>
+				</li>
+				<li>
+					<span class='text'>责任民警：<em>无</em></span>
+				</li>
+				<li>
+					<span class='text'>小组人员：
+						<em>
+							{{each peoList as peo}}
+								{{peo.peoName}},
+							{{/each}}
+						</em>
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+		<div>
+			<div class="group">
+				<div class="col-md-6"><span class="text nowarp">籍&ensp;&ensp;&ensp;&ensp;贯：{{cri.criOrigin}}</span></div>
+				<div class="col-md-6"><span class="text nowarp">性&ensp;&ensp;&ensp;&ensp;别：男</span></div>
+				
+			</div>
+			<div class="group">
+				<div class="col-md-6"><span class="text nowarp">出生年月：{{cri.criBrithday}}</span></div>
+				<div class="col-md-6"><span class="text nowarp">入狱时间：{{cri.criMonitoringtime}}</span></div>
+			</div>
+			<div class="group">
+				<div class="col-md-6"><span class="text nowarp">刑&ensp;期：{{cri.criOriginalsentence}}</span></div>
+				<div class="col-md-6"><span class="text nowarp">监控级别：{{cri.criEventlvl}}</span></div>
+			</div>
+			<div class="group">
+				<div class="col-md-12"><span class="text nowarp">入狱原因：{{cri.criCharge}}</span></div>
+			</div>
+		</div>
+	</div>
+	<div class="bubble-footer">
+		{{if type && locInfo}}
+			<a href="#area/flat/{{locInfo.coo.id}}-{{locInfo.pic.id}}-{{id}}" class="iconfont">&#xe65c; 实时位置</a>
+		{{else}}
+			<a class="iconfont disabled">&#xe65c; 实时位置</a>
+		{{/if}}
+		<a data-event='history' class="iconfont">&#xe694; 历史轨迹</a>
+		<a data-event='monitor' href="#realtime/monitor/{{id}}" class="iconfont">&#xe633; 视频追踪</a>
+		
+	</div>
+</script>
+<!-- <a data-event='slide' class="iconfont">&#xe6b8; 犯情信息</a> -->
+<script id="overviewWarningHeaderTpl" type='text/template'>
+	<a class='svg-alarm' id='warning-header-{{id}}' data-hover='layer' data-event='show'>
+		<span class="flicker-warning-outer"></span>
+		<span class="flicker-warning-inner"></span>
+		<span class="flicker-point"></span>
+	</a>
+</script>
+<script id="overviewWarningBodyTpl" type='text/template'>
+		<div class="layer-header font-build inform">
+			<p class="title nowarp"><i class="iconfont">&#xe616; </i> 共{{num}}条报警</p>
+			<a data-toggle-closed="layer" class="closed iconfont"></a>
+		</div>
+		<div class="layer-body">
+			<ul class='rows' style='max-height: 150px;'>
+				{{each warList as war}}
+				<li class='{{war.cl}}' id='map{{war.id}}'>
+					<span class="title"><b>[{{war.warName}}]</b></span>
+					<a href="#event/review/{{war.id}}" class="info nowarp"><b>{{war.warPeoName}}</a></b>
+					<span class="time nowarp">{{war.time}}</span>
+					<a href="#event/review/{{war.id}}" class='action'><i class="iconfont">&#xe68c; </i>查看</a>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+</script>
+<script id="overviewWarningLiTpl" type='text/template'>
+		<li class='{{cl}}' id='map{{id}}'>
+			<span class="title"><b>[{{warName}}]</b></span>
+			<a href="#event/review/{{id}}" class="info nowarp"><b>{{warPeoName}}</a></b>
+			<span class="time nowarp">{{time}}</span>
+			<a href="#event/review/{{id}}" class='action'><i class="iconfont">&#xe68c; </i>查看</a>
+		</li>
+</script>
+<script id="carWarningTpl" type='text/template'>
+	<a class='svg-alarm' data-hover='layer' data-event='show' class='none'>
+		<span class="flicker-warning-outer"></span>
+		<span class="flicker-warning-inner"></span>
+	</a>
+</script>
+<script id='overviewBuildingHeadTpl' type='text/template' >
+	<span>
+		<em class='color-red iconfont'>&#xe6ba; {{cooCountMap.important}}</em>
+		<em class='color-green iconfont'>&#xe6ba; {{cooCountMap.general}}</em>
+		<em class='color-blue iconfont'>&#xe6b9; {{cooCountMap.police}}</em>
+		<em class='color-gray iconfont'>&#xe6ba; {{cooCountMap.lost}}</em>
+	</span>
+</script>
+<script id='overviewBuildingBodyTpl' type='text/template'>
+	<div class="layer-header font-build">
+		<p class='title nowarp'><i class="iconfont">&#xe65d;</i> {{cooName}}</p>
+		<a class="closed iconfont" data-toggle-closed='layer'>&#xe658;</a>
+	</div>
+	<div class="layer-body" data-event='countAll' data-id='{{id}}'>
+		<div class="chart-data">
+			<div class="col-md-5" style='padding: 0;'>
+				<div class="chart-svg" data-elem='svg'>
+					
+				</div>
+				<div class="chart-data">
+					<em class='iconfont color-red'>&#xe6ba; {{cooCountMap.important}}</em>
+					<em class='iconfont color-green'>&#xe6ba; {{cooCountMap.general}}</em>		
+					<em class='iconfont color-blue'>&#xe6b9; {{cooCountMap.police}}</em>
+				</div>
+			</div>
+			<div class="col-md-7" style='padding: 0; margin: 0;'>
+				<ul class="floor-li iscroll" id='building-floor'>
+					{{each pictures as pic i}}
+					<li>
+						<a href='#area/flat/{{id}}-{{pic.id}}' data-event='countFloor' data-value='{{pic.id}}'>
+						<em class='nowrap' title='{{pic.picName}}'><b class='none'>F{{i+1}}</b>{{pic.picName}}</em>
+						<span>
+							<font class='color-red'>{{pic.picCountMap.important}}</font>/
+							<font class='color-green'>{{pic.picCountMap.general}}</font>/
+							<font class='color-blue'>{{pic.picCountMap.police}}</font>/
+							<font class='color-gray'>{{pic.picCountMap.lost}}</font>
+						</span>
+						<i class="iconfont color-blue">&#xe6b7;</i>
+						</a>
+					</li>
+					{{/each}}
+				</ul>
+			</div>
+		</div>
+	</div>
+</script>
+<script id="paginationTpl" type='text/template'>
+<div>
+	<ul class="pagination">
+		<li class="paginate_button first {{=PageNo == 1 ? 'disabled' : ''}}">
+			<- if(hash){ ->
+				<a href="#{{=(hash + 1)}}">首页</a>	
+			<- } else { ->
+				<a data-event='page' data-page='1'>首页</a>
+			<- } ->
+		</li>
+		<li class="paginate_button prev {{=((PageNo - LastPage) == 0 ? 'disabled' : '')}}">
+			<- if(hash){ ->
+				<a href="#{{=(hash + LastPage)}}">上一页</a>	
+			<- } else { ->
+				<a data-event='page' data-page='{{=LastPage}}'>上一页</a>
+			<- } ->
+		</li>
+		<- for( var i = begin; i <= end; i++ ) { ->
+			<li class="paginate_button {{=i==PageNo ? 'active': ''}}">
+				<- if(hash){ ->
+					<a href="#{{=(hash + i)}}">{{=i}}</a>
+				<- } else { ->
+					<a data-event='page' data-page='{{=i}}'>{{=i}}</a>
+				<- } ->
+			</li>
+		<- } ->
+		<li class="paginate_button next {{=PageNo == PageCount ? 'disabled' : ''}}" >
+			<- if(hash){ ->
+				<a href="#{{=(hash + NextPage)}}" data-page='{{=NextPage}}'>下一页</a>
+			<- } else { ->
+				<a data-event='page'>下一页</a>
+			<- } ->
+		</li>
+		<li class="paginate_button last {{=PageNo == PageCount ? 'disabled' : ''}}">
+			<- if(hash){ ->
+				<a href="#{{=hash + PageCount}}">尾页</a>	
+			<- } else { ->
+				<a data-event='page' data-page='{{=PageCount}}'>尾页</a>
+			<- } ->
+		</li>
+		<li><em>{{=Count}}条记录,共{{=PageCount}}页 </em></li>
+		<- if(hash){ ->
+			<li><em>跳到</em><input type="text" value='{{=PageNo}}' data-event='change' /><em>页</em></li>
+			<li class='paginate_button active'>
+				<- if(hash){ ->
+					<a href="#{{=hash + PageNo}}" data-elem='jump'>跳转</a>	
+				<- } else { ->
+					<a data-event='jump' data-page='{{=PageCount}}' >跳转</a>
+				<- } ->
+			</li>
+		<- } ->
+	</ul>
+</div>
+</script>
+</body>
+</html>

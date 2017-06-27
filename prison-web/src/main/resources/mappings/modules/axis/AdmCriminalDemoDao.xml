@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.axis.dao.AdmCriminalDemoDao">
+    
+	<sql id="admCriminalDemoColumns">
+		a.id AS "id",
+		a.cri_criminalno AS "criCriminalno",
+		a.cri_no AS "criNo",
+		a.cri_criminalname AS "criCriminalname",
+		a.cri_sex AS "criSex",
+		a.cri_prisonid AS "criPrisonid",
+		a.cri_prisonname AS "criPrisonname",
+		a.cri_prisonarea AS "criPrisonarea",
+		a.cri_zoneofdivision AS "criZoneofdivision",
+		a.cri_picpath AS "criPicpath",
+		a.cri_criminallvl AS "criCriminallvl",
+		a.cri_beforename AS "criBeforename",
+		a.cri_brithday AS "criBrithday",
+		a.cri_idcard AS "criIdcard",
+		a.cri_marriage AS "criMarriage",
+		a.cri_nation AS "criNation",
+		a.cri_healthy AS "criHealthy",
+		a.cri_residence AS "criResidence",
+		a.cri_priarchives AS "criPriarchives",
+		a.cri_priareaarchives AS "criPriareaarchives",
+		a.cri_nationality AS "criNationality",
+		a.cri_origin AS "criOrigin",
+		a.cri_peraddress AS "criPeraddress",
+		a.cri_homeaddress AS "criHomeaddress",
+		a.cri_eventlvl AS "criEventlvl",
+		a.cri_chargetype AS "criChargetype",
+		a.cri_criminaltype AS "criCriminaltype",
+		a.cri_monitoringtime AS "criMonitoringtime",
+		a.cri_culturallvl AS "criCulturallvl",
+		a.cri_nowculturallvl AS "criNowculturallvl",
+		a.cri_political AS "criPolitical",
+		a.cri_occupation AS "criOccupation",
+		a.cri_nowjob AS "criNowjob",
+		a.cri_charge AS "criCharge",
+		a.cri_criminalfacts AS "criCriminalfacts",
+		a.cri_originalsentence AS "criOriginalsentence",
+		a.cri_stripping AS "criStripping",
+		a.cri_addcharge AS "criAddcharge",
+		a.cri_startdate AS "criStartdate",
+		a.cri_enddate AS "criEnddate",
+		a.cri_currentsentence AS "criCurrentsentence",
+		a.cri_nowstartdate AS "criNowstartdate",
+		a.cri_nowenddate AS "criNowenddate",
+		a.cri_yuxing AS "criYuxing",
+		a.cri_specialty AS "criSpecialty",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.cri_sanjia AS "criSanjia",
+		a.cri_sanlei AS "criSanlei",
+		a.cri_bingfan AS "criBingfan",
+		a.cri_shenjingbing AS "criShenjingbing",
+		a.cri_chuanranbing AS "criChuanranbing",
+		a.cri_manxingbing AS "criManxingbing",
+		a.cri_xianjian AS "criXianjian",
+		a.cri_wanwei AS "criWanwei",
+		a.cri_shenpanjiguan AS "criShenpanjiguan",
+		a.cri_shenpanriqi AS "criShenpanriqi",
+		a.cri_daiburiqi AS "criDaiburiqi",
+		a.cri_daibujiguan AS "criDaibujiguan",
+		a.cri_lieji AS "criLieji",
+		a.cri_qianke AS "criQianke"
+	</sql>
+	
+	<sql id="admCriminalDemoJoins">
+	</sql>
+    
+	<select id="get" resultType="AdmCriminalDemo">
+		SELECT 
+			<include refid="admCriminalDemoColumns"/>
+		FROM adm_criminal_demo a
+		<include refid="admCriminalDemoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AdmCriminalDemo">
+		SELECT 
+			<include refid="admCriminalDemoColumns"/>
+		FROM adm_criminal_demo a
+		<include refid="admCriminalDemoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="criCriminalno != null and criCriminalno != ''">
+				AND a.cri_criminalno = #{criCriminalno}
+			</if>
+			<if test="criNo != null and criNo != ''">
+				AND a.cri_no = #{criNo}
+			</if>
+			<if test="criCriminalname != null and criCriminalname != ''">
+				AND a.cri_criminalname = #{criCriminalname}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AdmCriminalDemo">
+		SELECT 
+			<include refid="admCriminalDemoColumns"/>
+		FROM adm_criminal_demo a
+		<include refid="admCriminalDemoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adm_criminal_demo(
+			id,
+			cri_criminalno,
+			cri_no,
+			cri_criminalname,
+			cri_sex,
+			cri_prisonid,
+			cri_prisonname,
+			cri_prisonarea,
+			cri_zoneofdivision,
+			cri_picpath,
+			cri_criminallvl,
+			cri_beforename,
+			cri_brithday,
+			cri_idcard,
+			cri_marriage,
+			cri_nation,
+			cri_healthy,
+			cri_residence,
+			cri_priarchives,
+			cri_priareaarchives,
+			cri_nationality,
+			cri_origin,
+			cri_peraddress,
+			cri_homeaddress,
+			cri_eventlvl,
+			cri_chargetype,
+			cri_criminaltype,
+			cri_monitoringtime,
+			cri_culturallvl,
+			cri_nowculturallvl,
+			cri_political,
+			cri_occupation,
+			cri_nowjob,
+			cri_charge,
+			cri_criminalfacts,
+			cri_originalsentence,
+			cri_stripping,
+			cri_addcharge,
+			cri_startdate,
+			cri_enddate,
+			cri_currentsentence,
+			cri_nowstartdate,
+			cri_nowenddate,
+			cri_yuxing,
+			cri_specialty,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			cri_sanjia,
+			cri_sanlei,
+			cri_bingfan,
+			cri_shenjingbing,
+			cri_chuanranbing,
+			cri_manxingbing,
+			cri_xianjian,
+			cri_wanwei,
+			cri_shenpanjiguan,
+			cri_shenpanriqi,
+			cri_daiburiqi,
+			cri_daibujiguan,
+			cri_lieji,
+			cri_qianke
+		) VALUES (
+			#{id},
+			#{criCriminalno},
+			#{criNo},
+			#{criCriminalname},
+			#{criSex},
+			#{criPrisonid},
+			#{criPrisonname},
+			#{criPrisonarea},
+			#{criZoneofdivision},
+			#{criPicpath},
+			#{criCriminallvl},
+			#{criBeforename},
+			#{criBrithday},
+			#{criIdcard},
+			#{criMarriage},
+			#{criNation},
+			#{criHealthy},
+			#{criResidence},
+			#{criPriarchives},
+			#{criPriareaarchives},
+			#{criNationality},
+			#{criOrigin},
+			#{criPeraddress},
+			#{criHomeaddress},
+			#{criEventlvl},
+			#{criChargetype},
+			#{criCriminaltype},
+			#{criMonitoringtime},
+			#{criCulturallvl},
+			#{criNowculturallvl},
+			#{criPolitical},
+			#{criOccupation},
+			#{criNowjob},
+			#{criCharge},
+			#{criCriminalfacts},
+			#{criOriginalsentence},
+			#{criStripping},
+			#{criAddcharge},
+			#{criStartdate},
+			#{criEnddate},
+			#{criCurrentsentence},
+			#{criNowstartdate},
+			#{criNowenddate},
+			#{criYuxing},
+			#{criSpecialty},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{criSanjia},
+			#{criSanlei},
+			#{criBingfan},
+			#{criShenjingbing},
+			#{criChuanranbing},
+			#{criManxingbing},
+			#{criXianjian},
+			#{criWanwei},
+			#{criShenpanjiguan},
+			#{criShenpanriqi},
+			#{criDaiburiqi},
+			#{criDaibujiguan},
+			#{criLieji},
+			#{criQianke}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adm_criminal_demo SET 	
+			cri_criminalno = #{criCriminalno},
+			cri_no = #{criNo},
+			cri_criminalname = #{criCriminalname},
+			cri_sex = #{criSex},
+			cri_prisonid = #{criPrisonid},
+			cri_prisonname = #{criPrisonname},
+			cri_prisonarea = #{criPrisonarea},
+			cri_zoneofdivision = #{criZoneofdivision},
+			cri_picpath = #{criPicpath},
+			cri_criminallvl = #{criCriminallvl},
+			cri_beforename = #{criBeforename},
+			cri_brithday = #{criBrithday},
+			cri_idcard = #{criIdcard},
+			cri_marriage = #{criMarriage},
+			cri_nation = #{criNation},
+			cri_healthy = #{criHealthy},
+			cri_residence = #{criResidence},
+			cri_priarchives = #{criPriarchives},
+			cri_priareaarchives = #{criPriareaarchives},
+			cri_nationality = #{criNationality},
+			cri_origin = #{criOrigin},
+			cri_peraddress = #{criPeraddress},
+			cri_homeaddress = #{criHomeaddress},
+			cri_eventlvl = #{criEventlvl},
+			cri_chargetype = #{criChargetype},
+			cri_criminaltype = #{criCriminaltype},
+			cri_monitoringtime = #{criMonitoringtime},
+			cri_culturallvl = #{criCulturallvl},
+			cri_nowculturallvl = #{criNowculturallvl},
+			cri_political = #{criPolitical},
+			cri_occupation = #{criOccupation},
+			cri_nowjob = #{criNowjob},
+			cri_charge = #{criCharge},
+			cri_criminalfacts = #{criCriminalfacts},
+			cri_originalsentence = #{criOriginalsentence},
+			cri_stripping = #{criStripping},
+			cri_addcharge = #{criAddcharge},
+			cri_startdate = #{criStartdate},
+			cri_enddate = #{criEnddate},
+			cri_currentsentence = #{criCurrentsentence},
+			cri_nowstartdate = #{criNowstartdate},
+			cri_nowenddate = #{criNowenddate},
+			cri_yuxing = #{criYuxing},
+			cri_specialty = #{criSpecialty},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			cri_sanjia = #{criSanjia},
+			cri_sanlei = #{criSanlei},
+			cri_bingfan = #{criBingfan},
+			cri_shenjingbing = #{criShenjingbing},
+			cri_chuanranbing = #{criChuanranbing},
+			cri_manxingbing = #{criManxingbing},
+			cri_xianjian = #{criXianjian},
+			cri_wanwei = #{criWanwei},
+			cri_shenpanjiguan = #{criShenpanjiguan},
+			cri_shenpanriqi = #{criShenpanriqi},
+			cri_daiburiqi = #{criDaiburiqi},
+			cri_daibujiguan = #{criDaibujiguan},
+			cri_lieji = #{criLieji},
+			cri_qianke = #{criQianke}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE adm_criminal_demo SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

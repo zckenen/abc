@@ -1,0 +1,650 @@
+<div class="content-box none" id='ruleCriminal'>
+	<!-- 罪犯列表 -->
+	<div class="widget-table">
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class='nav nav-tabs nav-search left-tabs' id='ruleTabHeader'>
+					<li class='active'>
+						<a href='#tab-forbidden-list' data-event='ruleForbidden' data-toggle='tab' >禁区规则</a>
+					</li>
+					<li>
+						<a href='#tab-escape-list'  data-event='ruleEscape' data-toggle='tab' >逃脱规则</a>
+					</li>
+					<li>
+						<a href='#tab-alone-list'  data-event='ruleAlone' data-toggle='tab' >独处规则</a>
+					</li>
+					<li>
+						<a href='#tab-stranded-list'  data-event='ruleStranded' data-toggle='tab' >滞留规则</a>
+					</li>
+					<li>
+						<a href='#tab-notice-list'  data-toggle='tab' >夜间模式</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<!-- 禁区规则规则列表 -->
+				<div id="tab-forbidden-list" class="tab-pane fade in active">
+					<div class="table-list" id='ruleForbidden'>
+						<form action="/prison/loadAdmWarningsInfo.do" class='search'>
+							<div class="widget-table-action" >
+								<!-- <ul class='left-action'>
+									<li><label>名称：</label></li>
+									<li><input type="text" name='peoName' placeholder="人员名称" class="form-control input-sm" ></li>
+									<li><a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a></li>
+								</ul> -->
+								<ul class="right-action">
+									<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+									<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+								</ul>
+							</div>
+							<div class="clearfix"></div>
+						</form>
+						<table class="table table-striped table-bordered table-hover" >
+							<thead>
+								<tr>
+									<th style='width: 30px;'>
+										<input type="checkbox" class='check-items all' value=''/>
+									</th>
+									<th width='50px'><span>序号</span><!-- <a class='sorting'></a> --></th>
+									<th width='100'>报警类型</th>
+									<th width='100'>规则类别</th>
+									<th  width='200'>罪犯姓名</th>
+									<th width='120'>罪犯人数</th>
+									<th width='140'>执行时间</th>
+									<th width='140'>时间范围</th>
+									<!-- <th width='120'>区域范围</th> -->
+									<th width='100'>持续时间</th>
+									<th width='120'>操作</th>
+								</tr>
+							</thead>
+							<tbody id='ruleForbiddenList'>
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 逃脱规则列表 -->
+				<div id="tab-escape-list" class="tab-pane fade in">
+					<div class="table-list" id='ruleEscape'>
+						<form action="/prison/loadAdmWarningsInfo.do" class='search'>
+							<div class="widget-table-action" >
+								<!-- <ul class='left-action'>
+									<li><label>名称：</label></li>
+									<li><input type="text" name='peoName' placeholder="人员名称" class="form-control input-sm" ></li>
+									<li><a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a></li>
+								</ul> -->
+								<ul class="right-action">
+									<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+									<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+								</ul>
+							</div>
+							<div class="clearfix"></div>
+						</form>
+						<table class="table table-striped table-bordered table-hover" >
+							<thead>
+								<tr>
+									<th style='width: 30px;'>
+										<input type="checkbox" class='check-items all' value=''/>
+									</th>
+									<th width='50px'><span>序号</span><!-- <a class='sorting'></a> --></th>
+									<th width='100'>报警类型</th>
+									<th width='100'>规则类别</th>
+									<th  width='200' class='nowarp'>罪犯姓名</th>
+									<th width='120'>罪犯人数</th>
+									<th width='140'>执行时间</th>
+									<th width='140'>时间范围</th>
+									<!-- <th width='120'>区域范围</th> -->
+									<th width='100'>持续时间</th>
+									<th width='120'>操作</th>
+								</tr>
+							</thead>
+							<tbody id='ruleEscapeList'>
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 独处规则列表 -->
+				<div id="tab-alone-list" class="tab-pane fade in" >
+					<div class="table-list" id='ruleAlone'>
+						<form action="/prison/loadAdmWarningsInfo.do" class='search'>
+							<div class="widget-table-action" >
+								<!-- <ul class='left-action'>
+									<li><label>名称：</label></li>
+									<li><input type="text" name='peoName' placeholder="人员名称" class="form-control input-sm" ></li>
+									<li><a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a></li>
+								</ul> -->
+								<ul class="right-action">
+									<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+									<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+								</ul>
+							</div>
+							<div class="clearfix"></div>
+						</form>
+						<table class="table table-striped table-bordered table-hover" >
+							<thead>
+								<tr>
+									<th style='width: 30px;'>
+										<input type="checkbox" class='check-items all' value=''/>
+									</th>
+									<th width='50px'><span>序号</span><!-- <a class='sorting'></a> --></th>
+									<th width='100'>报警类型</th>
+									<th width='100'>规则类别</th>
+									<th  width='200' class='nowarp'>罪犯姓名</th>
+									<th width='120'>罪犯人数</th>
+									<th width='140'>执行时间</th>
+									<th width='140'>时间范围</th>
+									<!-- <th width='120'>区域范围</th> -->
+									<th width='100'>持续时间</th>
+									<th width='120'>操作</th>
+								</tr>
+							</thead>
+							<tbody id='ruleAloneList'>
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 滞留规则列表 -->
+				<div id="tab-stranded-list" class="tab-pane fade in" >
+					<div class="table-list" id='ruleStranded'>
+						<form action="/prison/loadAdmWarningsInfo.do" class='search'>
+							<div class="widget-table-action" >
+								<!-- <ul class='left-action'>
+									<li><label>名称：</label></li>
+									<li><input type="text" name='peoName' placeholder="人员名称" class="form-control input-sm" ></li>
+									<li><a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a></li>
+								</ul> -->
+								<ul class="right-action">
+									<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+									<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+								</ul>
+							</div>
+							<div class="clearfix"></div>
+						</form>
+						<table class="table table-striped table-bordered table-hover" >
+							<thead>
+								<tr>
+									<th style='width: 30px;'>
+										<input type="checkbox" class='check-items all' value=''/>
+									</th>
+									<th width='50px'><span>序号</span><!-- <a class='sorting'></a> --></th>
+									<th width='100'>报警类型</th>
+									<th width='100'>规则类别</th>
+									<th width='200' class='nowarp'>罪犯姓名</th>
+									<th width='120'>罪犯人数</th>
+									<th width='140'>执行时间</th>
+									<th width='140'>时间范围</th>
+									<!-- <th width='120'>区域范围</th> -->
+									<th width='100'>持续时间</th>
+									<th width='120'>操作</th>
+								</tr>
+							</thead>
+							<tbody id='ruleStrandedList'>
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 通知设置 -->
+				<div id="tab-notice-list" class="tab-pane fade in" >
+					<div class="table-list" id='ruleNotice'>
+						<form onsubmit='return false;' class='table-form'>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">规则类型</label></div>
+								<div class="col-md-9">
+									<span class='color-black bold'>夜间模式</span>
+								</div>
+							</div>
+							<!-- <div class="form-group">
+								<div class="col-md-3"><label class="control-label">状态</label></div>
+								<div class="col-md-9">
+									<select name="rlType" class='form-control input-small' required>
+										<option value="1">告警</option>
+										<option value="0">预警</option>
+									</select>
+								</div>
+							</div> -->
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">启用时间</label></div>
+								<div class="col-md-9">
+									<div class="rule-time-range" >
+										<ul class=''>
+											<li>
+												<div class='start'><input type="text" name='startTime' value='18:00:00'  class='form-control timepicker' required /></div>
+												<div class='line'>─</div>
+												<div class='start'><input type="text" name='endTime' value='9:00:00'  class='form-control timepicker' required /></div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="form-group-action">
+									<button type='submit'  data-event='submit' class="btn blue btn-sm">保&nbsp;&nbsp;存</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div id="tab-rule-add" class="tab-pane fade in" >
+					<div id="ruleCriminalAdd">
+						<form onsubmit='return false;' class='table-form'>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">规则类型</label></div>
+								<div class="col-md-9">
+									<span id='ruleTypeName' class='color-black bold'>禁区</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">报警类型</label></div>
+								<div class="col-md-9">
+									<select name="rlType" class='form-control input-small' required>
+										<option value="1">告警</option>
+										<option value="0">预警</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">时间频率</label></div>
+								<div class="col-md-6">
+									<select multiple="multiple" data-placehoder='时间频率' name='rlTimeRate' class='form-control input-small iselect' required>
+										<optgroup label="每天">
+											<option value="0" selected='selected'>每天</option>
+									  	</optgroup>
+									  	<optgroup label="每周">
+									  		<option value="1">周日</option>
+									    	<option value="2">周一</option>
+									    	<option value="3">周二</option>
+									    	<option value="4">周三</option>
+									    	<option value="5">周四</option>
+									    	<option value="6">周五</option>
+									    	<option value="7">周六</option>
+									  	</optgroup>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">时间范围</label></div>
+								<div class="col-md-9">
+									<div class="rule-time-range" >
+										<a data-event='addTimeRange' data-toggle="tooltip"  data-original-title="增加时间范围" class="add iconfont">&#xe6b6;</a>
+										<ul class=''>
+											<li>
+												<div class='start'><input type="text" name='rlTimeRangeStart' value='00:00:00'  class='form-control timepicker' required /></div>
+												<div class='line'>─</div>
+												<div class='end'><input type="text" name='rlTimeRangeEnd' value='23:59:59'  class='form-control timepicker' required /></div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">持续时间</label></div>
+								<div class="col-md-8">
+									<input type="text" name='rlTimeset' class='form-control input-small' placeholder='秒' required />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">人数</label></div>
+								<div class="col-md-9">
+									<input type="text" name='num' value='1' disabled class='form-control input-small' placeholder='秒'  />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">人员设置</label></div>
+								<div class="col-md-9">
+									<div class="rule-peo-set" id='rulePeoSet'>
+										<ul>
+										
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label">区域设置</label></div>
+								<div class="col-md-9">
+									<div class="rule-loc-set" id='ruleLocSet'>
+										<ul>
+										
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-3"><label class="control-label"></label></div>
+								<div class="col-md-9">
+									<input type="checkbox" name='rlState' value='1' checked />即启用该报警规则
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="form-group-action">
+									<button type='submit'  data-event='submit' class="btn blue btn-sm">保&nbsp;&nbsp;存</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div id="tab-rule-edit" class="tab-pane fade in" >
+					<div id="ruleCriminalEdit">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div role="dialog" id='ruleLocView'   class="bootbox modal fade in"  data-height='700'>
+		<div class="modal-dialog">
+			<form action="" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">添加楼层</h4>
+				</div>
+				<div class="modal-body">
+					<div style='max-height: 300px; overflow: auto;'>
+						<ul id='locView'></ul>
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >添加</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script id='ruleForbiddenListTpl' type='template/text'>
+{{if peo}}
+	<tr>
+		<td><input type="checkbox" class='check-item' value='{{id}}' /></td>
+		<td>{{index}}</td>
+		<td>{{rlType == 1 ? '告警' : '预警'}}</td>
+		<td>禁区规则</td>
+		<td style='width:200px;display:inline-block' class='nowarp' title='{{each peoList as peo}}{{peo.peoName}} {{/each}}'>
+			{{each peoList as peo}}
+				{{if peo.peoType == 1}}<span class="color-green">{{peo.peoName}}</span>
+					{{else if peo.peoType == 2}}<span class="color-red">{{peo.peoName}}</span>
+					{{else if peo.peoType == 3}}<span class="color-blue">{{peo.peoName}}</span>
+					{{else }}<span class="color-purple">{{peo.peoName}}</span>
+				{{/if}}
+			{{/each}}
+		</td>
+		<td>1</td>
+		<td>{{rlTimeRateTxt}}</td>
+		<td>{{rlTimeRange}}</td>
+		
+		<td>{{rlTimeset}}秒</td>
+		<td>
+			<a data-event='edit' data-id='{{id}}'  class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>
+			<a data-event='del' data-id='{{id}}' data-watnum='{{watNum}}'  class='iconfont' data-toggle="tooltip"  data-original-title="删除" >&#xe62a;</a>
+			{{if rlState == 1}}
+				<a data-event='changeStatus' data-id='{{id}}' data-status='0' class='iconfont' data-toggle="tooltip"  data-original-title="停用" >&#xe68a;</a>	
+			{{else}}
+				<a data-event='changeStatus' data-id='{{id}}' data-status='1' class='iconfont' data-toggle="tooltip"  data-original-title="启用" >&#xe681;</a>
+			{{/if}}
+		</td>
+	</tr>
+{{/if}}
+</script>
+<!-- <td>
+			<a data-event='locView' id='{{rlLocIds}}' data-toggle="tooltip" class='nowarp' style='display: block;' data-original-title="点击查看适用区域">查看区域</a>
+		</td> -->
+<script id='ruleEscapeListTpl' type='template/text'>
+	<tr>
+		<td><input type="checkbox" class='check-item' value='{{id}}' /></td>
+		<td>{{index}}</td>
+		<td>{{rlType == 1 ? '告警' : '预警'}}</td>
+	    <td>逃脱规则</td>
+		<td>
+			{{each peoList as peo i}}
+				{{if peo.peoType == 1}}<span class="color-green">{{peo.peoName}}</span>
+					{{else if peo.peoType == 2}}<span class="color-red">{{peo.peoName}}</span>
+					{{else if peo.peoType == 3}}<span class="color-blue">{{peo.peoName}}</span>
+					{{else }}<span class="color-purple">{{peo.peoName}}</span>
+				{{/if}}
+			{{/each}}
+		</td>
+		<td>1</td>
+		<td>{{rlTimeRateTxt}}</td>
+		<td>{{rlTimeRange}}</td>
+	
+		<td>{{rlTimeset}}秒</td>
+		<td>
+			<a data-event='edit' data-id='{{id}}'  class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>
+			<a data-event='del' data-id='{{id}}' data-watnum='{{watNum}}'  class='iconfont' data-toggle="tooltip"  data-original-title="删除" >&#xe62a;</a>
+			{{if rlState == 1}}
+				<a data-event='changeStatus' data-id='{{id}}' data-status='0' class='iconfont' data-toggle="tooltip"  data-original-title="停用" >&#xe68a;</a>	
+			{{else}}
+				<a data-event='changeStatus' data-id='{{id}}' data-status='1' class='iconfont' data-toggle="tooltip"  data-original-title="启用" >&#xe681;</a>
+			{{/if}}
+		</td>
+	</tr>
+</script>
+<!-- 	<td>
+			<a data-event='locView' id='{{rlLocIds}}' data-toggle="tooltip" class='nowarp' style='display: block;' data-original-title="点击查看适用区域">查看区域</a>
+		</td> -->
+<script id='ruleAloneListTpl' type='template/text'>
+	<tr>
+		<td><input type="checkbox" class='check-item' value='{{id}}' /></td>
+		<td>{{index}}</td>
+		<td>{{rlType == 1 ? '告警' : '预警'}}</td>
+		<td>独处规则</td>
+		<td>
+			{{each peoList as peo i}}
+				{{if peo.peoType == 1}}<span class="color-green">{{peo.peoName}}</span>
+					{{else if peo.peoType == 2}}<span class="color-red">{{peo.peoName}}</span>
+					{{else if peo.peoType == 3}}<span class="color-blue">{{peo.peoName}}</span>
+					{{else }}<span class="color-purple">{{peo.peoName}}</span>
+				{{/if}}
+			{{/each}}
+		</td>
+		<td>{{num}}</td>
+		<td>{{rlTimeRateTxt}}</td>
+		<td>{{rlTimeRange}}</td>
+		
+		<td>{{rlTimeset}}秒</td>
+		<td>
+			<a data-event='edit' data-id='{{id}}'  class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>
+			<a data-event='del' data-id='{{id}}' data-watnum='{{watNum}}'  class='iconfont' data-toggle="tooltip"  data-original-title="删除" >&#xe62a;</a>
+			{{if rlState == 1}}
+				<a data-event='changeStatus' data-id='{{id}}' data-status='0' class='iconfont' data-toggle="tooltip"  data-original-title="停用" >&#xe68a;</a>	
+			{{else}}
+				<a data-event='changeStatus' data-id='{{id}}' data-status='1' class='iconfont' data-toggle="tooltip"  data-original-title="启用" >&#xe681;</a>
+			{{/if}}
+		</td>
+	</tr>
+</script>
+<!-- <td>
+			<a data-event='locView' id='{{rlLocIds}}' data-toggle="tooltip" class='nowarp' style='display: block;' data-original-title="点击查看适用区域">查看区域</a>
+		</td> -->
+<script id='ruleStrandedListTpl' type='template/text'>
+	<tr>
+		<td><input type="checkbox" class='check-item' value='{{id}}' /></td>
+		<td>{{index}}</td>
+		<td>{{rlType == 1 ? '告警' : '预警'}}</td>
+		<td>滞留规则</td>
+		<td>
+			{{each peoList as peo i}}
+				{{if peo.peoType == 1}}<span class="color-green">{{peo.peoName}}</span>
+					{{else if peo.peoType == 2}}<span class="color-red">{{peo.peoName}}</span>
+					{{else if peo.peoType == 3}}<span class="color-blue">{{peo.peoName}}</span>
+					{{else }}<span class="color-purple">{{peo.peoName}}</span>
+				{{/if}}
+			{{/each}}
+		</td>
+		<td>1</td>
+		<td>{{rlTimeRateTxt}}</td>
+		<td>{{rlTimeRange}}</td>
+		
+		<td>{{rlTimeset}}秒</td>
+		<td>
+			<a data-event='edit' data-id='{{id}}'  class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>
+			<a data-event='del' data-id='{{id}}' data-watnum='{{watNum}}'  class='iconfont' data-toggle="tooltip"  data-original-title="删除" >&#xe62a;</a>
+			{{if rlState == 1 }}
+				<a data-event='changeStatus' data-id='{{id}}' data-status='0'  class='iconfont' data-toggle="tooltip"  data-original-title="停用" >&#xe68a;</a>	
+			{{else}}
+				<a data-event='changeStatus' data-id='{{id}}' data-status='1' class='iconfont' data-toggle="tooltip"  data-original-title="启用" >&#xe681;</a>
+			{{/if}}
+		</td>
+	</tr>
+</script>
+<!-- <td>
+			<a data-event='locView' id='{{rlLocIds}}' data-toggle="tooltip" class='nowarp' style='display: block;' data-original-title="点击查看适用区域">查看区域</a>
+		</td> -->
+<script  id='ruleForbiddenEditTpl' type='template/text' >
+	<form onsubmit='return false;' class='table-form'>
+		<div class="form-group">
+			<div class="col-md-3"><label class="control-label">规则类型</label></div>
+			<div class="col-md-9">
+				<span id='ruleTypeName' class='color-black bold'>禁区</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3"><label class="control-label">报警类型</label></div>
+			<div class="col-md-9">
+				<select name="rlType" class='form-control input-small' required>
+					<option value="1" {{rlType == 1 ? 'selected' : ''}}>告警</option>
+					<option value="0" {{rlType == 0 ? 'selected' : ''}}>预警</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3"><label class="control-label">时间频率</label></div>
+			<div class="col-md-6">
+				<select multiple="multiple" data-placehoder='时间频率' name='rlTimeRate' class='form-control input-small iselect' required>
+					<optgroup label="每天">
+						<option value="0" {{rlTimeRate.indexOf('0') > -1 ? 'selected' : ''}}>每天</option>
+				  	</optgroup>
+				  	<optgroup label="每周">
+				  		<option value="1" {{rlTimeRate.indexOf('1') > -1 ? 'selected' : ''}}>周日</option>
+				    	<option value="2" {{rlTimeRate.indexOf('2') > -1 ? 'selected' : ''}}>周一</option>
+				    	<option value="3" {{rlTimeRate.indexOf('3') > -1 ? 'selected' : ''}}>周二</option>
+				    	<option value="4" {{rlTimeRate.indexOf('4') > -1 ? 'selected' : ''}}>周三</option>
+				    	<option value="5" {{rlTimeRate.indexOf('5') > -1 ? 'selected' : ''}}>周四</option>
+				    	<option value="6" {{rlTimeRate.indexOf('6') > -1 ? 'selected' : ''}}>周五</option>
+				    	<option value="7" {{rlTimeRate.indexOf('7') > -1 ? 'selected' : ''}}>周六</option>
+				  	</optgroup>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3"><label class="control-label">时间范围</label></div>
+			<div class="col-md-9">
+				<div class="rule-time-range" >
+					<a data-event='addTimeRange' data-toggle="tooltip"  data-original-title="增加时间范围" class="add iconfont">&#xe6b6;</a>
+					<ul class=''>
+						{{each rlTimeRange as range i}}
+							<li>
+								<div class='start'><input type="text" name='rlTimeRangeStart' value='{{range.start}}'  class='form-control timepicker' required /></div>
+								<div class='line'>─</div>
+								<div class='end'><input type="text" name='rlTimeRangeEnd' value='{{range.end}}'  class='form-control timepicker' required /></div>
+								{{if i !== 0}}<a class="del iconfont" data-event='delTimeRange'>&#xe62a;</a>{{/if}}
+							</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3"><label class="control-label">持续时间</label></div>
+			<div class="col-md-8">
+				<input type="text" name='rlTimeset' value='{{rlTimeset}}' class='form-control input-small' placeholder='秒' required />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3"><label class="control-label">人数</label></div>
+			<div class="col-md-9">
+				<input type="text" name='num' value='{{num ? num : 1}}' disabled class='form-control input-small' placeholder='秒'  />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3"><label class="control-label">人员设置</label></div>
+			<div class="col-md-9">
+				<div class="rule-peo-set" id='rulePeoSetEdit'>
+					<ul>
+					
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3"><label class="control-label">区域设置</label></div>
+			<div class="col-md-9">
+				<div class="rule-loc-set" id='ruleLocSetEdit'>
+					<ul>
+					
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="form-group-action">
+				<button type='submit'  data-event='submit' class="btn blue btn-sm">保&nbsp;&nbsp;存</button>
+			</div>
+		</div>
+	</form>
+</script>
+<script type="text/html"  id='ruleTimeRangeSetTpl'>
+	<li>
+		<div class='start'><input type="text" name='rlTimeRangeStart' value='00:00:00'  class='form-control timepicker' /></div>
+		<div class='line'>─</div>
+		<div class='end'><input type="text" name='rlTimeRangeEnd' value='23:59:59'  class='form-control timepicker' /></div>
+		<a class="del iconfont" data-event='delTimeRange'>&#xe62a;</a>
+	</li>
+</script>
+<script  type="text/html" id='rulePeoSetTpl'>
+	<li data-jstree='{ "opened" : true}'>
+	    <a>{{pcoName}}</a>
+		<ul>
+			{{each ploList as plo a}}
+			<li data-jstree='{ "opened" : true}'>
+				<a href="javascript:;" >{{plo.ploName}}</a>
+				<ul>
+					{{each plo.dormList as dorm b}}
+					<li data-jstree='{ "opened" : true }'   >
+						 <a >第{{dorm.peoDorm}}组 </a>
+						 <ul>
+							{{each dorm.peoList as peo c}}
+							{{if watNums.indexOf( peo.watNum ) > -1 }}
+								<li data-jstree='{ "opened" : true, "selected" : true}'>
+							{{else}}
+								<li data-jstree='{ "opened" : true}'>
+							{{/if}}
+								<a data-watnum='{{peo.watNum}}'>{{peo.peoName}}</a>
+							</li>
+							{{/each}}
+						</ul>
+					</li>
+					{{/each}}
+				</ul>
+			</li>
+		    {{/each}}
+	  </ul>
+	</li>
+</script>
+<script type="text/html" id='ruleLocSetTpl'>
+	<li data-jstree='{ "opened" : true}'>
+	    <a>{{cooName}}</a>
+		<ul>
+			{{each pictures as pic a}}
+			<li data-jstree='{ "opened" : true}'>
+				<a href="javascript:;" >{{pic.picName}}</a>
+				<ul>
+					{{each pic.locareas as loc b}}
+					{{if locList.indexOf( loc.id ) > -1 }}
+						<li data-jstree='{ "opened" : true, "selected" : true}'>
+					{{else}}
+						<li data-jstree='{ "opened" : true}'>
+					{{/if}}
+						 <a data-loc='{{loc.id}}'>{{loc.locName}}</a>
+					</li>
+					{{/each}}
+				</ul>
+			</li>
+		    {{/each}}
+	  </ul>
+	</li>
+</script>

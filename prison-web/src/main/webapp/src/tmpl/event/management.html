@@ -1,0 +1,201 @@
+<div class="content-box none" id='eventManagement' style='background: #E6EAF1;'>
+	<div class="widget-table" style='padding-top: 10px;'>
+		<div class="block-box">
+			<div class="piece green"><span class='title'>所有报警</span><span class='number' data-value='allWarning'></span></div>
+			<div class="piece yellow"><span class='title'>今日预警</span><span class='number' data-value='advWarning'></span></div>
+			<div class="piece red"><span class='title'>今日告警</span><span class='number' data-value='tellWarning'></span></div>
+		</div>
+		<div class="clearfix"></div>
+		<form action="/prison/loadWarningResultInfo.do" class='search'>
+		<div class="widget-table-action" >
+			<ul class='left-action'>
+				<li>
+					<label>状态：</label>
+				</li>
+				<li>
+					<select class='form-control input-sm input-small' name='warStatus'>
+						<option value="">所有状态</option>
+						<option value="0">未处理</option>
+						<option value="1">已处理</option>
+					</select>
+				</li>
+				<li><label>报警时间范围：</label></li>
+				<li><input type="text" name='startTime'  class='form-control input-sm input-small datetimepciker' data-date-format="yyyy-mm-dd" readonly /></li>
+				<li class='text'>&nbsp;-&nbsp;</li>
+				<li><input type="text" name='endTime' class='form-control input-sm input-small datetimepciker' data-date-format="yyyy-mm-dd"  readonly /></li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+				<li>
+					<a  class="btn white btn-sm reset">重置</a>
+				</li>
+			</ul>
+			<input type="hidden" name='sortColumn' value='warTime' />
+			<input type="hidden" name='sortType' value='desc' />
+		</div>
+		<div class="clearfix"></div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#all-warning" >所有报警</a></li>
+					<li class=""><a class='point' data-event='toggle' data-status='0' data-toggle="tab" href="#adv-warning" >预警</a></li>
+					<li class=""><a class='point' data-event='toggle' data-status='1' data-toggle="tab" href="#tell-warning" >告警</a></li>
+				</ul>
+				<ul class="right-action">
+					<!-- <li><a data-event='mark' class='btn clarity'><i class="iconfont">&#xe656;</i>标记已查看</a></li> -->
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="all-warning">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+								<tr>
+									<th style='width: 20px;' class='line'>
+										<input type="checkbox" class='check-items' value=''  />
+									</th>
+									<th><span>报警类型</span><a class='sorting' data-column='warType' data-sort='desc'></a></th>
+									<th><span>报警内容</span><a class='sorting' data-column='warName' data-sort='desc'></a></th>
+									<th><span>发生时间</span><a class='sorting' data-column='warTime' data-sort='desc'></a></th>
+									<th><span>发生地点</span><a class='sorting' data-column='warLocName' data-sort='desc'></a></th>
+									<th><span>相关人员</span><a class='sorting' data-column='CONVERT( war_peo_name USING gbk ) COLLATE gbk_chinese_ci' data-sort='desc'></a></th>
+									<th>责任民警</th>
+									<th><span>状态</span><a class='sorting' data-column='warStatus' data-sort='desc'></a></th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="tell-warning">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+								<tr>
+									<th style='width: 32px;' class='line'>
+										<input type="checkbox" class='check-items' value=''  />
+									</th>
+									<th><span>报警类型</span><a class='sorting' data-column='warType' data-sort='desc'></a></th>
+									<th><span>报警内容</span><a class='sorting' data-column='warName' data-sort='desc'></a></th>
+									<th><span>发生时间</span><a class='sorting' data-column='warTime' data-sort='desc'></a></th>
+									<th><span>发生地点</span><a class='sorting' data-column='warLocName' data-sort='desc'></a></th>
+									<th><span>相关人员</span><a class='sorting' data-column='CONVERT( war_peo_name USING gbk ) COLLATE gbk_chinese_ci' data-sort='desc'></a></th>
+									<th>责任民警</th>
+									<th><span>状态</span><a class='sorting' data-column='warStatus' data-sort='desc'></a></th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="adv-warning">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+								<tr>
+									<th style='width: 32px;' class='line'>
+										<input type="checkbox" class='check-items' value=''  />
+									</th>
+									<th><span>报警类型</span><a class='sorting' data-column='warType' data-sort='desc'></a></th>
+									<th><span>报警内容</span><a class='sorting' data-column='warName' data-sort='desc'></a></th>
+									<th><span>发生时间</span><a class='sorting' data-column='warTime' data-sort='desc'></a></th>
+									<th><span>发生地点</span><a class='sorting' data-column='warLocName' data-sort='desc'></a></th>
+									<th><span>相关人员</span><a class='sorting' data-column='CONVERT( war_peo_name USING gbk ) COLLATE gbk_chinese_ci' data-sort='desc'></a></th>
+									<th>责任民警</th>
+									<th><span>状态</span><a class='sorting' data-column='warStatus' data-sort='desc'></a></th>
+									<th>操作</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='layer magenta' id='topWarBreak' style='left: 50%; margin-left: -150px; top:155px; z-index: 9999;' >
+		
+		</div>
+	<script id="eventManagementListTpl" type='text/template'>
+		<tr>
+			<td class='line'><input type="checkbox" class='icheck-item' value='{{id}}' /></td>
+			<td>
+				{{if warStatus == 1}}
+					{{if warType == 1}}
+						<span class='color-666'>[ <i class="iconfont">&#xe610;</i> ] 告警  </span>
+					{{else}}
+						<span class='color-666'>[ <i class="iconfont">&#xe64e;</i> ] 预警</span>
+					{{/if}}
+				{{else}}
+					{{if warType == 1}}
+						<span class='color-f12e15'>[ <i class="iconfont">&#xe610;</i> ] 告警 </span>
+					{{else}}
+						<span class='color-f08519'>[ <i class="iconfont">&#xe64e;</i> ] 预警</span>
+					{{/if}}
+				{{/if}}
+				
+			</td>
+			<td>{{warName}}</td>
+			<td>{{warTime}}</td>
+			<td>{{warLocName}}</td>
+			<td>{{warPeoName}}</td>
+			<td>吴警官</td>
+			<td>
+				{{if warStatus == 0}}
+					<span class='color-f12e15'>未处理</span>
+				{{else}}
+					<span>已处理</span>
+				{{/if}}
+			</td>
+			<td>
+				{{if warRuleType === '10'}}
+					<a data-event="breakEvent2" data-id='{{id}}'  data-num='{{watNum}}'>查看</a>
+				{{else}}
+					<a href="#event/review/{{id}}">查看</a>
+				{{/if}}
+			</td>
+		</tr> 
+	</script>
+	<!-- 损坏报警详情 -->
+<script id='topWarBreakTpl2' type='template/text'>
+	<div class="layer-header">
+		<p class="title nowarp"><i class="iconfont">&#xe64e;</i> 损坏</p>
+		<a data-toggle-closed="layer" class="closed iconfont"></a>
+	</div>
+	<div class="layer-body" style='width: 300px;'>
+		<div class="info-list">
+			<ul>
+				<li>
+					<label>触发人员:</label><span>
+					{{data.peoName}}
+				</li>
+				<li><label>发生时间:</label><span class='color-black'>{{war.warTime}}</span></li>
+				<li>
+					<label>所属监区:</label>
+					<span class='color-black'>{{data.pco ? '#'+data.pco.pcoName + '&gt;' : ''}}{{data.plo ? data.plo.ploName + '&gt;' : ''}}{{data.peoDorm ? '第'+data.peoDorm+'组' : ''}}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</script>
+</div> 

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.botset.dao.LocareaDao">
+
+
+
+	<insert id="saveAdmLocareaInfo" useGeneratedKeys="true"
+		keyProperty="id" parameterType="com.gt.prison.modules.botset.entity.AdmLocareaInfo">
+		insert into adm_locarea_info (
+		id,
+		loc_name,
+		loc_type,
+		pic_id,
+		loc_mainx,
+		loc_mainy,
+		loc_sizex,
+		loc_sizey,
+		loc_number,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		) values (
+		#{id},
+		#{locName},
+		#{locType},
+		#{pic.id},
+		#{locMainx},
+		#{locMainy},
+		#{locSizex},
+		#{locSizey},
+		#{locNumber},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag})
+	</insert>
+
+
+	<update id="deleteAdmLocareaInfo" parameterType="string">
+		update
+		adm_locarea_info set
+		del_flag=1
+		where id=#{id}
+	</update>
+
+	<update id="updateAdmLocareaInfo" parameterType="com.gt.prison.modules.botset.entity.AdmLocareaInfo">
+		update
+		adm_locarea_info set
+		loc_name=#{locName},
+		loc_type=#{locType},
+		pic_id=#{pic.id},
+		loc_mainx=#{locMainx},
+		loc_mainy=#{locMainy},
+		loc_sizex=#{locSizex},
+		loc_sizey=#{locSizey}
+		where id=#{id}
+	</update>
+
+	<sql id="locareaColumns">
+		a.id,
+		a.loc_name,
+		a.loc_type,
+		a.pic_id AS "pic.id",
+		a.loc_mainx,
+		a.loc_mainy,
+		a.loc_sizex,
+		a.loc_sizey,
+		a.loc_number,
+		b.pic_name AS "pic.picName",
+		c.id AS "coo.id",
+		c.coo_name AS "coo.cooName"
+	</sql>
+	<!-- 分页查询区域信息 -->
+	<select id="loadAdmLocareaInfo" resultType="AdmLocareaInfo">
+		SELECT
+		<include refid="locareaColumns" />
+		FROM adm_locarea_info a
+		left join adm_picture_info b on a.pic_id=b.id
+		left join adm_loccoor_info c on c.id=b.coo_id
+		WHERE a.del_flag=0
+		and b.del_flag=0
+		and c.del_flag=0
+		<if test="coo != null and coo.id !='' and coo.id !=null">
+			AND c.id=#{coo.id}
+		</if>
+		<if test="pic != null and pic.id !='' and pic.id!=null">
+			AND a.pic_id=#{pic.id}
+		</if>
+		<if test="locName != null and locName !='' ">
+			AND a.loc_name LIKE CONCAT(CONCAT('%',#{locName}),'%')
+		</if>
+	</select>
+
+	<select id="findListByPicId" resultType="AdmLocareaInfo">
+		SELECT
+		a.id,
+		a.loc_name,
+		a.loc_type,
+		<!-- a.pic_id AS "pic.id", -->
+		a.loc_name,
+		a.loc_mainx,
+		a.loc_mainy,
+		a.loc_sizex,
+		a.loc_sizey
+		FROM adm_locarea_info a
+		<!-- LEFT JOIN adm_picture_info b ON a.pic_id=b.id LEFT JOIN adm_loccoor_info 
+			c ON c.id=b.coo_id -->
+		WHERE a.del_flag=0
+		<!-- and b.del_flag=0 and c.del_flag=0 -->
+		<if test="picId != null and picId !='' ">
+			AND a.pic_id=#{picId}
+		</if>
+	</select>
+
+	<select id="findList" resultType="AdmLocareaInfo">
+		SELECT
+			a.id,
+			a.loc_name,
+			a.loc_type,
+			a.loc_name,
+			a.loc_mainx,
+			a.loc_mainy,
+			a.loc_sizex,
+			a.loc_sizey
+		FROM adm_locarea_info a
+		WHERE a.del_flag=0
+	</select>
+	<select id="loadLocareaInfo" resultType="AdmLocareaInfo">
+		SELECT
+			a.id,
+			a.pic_id,
+			a.loc_name,
+			a.loc_type,
+			a.loc_name,
+			a.loc_mainx,
+			a.loc_mainy,
+			a.loc_sizex,
+			a.loc_sizey
+		FROM adm_locarea_info a
+		WHERE a.del_flag=0
+	</select>
+	<select id="findLocareaInfoByLocId" resultType="AdmLocareaInfo" parameterType="string">
+		SELECT
+			a.id,
+			a.loc_name,
+			a.loc_type,
+			a.loc_name,
+			a.loc_mainx,
+			a.loc_mainy,
+			a.loc_sizex,
+			a.loc_sizey,
+			b.id AS "pic.id",
+			b.`pic_name` AS "pic.picName",
+			b.`pic_path` AS "pic.picPath",
+			c.`id` AS "coo.id",
+			c.`coo_name` AS "coo.cooName",
+			c.`coo_mainx` AS "coo.cooMainx",
+			c.`coo_mainy` AS "coo.cooMainy"
+		FROM adm_locarea_info a
+		LEFT JOIN adm_picture_info b ON a.pic_id=b.id
+		LEFT JOIN adm_loccoor_info c ON c.id=b.coo_id
+		WHERE a.del_flag=0
+		AND b.`del_flag`=0
+		AND c.`del_flag`=0
+		AND a.id=#{id}
+	</select>
+</mapper>

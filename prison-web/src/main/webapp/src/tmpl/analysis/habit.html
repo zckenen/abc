@@ -1,0 +1,135 @@
+<div class="content-box none" id='analysisHabit'>
+	<div class="container-box auto drakgray" >
+		<div class="container-header" >
+			<div class="title" id='head'>
+				<i class="iconfont color-333">&#xe68b;&ensp;</i>
+				<b class='color-333' data-value='coo'></b>生活习惯
+			</div>
+		</div>
+		<div class="container-center">
+			<div class="container-left">
+				<div data-event="unbubble" class="search">
+					<input type="text"  name="condition" placeholder='请输入编号或人名' value='张宇'>
+					<a class="magnifier iconfont" data-event="search">&#xe668;</a>
+					<ul id='personList'>
+						<li>无人员结果</li>
+					</ul>
+				</div>
+				<!-- <div class="tab-info" id="personInfo">
+					<div class="avatar">
+						<img src="/prison/assets/img/photo3.jpg" data-pin-nopin="true">
+					</div>
+					<div>
+						<input type="hidden" name="peo_id" value="5906162753408182">
+						<span class="name">张三 </span>
+						
+							<span class="type back-green">普通罪犯</span>
+						
+					</div>
+					<div><span class="text nowarp" title="5906162753408182">ID：5906162753408182</span><span class="text nowarp" title="科技楼">当前位置： 科技楼</span></div>
+				</div> -->
+				<div class="tab-info" id='personInfo'>
+					<div class="initial">暂无人员信息</div>
+				</div>
+				<div class="tab-search">
+					<div class="time-box">
+						<div>起始时间：&ensp;<input type="text" name="startTime" class="datetimepicker" value='2016-10-15 00:00:00'></div>
+						<div>结束时间：&ensp;<input type="text" name="endTime" class="datetimepicker" value='2016-11-25 00:00:00'></div>
+					</div>
+					<a data-event="retrieval" class="time-search button yellow"><i class="iconfont"></i><br>查询</a>
+				</div>
+				<div class="tab-dropdown">
+					<span>筛选时间：&ensp;</span>
+					<select name="" class='iselect'>
+						<option value="0">全天</option>
+						<option value="1">早上</option>
+						<option value="2">中午</option>
+						<option value="3">晚上</option>
+					</select>
+				</div>
+			</div>
+			<div class="container-right">
+				<div id="babit-graph-line" class='graph-wide'>
+				
+				</div>
+			</div>
+		</div>
+		<div class="container-bottom">
+			<div class="graph-data" id='habitData'>
+				<table>
+					<thead>
+						<tr></tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script id='habitDataHeaderTpl' type='text/template'>
+	<th>
+		<span>{{name}}</span>
+		{{ if name !== '序号' }}
+			<a data-event='sort' data-field='alltime' data-sort='1' class="iconfont sort"></a>		
+		{{ /if }}
+	</th>
+</script>
+<script id='habitDataTpl' type='text/template'>
+	<tr class='{{=index==0 ? "active": ""}}'>
+		<td>{{i+1}}</td>
+		<td>{{datetime}}</td>
+		{{ each fields as field }}
+		<td>{{field}}小时</td>
+		{{ /each }}
+		<td>{{total}}小时</td>
+	</tr>
+</script>
+<script id='habitPersonInfoTpl' type='text/template'>
+	<div class="avatar">
+		<img src="{{cri.criPicpath}}"  />
+	</div>
+	<div>
+		<input type="hidden" name='id' value='{{id}}' />
+		<span class="name">{{peoName}}&ensp;</span>
+		{{if peoType === '1'}}
+		<span class="type back-green">普通罪犯</span>
+		{{else if peoType === '2' }}
+		<span class="type back-red">重点罪犯</span>
+		{{else if peoType === '3'}}
+		<span class="type back-blue">民警</span>
+		{{else}}
+		<span class="type back-pup">其他</span>
+		{{/if}}
+	</div>
+	<div>
+		<span class='text nowarp' title='{{peoNum}}'>编号：{{peoNum}}</span>
+		<span class='text nowarp'  title="{{locInfo ? locInfo.pic.picName : ''}}">
+			最新位置：
+			{{if locInfo}}
+			{{locInfo.coo.cooName}}>{{locInfo.pic.picName}}>{{locInfo.locName}}
+			{{else}}
+			无位置信息
+			{{/if}}
+		</span>
+	</div>
+</script>
+<script id='habitPersonListTpl' type='text/template'>
+	<li>
+		<a data-event='find' data-id='{{id}}'>
+			{{if peoType == 2}}
+			<i class="iconfont color-red">&#xe6ba;</i>
+			{{else if peoType == 1}}
+			<i class="iconfont color-green">&#xe6ba;</i>
+			{{else if peoType == 3}}
+			<i class="iconfont color-blue">&#xe6b9;</i>
+			{{else}}
+			<i class="iconfont color-purple">&#xe69f;</i>
+			{{/if}}
+			<span class='name'>&ensp;{{peoName}}</span>
+			<span class='info'>({{peoNum}})</span>
+		</a>
+	</li>
+</script>
+

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.per.dao.AdmBedDao">
+    
+	<sql id="admBedColumns">
+		a.id AS "id",
+		a.loc_id AS "locId",
+		a.bed_type AS "bedType",
+		a.bed_num AS "bedNum",
+		a.bed_mainx AS "bedMainx",
+		a.bed_mainy AS "bedMainy",
+		a.bed_sizex AS "bedSizex",
+		a.bed_sizey AS "bedSizey",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="admBedJoins">
+	</sql>
+    
+	<select id="get" resultType="AdmBed">
+		SELECT 
+			<include refid="admBedColumns"/>
+		FROM adm_bed a
+		<include refid="admBedJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AdmBed">
+		SELECT 
+			a.id AS "id",
+			a.loc_id AS "locId",
+			a.bed_type AS "bedType",
+			a.bed_num AS "bedNum",
+			a.bed_mainx AS "bedMainx",
+			a.bed_mainy AS "bedMainy",
+			a.bed_sizex AS "bedSizex",
+			a.bed_sizey AS "bedSizey",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.remarks AS "remarks",
+			a.del_flag AS "delFlag",
+			b.loc_name AS "loc.locName",
+			b.id AS "loc.id",
+			c.id AS "pic.id",
+			c.pic_name AS "pic.picName",
+			d.id AS "coo.id",
+			d.coo_name AS "coo.cooName"
+ 		FROM adm_bed a
+		LEFT JOIN adm_locarea_info b ON a.loc_id=b.id
+		LEFT JOIN adm_picture_info c ON b.pic_id=c.id
+		LEFT JOIN adm_loccoor_info d ON c.coo_id=d.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and b.del_flag = #{DEL_FLAG_NORMAL}
+			and c.del_flag = #{DEL_FLAG_NORMAL}
+			and d.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="bedNum != null and bedNum != ''">
+				AND a.bed_num = #{bedNum}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="AdmBed">
+		SELECT 
+			<include refid="admBedColumns"/>
+		FROM adm_bed a
+		<include refid="admBedJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adm_bed(
+			id,
+			loc_id,
+			bed_type,
+			bed_num,
+			bed_mainx,
+			bed_mainy,
+			bed_sizex,
+			bed_sizey,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{locId},
+			#{bedType},
+			#{bedNum},
+			#{bedMainx},
+			#{bedMainy},
+			#{bedSizex},
+			#{bedSizey},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adm_bed SET 	
+			loc_id = #{locId},
+			bed_type = #{bedType},
+			bed_num = #{bedNum},
+			bed_mainx = #{bedMainx},
+			bed_mainy = #{bedMainy},
+			bed_sizex = #{bedSizex},
+			bed_sizey = #{bedSizey},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE adm_bed SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<select id="findBedListByLocId" resultType="AdmBed">
+		SELECT 
+			a.id AS "id",
+			a.loc_id AS "locId",
+			a.bed_type AS "bedType",
+			a.bed_num AS "bedNum",
+			a.bed_mainx AS "bedMainx",
+			a.bed_mainy AS "bedMainy",
+			a.bed_sizex AS "bedSizex",
+			a.bed_sizey AS "bedSizey"
+		FROM adm_bed a
+		<include refid="admBedJoins"/>
+		<where>
+			a.del_flag = 0
+			AND loc_id = #{locId}
+		</where>		
+	</select>
+</mapper>

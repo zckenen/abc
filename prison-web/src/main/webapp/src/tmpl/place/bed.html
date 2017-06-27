@@ -1,0 +1,273 @@
+<div class="content-box none" id='placeBed'>
+	<!-- 床位列表 -->
+	<div class="widget-table">
+		<form  class='search' onkeydown="if(event.keyCode==13){return false;}">
+		<div class="widget-table-action">
+			<ul class='left-action'>
+				<li>
+					<label>床位编号:</label>
+				</li>
+				<li>
+					<input type="text" name='bedNum' placeholder="床位编号" class="form-control input-small">
+				</li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+			</ul>
+		</div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab"  >床位列表</a></li>
+				</ul>
+				<ul class="right-action">
+					<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="table-list">
+					<table class="table table-striped table-bordered table-hover" >
+						<thead>
+							<tr>
+								<th style='width: 30px;'>
+									<input type="checkbox" class='check-items all' value=''/>
+								</th>
+								<th width='50px'><span>序号</span><!-- <a class='sorting'></a> --></th>
+								<th>编号</th>
+					<!-- 			<th>中心点坐标X</th>
+								<th>中心点坐标Y</th>
+								<th>长</th>
+								<th>宽</th> -->
+								<th>上下铺</th>
+								<th>所属区域</th>
+								<th width='80'>操作</th>
+							</tr>
+						</thead>
+						<tbody id='placeBedList'>
+						
+						</tbody>
+					</table>
+				</div>
+				<div class="table-footer">
+					<div class="pagination-container"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 床位添加 -->
+	<div role="dialog" id='placeBedAdd' tabindex="-1"  class="bootbox modal fade in"  data-height='700'>
+		<div class="modal-dialog">
+			<form action="a/per/admBed/save" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">床位添加</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属幢</label>
+							<div class="col-md-9">
+								<select name="cooId" data-placeholder='幢' class='input-small'  required="">
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属层</label>
+							<div class="col-md-9">
+								<select name="picId" id='picId' data-placeholder='层' class='input-small'  required="">
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属区域</label>
+							<div class="col-md-9">
+								<select name="locId" id='locId' data-placeholder='区域' class='input-small'  required="">
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">床位号</label>
+							<div class="col-md-9">
+								<input type="text" name='bedNum' class="form-control input-small" placeholder='床位编号' required=""/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">上下铺</label>
+							<div class="col-md-9">
+								<select name="bedType" data-placeholder='铺位' class='input-small iselect'  required="">
+									<option value="1">上铺</option>
+									<option value="0">下铺</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">中心点坐标</label>
+							<div class="col-md-9">
+								<div class="row">
+									<div class="col-md-1"><em class="label-title">X:</em></div>
+									<div class="col-md-3"><input type="text" name='bedMainx' class="form-control" placeholder='X轴坐标' required=""/></div>
+									<div class="col-md-1"><em class="label-title">Y:</em></div>
+									<div class="col-md-3"><input type="text" name='bedMainy' class="form-control" placeholder='Y轴坐标' required=""/></div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+			<!-- 		<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">各轴边长</label>
+							<div class="col-md-9">
+								<div class="row">
+									<div class="col-md-1"><em class="label-title">X:</em></div>
+									<div class="col-md-3"><input type="text" name='bedSizex' class="form-control" placeholder='X轴边长' required=""/></div>
+									<div class="col-md-1"><em class="label-title">Y:</em></div>
+									<div class="col-md-3"><input type="text" name='bedSizey' class="form-control" placeholder='y轴边长' required=""/></div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >添加</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 床位修改 -->
+	<div role="dialog" id='placeBedEdit' tabindex="-1"  class="bootbox modal fade in"  data-height='700'>
+		<div class="modal-dialog">
+			<form action="a/per/admBed/save" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">床位修改</h4>
+				</div>
+				<div class="modal-body">
+					
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >保存</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+	<!-- 	<td>{{bedMainx}}</td>
+		<td>{{bedMainy}}</td>
+		<td>{{bedSizex}}</td>
+		<td>{{bedSizey}}</td> 
+				<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">中心点坐标</label>
+				<div class="col-md-9">
+					<div class="row">
+						<div class="col-md-1"><em class="label-title">X:</em></div>
+						<div class="col-md-3"><input type="text" name='bedMainx' value='{{bedMainx}}' class="form-control" placeholder='X轴坐标' required=""/></div>
+						<div class="col-md-1"><em class="label-title">Y:</em></div>
+						<div class="col-md-3"><input type="text" name='bedMainy' value='{{bedMainy}}' class="form-control" placeholder='Y轴坐标' required=""/></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">各轴边长</label>
+				<div class="col-md-9">
+					<div class="row">
+						<div class="col-md-1"><em class="label-title">X:</em></div>
+						<div class="col-md-3"><input type="text" name='bedSizex' value='{{bedSizex}}' class="form-control" placeholder='X轴边长' required=""/></div>
+						<div class="col-md-1"><em class="label-title">Y:</em></div>
+						<div class="col-md-3"><input type="text" name='bedSizey' value='{{bedSizey}}' class="form-control" placeholder='y轴边长' required=""/></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		-->
+<script id="placeBedListTpl" type='template/text'>
+    {{ if coo }}
+	<tr>
+		<td><input type="checkbox" class='icheck-box' value='{{id}}' /></td>
+		<td>{{index}}</td>
+		<td>{{bedNum}}</td>
+		<td>{{bedType == 1 ? "上铺" : "下铺"}}</td>
+		<td>{{coo.cooName}}>{{pic.picName}}>{{loc.locName}}</td>
+		<td>
+			<a data-event='edit' data-id='{{=id}}' class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>
+			<a data-event='del' data-id='{{=id}}' class='iconfont' data-toggle="tooltip"  data-original-title="删除"><i class="iconfont">&#xe62a;</i></a></li>
+		</td>
+	</tr>
+    {{ /if }}
+</script>
+<script id="placeBedEditTpl" type='template/text'>
+		<div class='alert-container'></div>
+		<input type="hidden" value='{{id}}' name='id' />
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">所属幢</label>
+				<div class="col-md-9">
+					<select name="cooId" data-placeholder='幢' class='input-small'  required="">
+						
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">所属层</label>
+				<div class="col-md-9">
+					<select name="picId" id='picId' data-placeholder='层' class='input-small'  required="">
+						
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">所属区域</label>
+				<div class="col-md-9">
+					<select name="locId" id='locId' data-placeholder='区域' class='input-small'  required="">
+						
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">床位号</label>
+				<div class="col-md-9">
+					<input type="text" name='bedNum' value='{{bedNum}}' class="form-control input-small" placeholder='床位编号' required=""/>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">上下铺</label>
+				<div class="col-md-9">
+					<select name="bedType" data-placeholder='铺位' class='input-small iselect'  required="">
+						<option value="1" {{bedType === 1 ? 'selected' : 0}}>上铺</option>
+						<option value="0" {{bedType === 0 ? 'selected' : 0}}>下铺</option>
+					</select>
+				</div>
+			</div>
+		</div>
+</script>

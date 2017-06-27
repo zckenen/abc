@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.test.dao.AdmLocareaAboutDao">
+    
+	<sql id="admLocareaAboutColumns">
+		a.id AS "id",
+		a.loc_name AS "locName",
+		a.pic_id AS "picId",
+		a.aboutloc AS "aboutloc"
+	</sql>
+	
+	<sql id="admLocareaAboutJoins">
+	</sql>
+    
+	<select id="get" resultType="AdmLocareaAbout">
+		SELECT 
+			<include refid="admLocareaAboutColumns"/>
+		FROM adm_locarea_about a
+		<include refid="admLocareaAboutJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AdmLocareaAbout">
+		SELECT 
+			<include refid="admLocareaAboutColumns"/>
+		FROM adm_locarea_about a
+		<include refid="admLocareaAboutJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="locName != null and locName != ''">
+				AND a.loc_name = #{locName}
+			</if>
+			<if test="picId != null and picId != ''">
+				AND a.pic_id = #{picId}
+			</if>
+			<if test="aboutloc != null and aboutloc != ''">
+				AND a.aboutloc = #{aboutloc}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="AdmLocareaAbout">
+		SELECT 
+			<include refid="admLocareaAboutColumns"/>
+		FROM adm_locarea_about a
+		<include refid="admLocareaAboutJoins"/>
+		<where>
+			
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adm_locarea_about(
+			id,
+			loc_name,
+			pic_id,
+			aboutloc
+		) VALUES (
+			#{id},
+			#{locName},
+			#{picId},
+			#{aboutloc}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adm_locarea_about SET 	
+			loc_name = #{locName},
+			pic_id = #{picId},
+			aboutloc = #{aboutloc}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM adm_locarea_about
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

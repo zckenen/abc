@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.equ.dao.ReceiverDao">
+	 <insert id="saveAdmReceiverInfo" parameterType="com.gt.prison.modules.equ.entity.AdmReceiverInfo" useGeneratedKeys="true" keyProperty="id">
+   		insert into adm_receiver_info (
+   			id,
+   			rcv_name,
+   			rcv_ip,
+   			rcv_fristnds,
+   			rcv_secondnds,
+   			rcv_gateway,
+   			rcv_subnetmask,
+   			loc_id,
+   			ser_id,
+   			rcv_mac,
+   			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag) 
+		values (
+			#{id},
+			#{rcvName},
+			#{rcvIp},
+			#{rcvFristnds},
+			#{rcvSecondnds},
+			#{rcvGateway},
+			#{rcvSubnetmask},
+   			#{loc.id},
+   			#{ser.id},
+   			#{rcvMac},
+   			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag})
+   </insert>
+   <update id="deleteAdmReceiverInfoById"  parameterType="string">
+		update adm_receiver_info set del_flag=1 where id=#{id}
+	</update>
+	
+	<update id="updateAdmReceiverInfo" parameterType="com.gt.prison.modules.equ.entity.AdmReceiverInfo" >
+   		UPDATE adm_receiver_info SET 
+   		rcv_name=#{rcvName},
+   		rcv_ip=#{rcvIp},
+   		rcv_fristnds=#{rcvFristnds},
+   		rcv_secondnds=#{rcvSecondnds},
+   		rcv_gateway=#{rcvGateway},
+   		rcv_subnetmask=#{rcvSubnetmask},
+   		loc_id=#{loc.id},
+   		rcv_id=#{rcvId},
+   		ser_id=#{ser.id},
+   		rcv_mac=#{rcvMac},
+   		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+   		WHERE id=#{id};
+    </update>
+    
+   <!--  <select id="get" resultType="AdmCriminalList">
+		SELECT 
+			<include refid="receiverColumns"/> 
+		FROM adm_receiver_info a
+		LEFT JOIN `adm_server_info` b ON a.rcv_serid=b.id 
+		LEFT JOIN`adm_locarea_info` c ON a.rcv_locid=c.id
+		LEFT JOIN `adm_picture_info` d ON a.rcv_groupid=d.id
+		LEFT JOIN `adm_loccoor_info` e ON a.rcv_cooid=e.id
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		AND b.del_flag = #{DEL_FLAG_NORMAL}
+		AND c.del_flag = #{DEL_FLAG_NORMAL}
+		AND d.del_flag = #{DEL_FLAG_NORMAL}
+		AND e.del_flag = #{DEL_FLAG_NORMAL}
+		AND a.id = #{id}
+	</select> -->
+
+	<sql id="receiverColumns">
+		a.id,
+		a.rcv_name,
+		a.rcv_ip,
+		a.rcv_fristnds,
+		a.rcv_secondnds,
+		a.rcv_gateway,
+		a.rcv_subnetmask,
+		a.loc_id,
+		a.ser_id,
+		a.rcv_mac,
+		b.id AS "ser.id",
+		b.ser_name AS "ser.serName",
+		c.id AS "loc.id",
+		c.loc_name AS "loc.locName",
+		d.id AS "pic.id",
+		d.pic_name AS "pic.picName",
+		e.id AS "coo.id",
+		e.coo_name AS "coo.cooName"
+    </sql>
+	<!-- 分页查询区域信息 -->
+	<select id="loadAdmReceiverInfo" resultType="AdmReceiverInfo">
+		SELECT 
+			<include refid="receiverColumns"/> 
+		FROM `adm_receiver_info` a
+		LEFT JOIN `adm_server_info` b ON a.ser_id=b.id 
+		LEFT JOIN`adm_locarea_info` c ON a.loc_id=c.id
+		LEFT JOIN `adm_picture_info` d ON c.pic_id=d.id
+		LEFT JOIN `adm_loccoor_info` e ON d.coo_id=e.id
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		AND b.del_flag = #{DEL_FLAG_NORMAL}
+		AND c.del_flag = #{DEL_FLAG_NORMAL}
+		AND d.del_flag = #{DEL_FLAG_NORMAL}
+		AND e.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="coo!=null and coo.id != null and coo.id !='' ">
+			AND e.id=#{coo.id}
+		</if>
+		<if test="pic!=null and pic.id != null and pic.id !='' ">
+			AND d.id=#{pic.id}
+		</if>
+		<if test="loc!=null and loc.id != null and loc.id !='' ">
+			AND c.loc_id=#{loc.id}
+		</if>
+	</select>
+	
+</mapper>

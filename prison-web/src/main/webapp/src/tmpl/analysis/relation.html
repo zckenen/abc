@@ -1,0 +1,170 @@
+<div class="content-box none" id='analysisRelation'>
+	<div class="container-box auto join" >
+		<div class="container-left">
+			<div class="nav-header top">
+				<div class="title"><i class="iconfont">&#xe6ae;</i>&nbsp;人员关系</div>
+			</div>
+			<div data-event="unbubble" class="search">
+				<input type="text"  name="condition" value='张宇' placeholder='请输入编号或人名'>
+				<a class="magnifier iconfont" data-event="search">&#xe668;</a>
+				<ul id='personList'>
+					<li>无人员结果</li>
+				</ul>
+			</div>
+			<div class="tab-info" id='personInfo'>
+				<div class="initial">暂无人员信息</div>
+			</div>
+			<div class="tab-search">
+				<div class="time-box">
+					<div>起始时间：<input type="text" name="startTime" class="datetimepicker" value='2016-10-25 00:00:00'></div>
+					<div>结束时间：<input type="text" name="endTime" class="datetimepicker" value='2016-11-05 00:00:00'></div>
+				</div>
+				<a data-event="retrieval" class="time-search button yellow"><i class="iconfont"></i><br>查询</a>
+			</div>
+			<div class="package auto" data-diff='640' >
+				<div class="content" id='container'>
+					<div id="historyNoresult" class='noresult'>
+						<div>
+							<i class="iconfont">&#xe668;</i>
+							<br>
+							<span>暂无数据</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="nav-header">
+				<div class="title"><i style="vertical-align: 1.5px;" class="iconfont">&#xe6ae;</i>&nbsp;人员关系网图</div>
+				<a  class="action color-666" data-event='toggleRelation'><i class="iconfont"></i>&nbsp;&nbsp;</a>
+			</div>
+			<div class="tab-bodyer">
+				<div class="graph-minify" id='relation-graph-net' data-event='enlarge' style='height: 250px;'>
+					
+				</div>
+			</div>
+		</div>
+		<div class="container-right">
+			<div class="nav-header">
+				<div class="title">自由活动时间统计分析</div>
+				<a data-event="all" class="action" style='float: left;'>全部区域</a>
+			</div>
+			<div class="graph-box" >
+				<a class="slide iconfont" data-event='slide'>&#xe65b;</a>
+				<div class="row" >
+					<div class="col-md-6">
+						<div class="graph-sheet" id='relation-graph-pie' ></div>
+					</div>
+					<div class="col-md-6">
+						<div class="graph-sheet" id='relation-graph-column' ></div>
+					</div>
+				</div>
+			</div>
+			<div class="graph-data" id='relationData'>
+				<div class="layer linear-gray" style='left: 450px; top: 50px;'>
+					<div class="layer-header">
+						<p class='title'>相处时长分析</p>
+						<a class="closed iconfont" data-toggle-closed='layer'>&#xe658;</a>
+					</div>
+					<div class="layer-body" id='relation-graph-sis' style='width: 500px; height: 300px;'>
+						
+					</div>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>人员编号</th>
+							<th>姓名</th>
+							<th>分监区</th>
+							<th>小组</th>
+							<th>
+								<a data-event='sort' data-field='times' data-sort='1' class="iconfont sort"></a>
+								<span>第几次相遇</span>
+							</th>
+							<th>
+								<a data-event='sort' data-field='time' data-sort='0' class="iconfont sort"></a>
+								<span>相处时间（小时）</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script id='relationDataTpl' type='text/template'>
+	<tr>
+		<td>{{=index}}</td>
+		<td>{{=peo_id}}</td>
+		<td><a data-event='analysis' data-id='{{=peo_id}}'>{{=peo_name}}</a></td>
+		<td>{{=peo_loc}}</td>
+		<td>{{=peo_groupid}}</td>
+		<td>{{=times}}</td>
+		<td  style='width: 350px;'>
+			<span class='text'>{{=time}}小时&nbsp;&nbsp;</span>
+			<div class="percentage-bar"><div class='percentage bg-{{=index}}' style='width: {{=percentage}}'></div></div>
+		</td>
+	</tr>
+</script>
+<script id='relationRangeTpl' type='text/template'>
+
+<div class="tips">为您找到相关结果为{{=data.length}}个</div>
+	<div class="result">
+		<ul id='historyResult' class='iscroll'>
+			{{each data as locinfo i}}
+			<li class='{{locinfo.war ? "warning": ""}}' data-event='choose' data-index='{{=i}}'>
+				<div>
+					<span class='location'>{{locinfo.loc_name}}</span>
+					<span class='diff'><i class="iconfont">&#xe671;</i>&nbsp;{{locinfo.time}}</span>
+				</div>
+				<div>
+					<span class='place'>{{locinfo.coo_name}}</span>
+					<span class='time'>{{locinfo.endtime}}</span>
+				</div>
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+</script>
+<script id='relationPersonInfoTpl' type='text/template'>
+	<div class="avatar">
+		<img src="{{cri.criPicpath}}"  />
+	</div>
+	<div>
+		<input type="hidden" name='id' value='{{id}}' />
+		<span class="name">{{peoName}}&ensp;</span>
+		{{if peoType === '1'}}
+		<span class="type back-green">普通罪犯</span>
+		{{else if peoType === '2'}}
+		<span class="type back-red">重点罪犯</span>
+		{{else if peoType === '3'}}
+		<span class="type back-blue">民警</span>
+		{{else}}
+		<span class="type back-pup">其他</span>
+		{{/if}}
+	</div>
+	<div>
+		<span class='text nowarp' title='{{id}}'>编号：{{peoNum}}</span>
+		<span class='text nowarp'  title='{{locinfo ? locinfo.cooName : ""}}'>当前位置： {{locinfo ? locinfo.cooName : "当前无位置"}}</span>
+	</div>
+</script>
+<script id='relationPersonListTpl' type='text/template'>
+	<li>
+		<a data-event='find' data-id='{{id}}'>
+			{{if peoType === '1'}}
+			<i class="iconfont color-green">&#xe6ba;</i>
+			{{else if peoType === 2}}
+			<i class="iconfont color-red">&#xe6ba;</i>
+			{{else if peoType === 3}}
+			<i class="iconfont color-blue">&#xe6b9;</i>
+     		{{else}}
+			<i class="iconfont color-purple">&#xe69f;</i>
+			{{/if}}
+			<span class='name'>&nbsp;&nbsp;{{peoName}}</span>
+			<span class='info'>({{peoName}})</span>
+		</a>
+	</li>
+</script>
+

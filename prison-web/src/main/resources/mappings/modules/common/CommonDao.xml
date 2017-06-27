@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.common.dao.CommonDao">
+<!-- 	<select id="selCooInfo" resultType="map" >
+		SELECT * FROM `adm_prisoncoo_info` 
+	</select> 
+	<select id="selLocInfoById" resultType="map" parameterType="string" >
+		SELECT 
+			a.id,
+			a.pco_id,
+			a.plo_name,
+			GROUP_CONCAT(DISTINCT b.peo_dorm) peo_dorms 
+			FROM `adm_prisonloc_info`a
+			JOIN `adm_people_info` b on a.id=b.plo_id 
+			WHERE  b.pco_id=#{pco_id}  GROUP BY b.plo_id 
+	</select> 
+	<select id="selLocCooAndLoc"  resultType="map" >
+		SELECT * FROM adm_loccoor_info  where del_flag=0  GROUP BY id ;
+	</select>
+	<select id="selLocLocAndGroupid"  resultType="map" parameterType="String">
+		SELECT * FROM adm_picture_info WHERE coo_id=#{coo_id} GROUP BY id;
+	</select>
+	<select id="selLocInfo"  resultType="map" parameterType="map">
+		SELECT * FROM `adm_locarea_info` WHERE pic_id=#{pic_id} GROUP BY id;
+	</select>
+	<select id="selOneLocGroupids" resultType="string" parameterType="com.gt.prison.modules.botset.entity.AdmPrisonlocInfo">
+		SELECT GROUP_CONCAT(DISTINCT peo_dorm) peo_dorms FROM `adm_people_info` WHERE pco_id=#{pocId} AND plo_id=#{id}
+	</select>
+	<select id="selOneGroupPeoInfo" resultType="map" parameterType="com.gt.prison.modules.botset.entity.AdmPrisonlocInfo">
+		SELECT 
+			id,
+			peo_name,
+			cri_id,
+			peo_type,
+			peo_dorm
+		FROM `adm_people_info` 
+		WHERE pco_id=#{pcoId} AND plo_id=#{id} AND peo_dorm=#{peo.peoDorm}  ORDER BY peo_type DESC
+	</select>
+	<select id="loadLocAndPeoInfo" resultType="map" parameterType="map">
+		SELECT * FROM `adm_locarea_info` WHERE loc_coorid=#{loc_coorid} AND loc_groupid=#{loc_groupid} 
+	</select>
+	<select id="selAdmPeopleInfoByWatid" resultType="map">
+		SELECT * FROM adm_people_info WHERE wat_num in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		 </foreach>
+ 		 ORDER BY peo_type DESC
+	</select> 
+	<select id="loadLocid" resultType="map" parameterType="map">
+		SELECT GROUP_CONCAT(DISTINCT loc_id) loc_id FROM `adm_locarea_info` WHERE loc_coorid=#{loc_coorid} 
+	</select>
+	<select id="selAdmPeopleInfo" resultType="map">
+		SELECT * FROM adm_people_info WHERE cri_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 		 #{item}  
+ 		 </foreach>
+	</select> 
+	<select id="selAdmLoccoorInfo" resultType="map">
+		SELECT * FROM adm_loccoor_info
+	</select>
+	<select id="selAdmPictureInfoByCooid" resultType="map" parameterType="int">
+		SELECT * FROM adm_picture_info WHERE pic_coorid=#{pic_coorid}
+	</select>
+	<select id="selAdmLocareaInfoByGroupid" resultType="map" parameterType="int">
+		SELECT * FROM adm_locarea_info WHERE loc_groupid=#{loc_groupid}
+	</select>
+	<select id="loadPeoCooAndLoc" resultType="map">
+		SELECT pco_id, GROUP_CONCAT(DISTINCT plo_id) peo_loc FROM `adm_people_info` GROUP BY pco_id ORDER BY id
+	</select>
+	<select id="selGroupids" resultType="map" parameterType="map">
+		SELECT peo_dorm FROM `adm_people_info` WHERE pco_id=#{peo_coo} AND plo_id=#{peo_loc} GROUP BY peo_dorm
+	</select>
+	
+	<select id="findPeoDorm" resultType="AdmPeopleInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPrisonlocInfo">
+		 SELECT peo_dorm FROM `adm_people_info` WHERE pco_id=#{pcoId} AND plo_id=#{id}  GROUP BY peo_dorm
+	</select>
+	<select id="findDormPeo" resultType="AdmPeopleInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPrisonlocInfo">
+		 SELECT 
+			id,
+			cri_id,
+			peo_dorm,
+			peo_type,
+			peo_name
+		 FROM `adm_people_info` 
+		 WHERE pco_id=#{pcoId} 
+		 AND plo_id=#{id}  
+		 AND peo_dorm=#{peo.peoDorm}
+	</select> -->
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.equ.dao.ServerDao">
+	<insert id="saveAdmServerInfo" parameterType="com.gt.prison.modules.equ.entity.AdmServerInfo" useGeneratedKeys="true" keyProperty="id">
+   		insert into adm_server_info (
+   			id,
+   			ser_name,
+   			ser_ip,
+   			ser_dm_ip,
+   			ser_powerlowtimes,
+   			ser_locdecision_interval,
+   			ser_loclost_ms,
+   			ser_monlost_ms,
+   			ser_prohibit_lost,
+   			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag) 
+   		values (
+   			#{id},
+   			#{serName},
+   			#{serIp},
+   			#{serDmIp},
+   			#{serPowerlowtimes},
+   			#{serLocdecisionInterval},
+   			#{serLoclostMs},
+   			#{serMonlostMs},
+   			#{serProhibitLost},
+   			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag})
+   </insert>
+   <update id="deleteAdmServerInfoById"  parameterType="string">
+		update adm_server_info set del_flag=1 where id=#{id}
+	</update>
+   <update id="updateAdmServerInfo" parameterType="com.gt.prison.modules.equ.entity.AdmServerInfo" >
+   		UPDATE adm_server_info SET 
+   			ser_name=#{serName},
+   			ser_ip=#{serIp},
+   			ser_dm_ip=#{serDmIp},
+   			ser_powerlowtimes=#{serPowerlowtimes},
+   			ser_locdecision_interval=#{serLocdecisionInterval},
+   			ser_loclost_ms=#{serLoclostMs},
+   			ser_monlost_ms=#{serMonlostMs},
+   			ser_prohibit_lost=#{serProhibitLost}
+   		WHERE id=#{id}
+    </update>
+   
+	<sql id="serverColumns">
+		a.id,
+		a.ser_name,
+		a.ser_ip,
+		a.ser_dm_ip,
+		a.ser_powerlowtimes,
+		a.ser_locdecision_interval,
+		a.ser_loclost_ms,
+		a.ser_monlost_ms,
+		a.ser_prohibit_lost
+    </sql>
+	<!-- 分页查询区域信息 -->
+	<select id="loadAdmServerInfo" resultType="AdmServerInfo">
+		SELECT 
+			<include refid="serverColumns"/> 
+		FROM adm_server_info a 
+		WHERE  a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id !='' "> 
+			AND a.id like 
+					<if test="dbName == 'oracle'">'%'||#{id}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{id}+'%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%', #{id}, '%')</if>
+		</if>
+		<if test="serName != null and serName !='' "> 
+			AND a.ser_name like 
+					<if test="dbName == 'oracle'">'%'||#{serName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{serName}+'%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%', #{serName}, '%')</if>
+		</if>
+		<if test="serIp != null and serIp !='' "> 
+			AND a.ser_ip like
+				<if test="dbName == 'oracle'">'%'||#{serIp}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{serIp}+'%'</if>
+				<if test="dbName == 'mysql'">CONCAT('%', #{serIp}, '%')</if>
+		</if>
+	</select>
+	
+	
+
+</mapper>

@@ -1,0 +1,74 @@
+<div class="content-box none" id='noticeManagement'>
+	<!-- 民警列表 -->
+	<div class="widget-table">
+		<form action="/a/per/admPoliceInfo/list" class='search' hidden>
+		<div class="widget-table-action">
+			<input type="hidden" name='sortColumn' value='createDate' />
+			<input type="hidden" name='sortType' value='desc' />
+		</div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#policeManagementTab" >通知列表</a></li>
+				</ul>
+				<ul class="right-action">
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="policeManagementTab">
+					<div class="table-list">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>通知内容</th>
+									<th class='sorting' data-column='createDate' data-sort='desc'><span>时间</span><a class='sorting'></a></th>
+									<th  class='sorting'  data-column='state' data-sort='desc'><span>状态</span><a class='sorting'></a></th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script id="noticeManagementListTpl" type='text/template'>
+	<tr>
+		<td>
+			<span class='color-0d8b4e'>{{name}}({{num}})</span>
+			{{if type === '1'}}罪犯释放，请确认
+			{{else if type === '2'}}新入监，请进行手环绑定
+			{{else if type === '3'}} 床位未分配，请分配床位
+			{{else if type === '4'}} 工位未分配，请分配工位
+			{{else if type === '5'}} 小组未设置，请设置小组
+			{{else if type === '6'}} 出现在非本人宿舍
+			{{/if}}
+		</td>
+		<td>{{createDate}}</td>
+        {{ if state === '1' }}
+        <td>已处理</td>
+        {{ else }}
+        <td style="color: #E6351E">未处理</td>
+        {{ /if }}
+		<td style='width: 80px;'>
+			{{if state === '0'}}
+				{{if type === '1'}}<a data-event='ignore' id='{{id}}' >知道了</a>
+				{{else if type === '2'}} <a data-event='bindWatch' id='{{id}}' data-id='{{peoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}'>手环绑定</a>
+				{{else if type === '3'}} <a data-event='bindBed' id='{{id}}' data-id='{{peoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}'>床位绑定</a>
+				{{else if type === '4'}} <a data-event='bindWrk' id='{{id}}' data-id='{{peoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}'>工位绑定</a>
+				{{else if type === '5'}} <a data-event='bindGroup' id='{{id}}' data-id='{{peoId}}' data-pcoId='{{pcoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}'>设置小组</a>
+				{{else if type === '6'}} <a data-event='bindSet' id='{{id}}' data-id='{{peoId}}' data-value='{{name}}{{num}}' data-bedInfo='{{bedInfo}}' data-wrkInfo='{{wrkInfo}}'>设置</a>
+				{{/if}}
+			{{/if}}
+		</td>
+	</tr>
+</script>
+</div>

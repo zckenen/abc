@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-lazy-init="false">
+
+
+	<bean id="job1" class="com.gt.prison.common.job.job1" /><!-- //任务1 -->
+	<bean id="job2" class="com.gt.prison.common.job.job2" /><!-- //任务2 -->
+	<bean id="job3" class="com.gt.prison.common.job.job3" /><!-- //任务3 -->
+	<bean id="job4" class="com.gt.prison.common.job.NightRule" /><!-- //任务4 -->
+
+	<bean id="jobDetail_1"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="job1" />
+		</property>
+		<property name="targetMethod">
+			<value>jobMethod1</value><!-- //执行的方法 -->
+		</property>
+	</bean>
+	<bean id="jobDetail_2"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="job2" />
+		</property>
+		<property name="targetMethod">
+			<value>jobMethod2</value>
+		</property>
+	</bean>
+	<bean id="jobDetail_3"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="job3" />
+		</property>
+		<property name="targetMethod">
+			<value>jobMethod3</value>
+		</property>
+	</bean>
+	
+	<bean id="jobDetail_4"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="job4" />
+		</property>
+		<property name="targetMethod">
+			<value>computeAlarm</value>
+		</property>
+	</bean>
+	
+	<bean id="cronTrigger_1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="jobDetail_1" />
+		</property>
+		<property name="cronExpression">
+			<value>3 * * 2 * ?</value>
+		</property>
+
+	</bean>
+	<bean id="cronTrigger_2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="jobDetail_2" />
+		</property>
+		<property name="cronExpression">
+			<value>0/3 * * 2 * ?</value>
+		</property>
+	</bean>
+	<bean id="cronTrigger_3" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="jobDetail_3" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ? </value>
+		</property>
+	</bean>
+		<bean id="cronTrigger_4" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="jobDetail_4" />
+		</property>
+		<property name="cronExpression">
+			<value>0/5 * 2 * * ? </value>
+		</property>
+	</bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="cronTrigger_1" />
+				<ref local="cronTrigger_2" />
+				<ref local="cronTrigger_3" />
+				<ref local="cronTrigger_4" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

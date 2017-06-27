@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.da.dao.TraCriminallocDao">
+
+	<sql id="traCriminallocColumns">
+	a.id AS "id",
+	a.cloc_criid AS "criinfo.criCriminalno",
+	a.cloc_locid AS "area.id",
+	a.cloc_starttime AS "clocStarttime",
+	a.cloc_endtime AS "clocEndtime",
+	a.cloc_flag AS "clocFlag",
+	b.loc_name AS "area.locName",
+	c.pic_grpname AS "pic.picGrpname",
+	d.coo_name AS "coo.cooName",
+	e.cri_prisonname AS "criinfo.criPrisonname",
+	e.cri_criminalname AS "criinfo.criCriminalname",
+	e.cri_prisonarea AS "criPrisonarea",
+	e.cri_zoneofdivision AS "criinfo.criZoneofdivision", 
+	e.cri_picpath AS "criinfo.criPicpath",
+	e.cri_peraddress AS "criinfo.criPeraddress",
+	e.cri_homeaddress AS "criinfo.criHomeaddress",
+	e.cri_nowculturallvl AS "criinfo.criNowculturallvl",
+	e.cri_charge AS "criinfo.criCharge",
+	e.cri_startdate AS "criinfo.criStartdate",
+	e.cri_enddate AS "criinfo.criEnddate"
+	</sql>
+	
+	<sql id="findPageByAreaAndDateColumns">
+	COUNT(cloc_criid) AS "touchNum",
+	a.id AS "id",
+	a.cloc_criid AS "criinfo.criCriminalno",
+	a.cloc_locid AS "area.id",
+	a.cloc_starttime AS "clocStarttime",
+	a.cloc_endtime AS "clocEndtime",
+	a.cloc_flag AS "clocFlag",
+	b.loc_name AS "area.locName",
+	c.pic_grpname AS "pic.picGrpname",
+	d.coo_name AS "coo.cooName",
+	e.cri_prisonname AS "criinfo.criPrisonname",
+	e.cri_criminalname AS "criinfo.criCriminalname",
+	e.cri_prisonarea AS "criPrisonarea",
+	e.cri_zoneofdivision AS "criinfo.criZoneofdivision", 
+	e.cri_picpath AS "criinfo.criPicpath",
+	e.cri_peraddress AS "criinfo.criPeraddress",
+	e.cri_homeaddress AS "criinfo.criHomeaddress",
+	e.cri_nowculturallvl AS "criinfo.criNowculturallvl",
+	e.cri_charge AS "criinfo.criCharge",
+	e.cri_startdate AS "criinfo.criStartdate",
+	e.cri_enddate AS "criinfo.criEnddate"
+	</sql>
+	
+	
+	<sql id="findListByfDateColumns">
+		a.id AS "id",
+		a.cloc_criid AS "criinfo.criCriminalno",
+		a.cloc_locid AS "area.id",
+		a.cloc_starttime AS "clocStarttime",
+		a.cloc_endtime AS "clocEndtime",
+		a.cloc_flag AS "clocFlag",
+		TIMESTAMPDIFF( MINUTE,a.cloc_starttime,a.cloc_endtime) AS "stayMin",
+		b.loc_name AS "area.locName",
+        c.pic_grpname AS "pic.picGrpname",
+        d.coo_name AS "coo.cooName"
+	</sql>
+	
+	<sql id="findCriLifeColumns">
+			a.id AS "id",
+		a.cloc_criid AS "criinfo.criCriminalno",
+		a.cloc_locid AS "area.id",
+		a.cloc_starttime AS "clocStarttime",
+		a.cloc_endtime AS "clocEndtime",
+		a.cloc_flag AS "clocFlag",
+		 TIMESTAMPDIFF(HOUR,a.cloc_starttime,a.cloc_endtime) AS "stayHou",
+		TIMESTAMPDIFF( MINUTE,a.cloc_starttime,a.cloc_endtime) AS "stayMin",
+		b.loc_name AS "area.locName",
+        c.pic_grpname AS "pic.picGrpname",
+        d.coo_name AS "coo.cooName"
+	</sql>
+
+	<sql id="traCriminallocJoins">
+	LEFT JOIN adm_criminal_info e ON a.cloc_criid=e.cri_criminalno
+	LEFT JOIN adm_locarea_info b ON a.cloc_locid=b.id
+	LEFT JOIN adm_picture_info c ON b.loc_coorid=c.id
+	LEFT JOIN adm_loccoor_info d ON b.loc_groupid=d.id
+	</sql>
+
+	<select id="get" resultType="TraCriminalloc">
+		SELECT
+		<include refid="traCriminallocColumns" />
+		FROM tra_criminalloc a
+		<include refid="traCriminallocJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="TraCriminalloc">
+		SELECT
+		<include refid="traCriminallocColumns" />
+		FROM tra_criminalloc a
+		<include refid="traCriminallocJoins" />
+		<where>
+			<if test="area != null and area.id != null and area.id != ''">
+				AND a.cloc_locid = #{area.id}
+			</if>
+			<if test="clocStarttime != null and clocStarttime != ''">
+				AND a.cloc_starttime &gt;= #{clocStarttime}
+			</if>
+			<if test="clocEndtime != null and clocEndtime != ''">
+				AND a.cloc_endtime &lt;= #{clocEndtime}
+			</if>
+		</where>
+	</select>
+
+<!-- 	<select id="findAllList" resultType="TraCriminalloc">
+		SELECT
+		<include refid="traCriminallocColumns" />
+		FROM tra_criminalloc a
+		<include refid="traCriminallocJoins" />
+		<where>
+			<if test="criinfo != null and criinfo != ''">
+				AND a.cloc_criid = #{criinfo.criCriminalno}
+			</if>
+			<if test="clocStarttime != null and clocStarttime != ''">
+				AND a.cloc_starttime &gt;= #{clocStarttime}
+			</if>
+			<if test="clocEndtime != null and clocEndtime != ''">
+				AND a.cloc_endtime &lt;= #{clocEndtime}
+			</if>
+		</where>
+	</select> -->
+
+	<select id="findPageByAreaAndDate" resultType="TraCriminalloc">
+		SELECT
+		<include refid="findPageByAreaAndDateColumns" />
+			FROM tra_criminalloc a
+		<include refid="traCriminallocJoins" />
+		<where>
+			<if test="area != null and area.id != null and area.id != ''">
+				AND a.cloc_locid in #{areas}
+			</if>
+			<if test="clocStarttime != null and clocStarttime != '' and clocEndtime != null and clocEndtime != ''">
+				AND ( a.cloc_starttime 
+				BETWEEN #{clocStarttime} AND #{clocEndtime}
+			</if>
+			<if test="clocStarttime != null and clocStarttime != '' and clocEndtime != null and clocEndtime != ''">
+				OR a.cloc_endtime 
+				BETWEEN #{clocStarttime} AND #{clocEndtime} )
+			</if>			
+		</where>
+		 GROUP BY  a.cloc_locid, a.cloc_criid
+                ORDER BY touchNum DESC
+	</select>
+
+	<select id="findListByfDate" resultType="TraCriminalloc">
+		SELECT
+		<include refid="findListByfDateColumns" />
+		FROM tra_criminalloc a
+		<include refid="traCriminallocJoins" />
+		<where>
+			<if test="criinfo != null and criinfo.criCriminalno !=null and criinfo != ''">
+				AND a.cloc_criid = #{criinfo.criCriminalno}
+			</if>
+			<if test="area != null and area.id !=null and area.id != ''">
+				AND a.cloc_locid = #{area.id}
+			</if>
+			<if test="clocStarttime != null and clocStarttime != ''">
+				AND a.cloc_starttime &gt;= #{clocStarttime}
+			</if>
+			<if test="clocEndtime != null and clocEndtime != ''">
+				AND a.cloc_endtime &lt;= #{clocEndtime}
+			</if>
+		</where>
+	</select>
+	
+
+	<!-- 人员生活习惯 -->
+		<select id="findCriLife" resultType="TraCriminalloc">
+		SELECT
+		<include refid="findCriLifeColumns" />
+		FROM tra_criminalloc a
+		<include refid="traCriminallocJoins" />
+		where cloc_flag='0'
+			<!-- <if test="criinfo != null and criinfo.criCriminalno !=null and criinfo != ''">
+				AND a.cloc_criid = #{criinfo.criCriminalno}
+			</if> -->
+			<if test="clocCriid !=null and clocCriid != ''">
+				AND a.cloc_criid = #{clocCriid}
+			</if>
+			<if test="clocStarttime != null and clocStarttime != '' and clocEndtime != null and clocEndtime != ''">
+				AND  ( a.cloc_starttime 
+				BETWEEN #{clocStarttime} AND #{clocEndtime}
+			</if>
+			<if test="clocStarttime != null and clocStarttime != '' and clocEndtime != null and clocEndtime != ''">
+				OR a.cloc_endtime 
+				BETWEEN #{clocStarttime} AND #{clocEndtime} )
+			</if>
+		GROUP BY  cloc_locid, cloc_criid,cloc_starttime	
+		ORDER BY cloc_criid,cloc_starttime
+	</select>
+</mapper>

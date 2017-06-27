@@ -1,0 +1,238 @@
+<div class="content-box none" id='realtimeTrack'>
+	<div class="container-box grid auto join" >
+		<div class="container-left">
+			<div class="nav-header top">
+				<div class="title"><i class="iconfont">&#xe612;</i>&nbsp;实时追踪</div>
+			</div>
+			<div class="tab-search">
+				<ul class='tab-search-track'>
+					<li>
+						<label>所属监区：</label>
+						<select class='sm' name="peo_loc" data-placeholder='分监区'></select>
+						<select class='sm' name="groupid" data-placeholder='分监区' class='fr'></select>
+					</li>
+					<li>
+						<label>姓名/编号：</label>
+						<select class='lg' name="peo_no" data-event='change' data-placeholder='人员'></select>
+					</li>
+					<li>
+						<label></label>
+						<span>
+							<a data-event='start' class="btn sienna"><i class="iconfont">&#xe612;</i> 开始追踪</a>
+							<a data-event='stop' class="btn sienna">停止</a>
+						</span>
+					</li>
+				</ul>
+			</div>
+			<div class="package auto" data-diff='640' >
+				<div class="content" id='container'>
+					<div id="historyNoresult" class='noresult'>
+						<div>
+							<i class="iconfont">&#xe668;</i>
+							<br>
+							<span>暂无数据</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="nav-header">
+				<div class="title"><i style="vertical-align: 1.5px;" class="iconfont">&#xe6ae;</i>&nbsp;位置信息</div>
+				<a  class="action color-666"><i class="iconfont"></i>&nbsp;&nbsp;</a>
+			</div>	 
+			<div class="tab-bodyer">
+				<div class="minify" style='height: 250px;' >
+					<div class="thumb" id='thumb'>
+						<img src="/prison/upload/1468561004167.png" alt="" />
+					</div>
+					<div id="area-thumb-point" class="point" style="opacity: 1;">
+						<div class="caption" data-value="coo">张三</div>
+						<svg height="55px" width="55px">
+							<defs>
+								<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-outer">
+									<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"></stop>
+									<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="50%"></stop>
+									<stop style="stop-color:rgb(230, 53, 30); stop-opacity:0.4" offset="100%"></stop>
+								</radialGradient>
+								<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-inner">
+									<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"></stop>
+									<stop style="stop-color:rgb(221, 179, 178); stop-opacity:0.7" offset="70%"></stop>
+									<stop style="stop-color:rgb(230, 53, 30); stop-opacity:1" offset="100%"></stop>
+								</radialGradient>
+							</defs>	
+							<circle style="fill:url(#rad-grad-outer)" stroke-width="1" stroke="rgba(242, 211, 207, 0.9)" r="27.5" cy="27.5" cx="27.5"></circle>
+							<circle style="fill:url(#rad-grad-inner)" stroke-width="1" stroke="rgba(230, 53, 30, 0.9)" r="14" cy="27.5" cx="27.5"></circle>
+							<text fill="rgba(230, 53, 30, 1)" dy="46%" dx="29%" style="font-size: 24px;" class="iconfont"></text>
+						</svg>
+					</div>
+				</div>
+			</div> 
+		</div>
+		<div class="container-bodyer" style='overflow: auto;'>
+			<div class="container-right" style='margin-left: 0px;'>
+				<div class="nav-header" style='padding-left: 330px;'>
+					<div class="title"><i style="vertical-align: 1.5px;" class="iconfont">&#xe6ae;</i>&nbsp;#3监舍>第一层</div>
+				</div>	
+				<div id="map-container">
+					<div class="floor-map none" id='map'>
+						<div class='layer magenta enter show' id='info' style='left: 500px; top: 50px;' ></div>
+						<div style="width: 360px; " data-layer="hover" class="layer default" id='detailList'></div>
+						<div class='bubble-model default' id='detail'></div>
+						<div class='layer default' id='infoDetail' style='width: 330px;'>
+							<div class="layer-header">
+								<ul class="nav nav-tabs nav-search left-tabs">
+									<li class="active"><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-detail" >详细信息</a></li>
+									<li><a data-event='toggle' data-value='yestoday' data-toggle="tab" href="#page-person-events" >事件记录</a></li>
+								</ul>
+								<a data-toggle-closed="layer"  class="closed iconfont color-black"></a>
+							</div>
+							<div class="layer-body" style="max-height: 240px; overflow: auto;">
+								
+							</div>
+						</div>
+						<!-- <img src="/prison{{=pic_path}}" alt="" /> -->
+						<a class="point" id="floor-person-3265983302005399" style='top: 170px; left: 949px; position: absolute;'data-event="show" data-toggle="tooltip" data-placement="top" title="" style="top: 6px; left: 2px;" data-original-title="张三">
+							<span class="flicker-warning-outer"></span>
+							<span class="flicker-warning-inner"></span>
+							<span class="flicker-warning-img">
+								<img src="assets/img/photo3.jpg" data-pin-nopin="true">
+							</span>
+						</a>
+						<div class="demo-line-pointer"></div><!--iconfont &#xe669; -->
+						<div class="demo-line-1"></div>
+						<div class="demo-line-2"></div>
+						<div class="demo-line-3"></div>
+						<div class="demo-line-4"></div>
+						<div class="demo-line-5"></div>
+						<a class="relate iconfont color-blue icon-animated-vertical" style="position: absolute; left: 170px; z-index: 2000; top: 500px;">&#xe6b9;
+							<span class="title-tip">吴警官</span>
+						</a>
+						<a class="relate iconfont color-green icon-animated-bell" data-event="detail" style="position: absolute;left: 201px; z-index: 2000; top: 530px;">
+							&#xe6ba;<span class="title-tip">张三</span>
+						</a>
+						<a class="relate iconfont color-blue icon-animated-vertical"   style="position: absolute; left: 220px; z-index: 2000; top: 500px;">&#xe6b9;
+							<span class="title-tip">陈警官</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='container-fix video' id='video' >
+			<ul>
+				<li>
+					<div class="player">
+						<div class="caption">
+							<span class='state'>SD512<font class='color-red'></font></span>
+							<a class="action"><i class="iconfont">&#xe681;</i>播放</a>
+						</div>
+						<div class="screen auto">
+							<video loop='' autoplay='' muted=''  name="media">
+								<source src="./assets/img/video2.mp4" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="player">
+						<div class="caption">
+							<span class='state'>SD513<font class='color-red'></font></span>
+							<a class="action"><i class="iconfont">&#xe681;</i>播放</a>
+						</div>
+						<div class="screen auto">
+							<video loop='' autoplay='' muted=''  name="media">
+								<source src="./assets/img/video3.mp4" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="player">
+						<div class="caption">
+							<span class='state'>SD514<font class='color-red'></font></span>
+							<a class="action"><i class="iconfont">&#xe681;</i>播放</a>
+						</div>
+						<div class="screen auto">
+							<video loop='' autoplay='' muted=''  name="media">
+								<source src="./assets/img/video4.mp4" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="player">
+						<div class="caption">
+							<span class='state'>SD515<font class='color-red'></font></span>
+							<a class="action"><i class="iconfont">&#xe681;</i>播放</a>
+						</div>
+						<div class="screen auto">
+							<video loop='' autoplay='' muted=''  name="media">
+								<source src="./assets/img/video5.mp4" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script id='trackHeaderTpl' type='template/text'>
+	<i class="iconfont color-e6351e">&#xe664;</i>
+	<b class='color-333'>{{=nwarinfo.war_name}}{{=nwarinfo.nwar_type == 0 ? "预警" : "告警"}}&nbsp;-&nbsp;</b>
+	<b class='color-e6351e'>{{=peo_name}}({{=peo_id}})</b>
+</script>
+<script id='trackRegionTpl' type='template/text'>
+	<- if( loc_id != 289 && loc_id != 63 && loc_id != 59 ) { ->
+		<a data-event='videoPlay' class="video lt"><i class="iconfont">&#xe633;</i></a>
+		<a data-event='videoPlay' class="video rb"><i class="iconfont">&#xe633;</i></a>
+	<- } else if( loc_id == 59 ) { ->
+		<a data-event='videoPlay' class="video lt" style='left: 5px; transform: rotate(45deg);'><i class="iconfont">&#xe633;</i></a>
+		<a data-event='videoPlay' class="video rb" style='left: 96%; top: 5px; transform: rotate(145deg);'><i class="iconfont">&#xe633;</i></a>
+		<a data-event='videoPlay' class="video rt" style='left: 5px; top: 86%; transform: rotate(-45deg);'><i class="iconfont">&#xe633;</i></a>
+		<a data-event='videoPlay' class="video lb" style='left: 96%; bottom: 5px; transform: rotate(226deg);'><i class="iconfont">&#xe633;</i></a>
+	<- } else if( loc_id == 289 ) { ->
+		<a data-event='videoPlay' class="video lt" style='left: 5px; transform: rotate(1deg); top: 22px;'><i class="iconfont">&#xe633;</i></a>
+		<a data-event='videoPlay' class="video rb" style='left: 97%; transform: rotate(179deg); bottom: 19px;'><i class="iconfont">&#xe633;</i></a>
+	<- } ->	
+	<div class="mark"><i class="iconfont">&#xe693;</i>&nbsp;&nbsp;<span>{{=loc_name}}</span></div>
+</script>
+<script id='trackPersonTpl' type='template/text'>
+	<- if ( !nwarinfo ) { ->
+		<- if ( peo_type == 1 ) { ->
+			<a class='relate iconfont color-green' id='floor-person-{{=peo_id}}' data-event='detail' >&#xe6ba;</a>
+		<- } else if ( peo_type == 2 ) { ->
+			<a class='relate iconfont color-red' id='floor-person-{{=peo_id}}' data-event='detail' >&#xe6ba;</a>
+		<- } else if ( peo_type == 3 ) { ->
+			<a class='relate iconfont color-blue icon-animated-vertical' id='floor-person-{{=peo_id}}' data-event='detail' >
+				&#xe6b9;
+				<span class='title-tip'>{{=peo_name}}</span>
+			</a>
+		<- } ->
+	<- } else { ->
+		<a class='point' id='floor-person-{{=peo_id}}' data-event='show' data-toggle="tooltip" data-placement="top" title="{{=peo_name}}">
+			<span class="flicker-warning-outer"></span>
+			<span class="flicker-warning-inner"></span>
+			<span class="flicker-warning-img" >
+				<img src="{{=cri_picpath}}" />
+			</span>
+		</a>
+	<- } ->
+</script>
+<script id='trackRangeTpl' type='text/template'>
+	<div class="tips">已追踪&nbsp;<span id='timecount'>00:00:00</span></div>
+	<div class="result">
+		<ul id='historyResult' class='iscroll'>
+			<- for(var i = 0; i < data.length; i++) { ->
+			<li class='{{=i == 0 ? "warning no": ""}} {{=i == 3 ? "active live": ""}}' data-event='choose' data-index='{{=i}}'>
+				<div>
+					<span class='location'>{{=data[i].locinfo.loc_name}}</span>
+					<span class='diff'><i class="iconfont">&#xe671;</i>&nbsp;<em style='font-style: normal'  id='timenum'>{{=data[i].time}}</em></span>
+				</div>
+				<div>
+					<span class='place'>{{=data[i].locinfo.coo_name}}</span>
+					<span class='time' id='timeend'>{{=data[i].endTime}}</span>
+				</div>
+			</li>
+			<- } ->
+		</ul>
+	</div>
+</script>
+

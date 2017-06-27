@@ -1,0 +1,58 @@
+<div class="content-box none" id='activityLocus'>
+	<!-- /prison{{=locandtime[0].locinfo[0].pic_path}} -->
+	<script id='activityLocusTpl' type='text/template'>
+		<div class="about-layout">
+			<div class="about-layout-left blue md">
+				<div class="activity-locus-title">
+					<div class="row">
+						<div class="col-md-6">历史活动区域查询</div>
+					</div>
+				</div>
+				<div class="activity-locus-info" id='activityLocusInfo'>
+					<div class="row">
+						<div class="col-md-3 nowarp">姓名:{{=peo_name}}</div>
+						<div class="col-md-4 nowarp">编号:{{=peo_id}}</div>
+						<div class="col-md-5 nowarp">所属监区:{{=peo_coo}}-{{=peo_loc}}</div>
+					</div>
+				</div>
+				<div class="activity-locus-action player-container">
+					<div class="row">
+						<div class="col-md-5">
+							<a class="player backward" data-event='backward' data-speed='3' ><i class="glyphicons glyphicons-step-backward"></i></a>
+							<a class="player play on" data-event='play' data-state='1'><i class="glyphicons glyphicons-pause"></i></a>
+							<a class="player forward" data-event='forward' data-speed='3'><i class="glyphicons glyphicons-step-forward"></i></a>
+							<a class="player stop" data-event='stop'><i class="glyphicons glyphicons-stop"></i></a>
+						</div>
+						<div class="col-md-7">
+							<a class="player speed" data-event='speed' data-speed='5' >&times;1</a>
+							<a class="player speed" data-event='speed' data-speed='4' >&times;2</a>
+							<a class="player speed on" data-event='speed'  data-speed='3'>&times;3</a>
+							<a class="player speed" data-event='speed' data-speed='2'>&times;4</a>
+							<a class="player speed" data-event='speed' data-speed='1'>&times;5</a>
+						</div>
+					</div>
+				</div>
+				<ul class="timeline-container" id='activityLocusTime'>
+					<li class="timerate transition3" ></li>
+					<- for( var i = 0; i < locandtime.length; i++ ) { ->
+					<li class="timeline-li {{=i==0 ? '': 'gray'}}" id='timeline-li-{{=i}}'>
+						<div class="timeline-text"><b class='nowarp'>{{=i+1}}. {{=locandtime[i].locinfo[0].loc_name}}</b></div>
+						<div class="timeline-time start"><b class="nowarp">{{=locandtime[i].startTime}}</b></div>
+						<div class="timeline-time end"><b class="nowarp">{{=locandtime[i].endTime}}</b></div>
+					</li>
+					<- } ->
+				</ul>
+				<div class="activity-locus-map" id='activityLocusMap'>
+					<div class="activity-locus-box">
+						<img src="/prison/assets/img/map/test.jpg" alt="" />
+					</div>
+				</div>
+			</div>
+			<div class="about-layout-right md">
+				<div class="activity-locus-floor" id='activityLocusFloor'>
+					<img src="/prison{{=locandtime[0].locinfo[0].pic_path}}" alt="" />
+				</div>	
+			</div>
+		</div>
+	</script>
+</div>

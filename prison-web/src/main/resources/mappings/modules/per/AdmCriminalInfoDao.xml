@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.per.dao.AdmCriminalInfoDao">
+    
+	<sql id="admCriminalInfoColumns">
+		a.id AS "id",
+		a.cri_num AS "criNum",
+		a.cri_xuhao AS "criXuhao",
+		a.cri_criminalname AS "criCriminalname",
+		a.cri_sex AS "criSex",
+		a.cri_prisonname AS "criPrisonname",
+		a.cri_age AS "criAge",
+		a.cri_prisonarea AS "criPrisonarea",
+		a.cri_picpath AS "criPicpath",
+		a.cri_criminallvl AS "criCriminallvl",
+		a.cri_brithday AS "criBrithday",
+		a.cri_idcard AS "criIdcard",
+		a.cri_bed AS "criBed",
+		a.cri_dorm AS "criDorm",
+		a.cri_nation AS "criNation",
+		a.cri_bedid AS "criBedid",
+		a.cri_orgnum AS "criOrgnum",
+		a.cri_origin AS "criOrigin",
+		a.cri_homeaddress AS "criHomeaddress",
+		a.cri_sslx AS "criSslx",
+		a.cri_eventlvl AS "criEventlvl",
+		a.cri_tglb AS "criTglb",
+		a.cri_chargetype AS "criChargetype",
+		a.cri_zyaflb AS "criZyaflb",
+		a.cri_monitoringtime AS "criMonitoringtime",
+		a.cri_charge AS "criCharge",
+		a.cri_criminalfacts AS "criCriminalfacts",
+		a.cri_originalsentence AS "criOriginalsentence",
+		a.cri_enddate AS "criEnddate",
+		a.cri_wanwei AS "criWanwei",
+		a.cri_hybd AS "criHybd",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		b.wat_num AS "peo.watNum"
+	</sql>
+	
+	<sql id="admCriminalInfoJoins">
+	LEFT JOIN adm_people_info b ON a.id = b.cri_id
+	</sql>
+    
+	<select id="get" resultType="AdmCriminalInfo">
+		SELECT 
+			<include refid="admCriminalInfoColumns"/>
+		FROM adm_criminal_info a
+		<include refid="admCriminalInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AdmCriminalInfo">
+		SELECT 
+			<include refid="admCriminalInfoColumns"/>
+		FROM adm_criminal_info a ,adm_people_info b 
+		where a.id = b.cri_id
+		AND	a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="criNum != null and criNum != ''">
+				AND a.cri_num = #{criNum}
+			</if>
+			<if test="criCriminalname != null and criCriminalname != ''">
+				AND a.cri_criminalname LIKE CONCAT(CONCAT('%',#{criCriminalname}),'%')
+			</if>
+			<if test="criPrisonarea != null and criPrisonarea != ''">
+				AND a.cri_prisonarea = #{criPrisonarea}
+			</if>
+			<if test="peo != null and peo.watNum!= null and peo.watNum!= ''">
+				AND b.wat_num=#{peo.watNum}
+			</if>
+	</select>
+	<update id="delete">
+		UPDATE adm_criminal_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+</mapper>

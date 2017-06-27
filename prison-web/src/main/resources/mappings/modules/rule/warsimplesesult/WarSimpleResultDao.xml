@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.gt.prison.modules.rule.warsimpleresult.dao.WarSimpleResultDao">
+
+	<sql id="warSimpleResultColumns">
+		a.id AS "id",
+		a.war_type AS "warType",
+		a.war_rule_type AS "warRuleType",
+		a.war_name AS "warName",
+		a.war_time AS "warTime",
+		a.wat_num AS "watNum",
+		a.peo_id AS "peoId",
+		a.war_peo_name AS "warPeoName",
+		a.coo_id AS "cooId",
+		a.loc_id AS  "locId",
+		a.war_loc_name AS "warLocName",
+		a.war_status AS "warStatus",
+		a.war_other_people AS "warOtherPeople",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<sql id="warSimpleResultJoins">
+	</sql>
+
+	<select id="get" resultType="WarSimpleResult">
+		SELECT
+		<include refid="warSimpleResultColumns" />
+		FROM war_simple_result a
+		<include refid="warSimpleResultJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="WarSimpleResult">
+		SELECT
+		<include refid="warSimpleResultColumns" />
+		FROM war_simple_result a
+		<include refid="warSimpleResultJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="warType != null and warType != ''">
+				AND a.war_type = #{warType}
+			</if>
+			<if test="warRuleType != null and warRuleType != ''">
+				AND a.war_rule_type = #{warRuleType}
+			</if>
+			<if test="warName != null and warName != ''">
+				AND a.war_name = #{warName}
+			</if>
+			<if test="warTime != null and warTime != ''">
+				AND a.war_time = #{warTime}
+			</if>
+			<if test="watNum != null and watNum != ''">
+				AND a.wat_num = #{watNum}
+			</if>
+			<if test="warStatus != null and warStatus != ''">
+				AND a.war_status = #{warStatus}
+			</if>
+			<if test="locId !=null and locId!='' ">
+				AND a.loc_id=#{locId}
+			</if>
+			<if test="startTime != null and startTime !='' and endTime != null and endTime !='' ">
+				AND war_time <![CDATA[  >=  ]]>CONCAT(#{startTime},' ','00:00:00') AND war_time <![CDATA[   <=  ]]>CONCAT(#{startTime},' ', '23:59:59')
+			</if>
+		</where>
+	</select>
+
+	<select id="findAllList" resultType="WarSimpleResult">
+		SELECT
+		<include refid="warSimpleResultColumns" />
+		FROM war_simple_result a
+		<include refid="warSimpleResultJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+	</select>
+	
+	<select id="getWarSimpleResult"  resultType="WarSimpleResult">
+		SELECT
+		<include refid="warSimpleResultColumns" />
+		FROM war_simple_result a
+		<include refid="warSimpleResultJoins" />
+		<where>
+			 a.del_flag = 0
+			AND 
+			 a.war_status  = 0
+		</where>
+		order by a.war_time desc
+	</select>
+
+	<insert id="insert">
+		INSERT INTO war_simple_result(
+		id,
+		war_type,
+		war_rule_type,
+		war_name,
+		war_time,
+		wat_num,
+		war_peo_name,
+		coo_id,
+		loc_id,
+		war_loc_name,
+		war_other_people,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		) VALUES (
+		#{id},
+		#{warType},
+		#{warRuleType},
+		#{warName},
+		#{warTime},
+		#{watNum},
+		#{warPeoName},
+		#{cooId},
+		#{locId},
+		#{warLocName},
+		#{warOtherPeople},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy},
+		#{updateDate},
+		#{remarks},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE war_simple_result SET
+		war_type = #{warType},
+		war_rule_type = #{warRuleType},
+		war_name = #{warName},
+		war_time = #{warTime},
+		wat_num = #{watNum},
+		war_peo_name = #{warPeoName},
+		coo_id = #{cooId},
+		loc_id = #{locId},
+		war_loc_name = #{warLocName},
+		war_status = #{warStatus},
+		war_other_people = #{warOtherPeople},
+		update_by = #{updateBy},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE war_simple_result SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateWarSimpleResultState">
+		UPDATE war_simple_result SET
+		war_status = 1
+		WHERE id = #{id}
+	</update>
+
+	<insert id="addWarSimpleResult">
+		INSERT INTO war_simple_result(
+		id,
+		war_type,
+		war_rule_type,
+		war_name,
+		war_time,
+		wat_num,
+		peo_id,
+		war_peo_name,
+		coo_id,
+		loc_id,
+		war_loc_name,
+		war_other_people,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		) VALUES (
+		#{id},
+		#{warType},
+		#{warRuleType},
+		#{warName},
+		#{warTime},
+		#{watNum},
+		#{peoId},
+		#{warPeoName},
+		#{cooId},
+		#{locId},
+		#{warLocName},
+		#{warOtherPeople},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy},
+		#{updateDate},
+		#{remarks},
+		#{delFlag}
+		)
+	</insert>
+	<select id="findType1Count" resultType="int" >
+		SELECT count(id) FROM war_simple_result where war_time &gt; (SELECT DATE_FORMAT(now(),'%Y-%m-%d 00:00:00')) 
+		and war_time &lt; (SELECT DATE_FORMAT(now(),'%Y-%m-%d 23:59:59')) and war_type=1
+	</select>
+	<select id="findType0Count" resultType="int">
+		SELECT count(id) FROM war_simple_result where war_time &gt; (SELECT DATE_FORMAT(now(),'%Y-%m-%d 00:00:00')) 
+		and war_time &lt; (SELECT DATE_FORMAT(now(),'%Y-%m-%d 23:59:59')) and war_type=0
+	</select>
+	<select id="findTypeAllCount" resultType="int">
+		SELECT count(id) FROM war_simple_result where war_type in ('0','1')
+	</select>
+</mapper>

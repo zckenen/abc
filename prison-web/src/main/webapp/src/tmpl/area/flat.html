@@ -1,0 +1,402 @@
+<div class="content-box none" id='areaFlat' >
+	<div class="container-box grid auto" >
+		<div class="container-header" >
+			<div class="title" id='head'>
+				<i class="iconfont color-333">&#xe68b;&nbsp;</i>
+				<b class='color-333' data-value='coo'></b>>
+				<b class='color-333' data-value='floor'></b>
+			</div>
+			<div class="action">
+				<a data-event="goBack" class="closed"><i class="iconfont"></i></a>
+			</div>
+		</div>
+		<div class="container-action"  style="z-index: 10049">
+			<a href="javascript:;" class="btn blue" data-event='vipCriSub'>重控犯</a>
+		</div>
+		<div class="container-float" id='floorList' style="z-index: 10049">
+			<a class="prev iconfont" data-event='prev'>&#xe669;</a>
+			<div></div>
+			<a class="next iconfont" data-event='next'>&#xe65b;</a>
+		</div>
+		<div class="container-left">
+			<div data-event="unbubble" class="search">
+				<input type="text" data-event="lookfor" name="condition" placeholder='请输入编号或人名'>
+				<a class="magnifier iconfont" data-event="search">&#xe668;</a>
+				<ul>
+					
+				</ul>
+			</div>
+			<div class="package auto">
+				<div class="page-quick-search show">
+					<div class="page-quick-title">
+						<ul id="" class="nav nav-tabs nav-search">
+							<li class="active"><a href="#by-floor" data-toggle="tab">按楼层</a></li>
+							<li class="" data-event='handleGroups'><a href="#by-organ" data-toggle="tab">按组织</a></li>
+						</ul>
+						<a data-event='refresh' style='position: absolute; display: block; z-index: 999; right: 10px; top: 10px; color: #fff;'><i class='fa fa-refresh'></i></a>
+					</div>
+					<div class="tab-content nav-list-content ">
+					  	<div id="by-floor" class="tab-pane fade in active">
+					  		<div data-view="floor" class="panel-group accordion accordion-search" id="accordion-floor">
+								
+							</div>
+						</div>
+						<div id="by-organ" class="tab-pane fade in ">
+							<div data-view="organ" class="panel-group accordion accordion-search" id="accordion-organ">
+								
+							</div>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		<!-- 	<div class="nav-header">
+				<div class="title"><i style="vertical-align: 1.5px;" class="iconfont"></i>&nbsp;全局缩略图</div>
+				<a data-event="slide" class="action color-666"><i class="iconfont"></i>&nbsp;&nbsp;</a>
+			</div>
+			<div class="tab-bodyer">
+				<div class="minify">
+					<div class="thumb">
+						<img id="area-thumb" src="">
+						<div id="area-thumb-point" class="point">
+							<div class="caption" data-value='coo'></div>
+							<svg height="55px" width="55px">
+								<defs>
+									<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-outer">
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"/>
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="50%"/>
+										<stop style="stop-color:rgb(230, 53, 30); stop-opacity:0.4" offset="100%"/>
+									</radialGradient>
+									<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-inner">
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"/>
+										<stop style="stop-color:rgb(221, 179, 178); stop-opacity:0.7" offset="70%"/>
+										<stop style="stop-color:rgb(230, 53, 30); stop-opacity:1" offset="100%"/>
+									</radialGradient>
+								</defs>	
+								<circle style="fill:url(#rad-grad-outer)" stroke-width="1" stroke="rgba(242, 211, 207, 0.9)" r="27.5" cy="27.5" cx="27.5"/>
+								<circle style="fill:url(#rad-grad-inner)" stroke-width="1" stroke="rgba(230, 53, 30, 0.9)" r="14" cy="27.5" cx="27.5"/>
+								<text fill="rgba(230, 53, 30, 1)" dy="46%" dx="29%" style="font-size: 24px;" class="iconfont"></text>
+							</svg>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		 --></div>
+		<div class="container-right auto">
+			<div id="map-container" data-event='map'>
+				<div id="statistics" class="people-count" style='top: 30px; left: 465px; position: absolute;'>
+					<ul>
+						<li class='color-333'>总 <span data-value='total'>0</span>人</li>
+						<li class='color-red'><em class='iconfont'>&#xe6ba; </em>重犯：<span data-value='important'>0</span></li>
+						<li class='color-green'><em class='iconfont'>&#xe6ba; </em>普犯：<span data-value='general'>0</span></li>
+						<li class='color-blue'><em class='iconfont' >&#xe6b9; </em>民警：<span data-value='police'>0</span></li>
+						<li class='color-gray'><em class='iconfont' >&#xe6b8; </em>公共区域：<span data-value='offline'>0</span></li>
+					</ul>
+				</div>
+				<svg id='locMap' version="1.1" xmlns="http://www.w3.org/2000/svg">
+					 <defs>
+					    <filter id="bedShadow" x="0" y="0" width="200%" height="200%">
+					      <feOffset result="offOut" in="SourceAlpha" dx="1" dy="1" />
+					      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1" />
+					      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+					    </filter>
+					  </defs>
+					  <defs>
+					    <filter id="workerShadow" x="0" y="0" width="200%" height="200%">
+					      <feOffset result="offOut" in="SourceAlpha" dx="1" dy="2" />
+					      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1" />
+					      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+					    </filter>
+					  </defs>
+				</svg>
+				<div class="video-float"  data-view='video' data-event='unmove'>
+					<div class="header">
+						<div class="caption" data-value='name'></div>
+						<div class="action">
+							<a data-event='max' title='全屏/还原'><i class="iconfont">&#xe67d;</i></a>
+							<a data-event='close' title='关闭窗口'><i  class="iconfont">&#xe658;</i></a>
+						</div>
+					</div>
+				</div>
+				<div style="width: 360px; " data-layer="hover" data-event='unmove' class="layer default notrans"  id='detailList' ></div>
+				<div class='bubble-model default' id='detail' data-event='unmove'></div>
+				<div class='layer default' id='infoDetail' style='width: 330px;'>
+					<div class="layer-header">
+						<ul class="nav nav-tabs nav-search left-tabs">
+							<li class="active"><a data-event='toggle' data-value='yestoday' data-toggle="tab" href="#page-person-events" >事件记录</a></li>
+							<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-detail" >奖惩信息</a></li>
+							<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-action" >谈话信息</a></li>
+							<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-meeting" >会见信息</a></li>
+						</ul>
+						<a data-toggle-closed="layer"  class="closed iconfont color-black"></a>
+					</div>
+					<div class="layer-body" style="max-height: 240px; overflow: auto;">
+						
+					</div>
+				</div>
+			<!-- 	<div class="area-map" id='map'>
+					
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<div role="dialog" id='vipCriSub' tabindex="-1"  class="bootbox modal fade in" data-width='790' data-height='560'>
+		<div class="modal-dialog">
+			<form  onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">重犯提交</h4>
+				</div>
+				<div class="modal-body">
+					
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >添加</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script id='vipCriSubTpl' type='text/template'>
+	<div class='alert-container'></div>
+	<div class="row">
+		<div class="track-left-list">
+			<h5>{{peoples[0].pco.pcoName}}人员列表</h5>
+			<div class='iscroll'>
+				<dl id='leftPers' >
+					{{each peoples as peo i}}
+        			<dd  data-event='choice' data-id='{{peo.id}}'>
+						<i class="iconfont {{peo.peoType == '2' ? 'color-red' : 'color-green'}}">&#xe6ba;</i>
+						<a>{{peo.peoName}}({{peo.peoNum}})</a>
+						<span class="iconfont color-green">&#xe61f;</span>
+					</dd>
+    				{{/each}}
+				</dl>
+			</div>
+		</div>
+		<div class="track-right-list" >
+			<h5>已选择<span id='num'></span></h5>
+			<div class='iscroll'>
+				<table class='table' id='rightPers'>
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>编号</th>
+						<th>列控理由</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{each criminal as cri}}
+					<tr>
+						<td>{{cri.impName}}</td>
+						<td>{{cri.criNum}}</td>
+						<td><input type="text" class="form-control input-medium" data-watnum='{{cri.watNum}}' name='remarks{{cri.criNum}}' value='{{cri.remarks}}' data-id='{{cri.id}}' required /></td>
+						<td><a data-event='cancel' data-type='true' data-id='{{cri.id}}'>取消</a></td>
+					</tr>
+					{{/each}}
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</script>
+<script id='vipCriSubPeoTpl' type='text/template'>
+	<tr>
+		<td>{{peoName}}</td>
+		<td>{{peoNum}}</td>
+		<td><input type="text" class="form-control input-medium" data-watnum='{{wat.watNum}}' name='remarks{{id}}' value='' data-id='{{id}}' required /></td>
+		<td><a data-event='cancel' data-id='{{id}}' >取消</a></td>
+	</tr>
+</script>
+<script id='areaPersonListTpl' type='text/template'>
+		<div class="layer-header">
+			<p class="title color-black">{{locName}}(
+				<span class='color-red iconfont font-small'>&#xe6ba; {{locCountMap.important}}</span>
+				<span class='color-green iconfont font-small'>&#xe6ba; {{locCountMap.general}}</span>
+				<span class='color-blue iconfont font-small'>&#xe6b9; {{locCountMap.police}}</span>
+				<span class='color-gray iconfont font-small'>&#xe6b8; {{locCountMap.lost}}</span>
+			)</p>
+			<a data-toggle-closed="layer" data-event='closed' class="closed iconfont color-black"></a>
+		</div>
+		<div class="layer-body" style='max-height: 150px; overflow: auto;'>
+			<div class="tablebox">
+			<table>
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>手环编号</th>
+						<th>小组</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{each peoList as peo i}}
+					<tr>
+						<td>
+							{{if peo.allRunningState === 0}}
+								<a class='color-gray'>{{peo.peoName}}</a>
+							{{else}}
+								{{if peo.peoType === '3'}}
+									<a class='color-blue'>{{peo.peoName}}</a>
+								{{else if peo.peoType === '2'}}
+									<a class='color-red'>{{peo.peoName}}</a>
+								{{else}}
+									<a class='color-green'>{{peo.peoName}}</a>
+								{{/if}}
+							{{/if}}
+						</td>
+						<td>{{(peo.wat.watNum * 1).toString(16)}}</td>
+						<td>{{peo.peoDorm == 0 ? '警察': '第'+peo.peoDorm+'组'}}</td>
+						<td><a data-event='info' data-id='{{peo.id}}'>详情</a></td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+			</div>
+		</div>
+</script>
+<script id='areaFlatPersonTpl' type='template/text'>
+		<- if ( peoType == 3 ) { ->
+			<a class='iconfont color-blue person' id='floor-person-{{=id}}'  data-id='{{=id}}'>&#xe6b9;</a>
+		<- } else if ( peoType == 2 ) { ->
+			<a class='iconfont color-red person' id='floor-person-{{=id}}' data-id='{{=id}}'>&#xe6ba;</a>
+		<- } else { ->
+			<a class='iconfont color-green person' id='floor-person-{{=id}}'  data-id='{{=id}}'>&#xe6ba;</a>
+		<- } ->
+</script>
+<script id='areaFlatRegionTpl' type='template/text'>
+	<a data-event='videoPlay' class="video lt"><i class="iconfont">&#xe633;</i></a>
+	<a data-event='videoPlay' class="video rb"><i class="iconfont">&#xe633;</i></a>	
+	<div class="mark"><i class="iconfont">&#xe693;</i>&nbsp;&nbsp;<span>{{=loc_name}}</span></div>
+</script>
+<script id='areaFlatSearchTpl' type='template/text'>
+	<li>
+		<a  data-event='info' data-id='{{id}}'>
+			{{ if peoType == 1 }}
+				<i class="iconfont color-green">&#xe6ba;</i>
+			{{ else if peoType == 2 }}
+				<i class="iconfont color-red">&#xe6ba;</i>
+			{{ else if peoType == 3 }}
+				<i class="iconfont color-blue">&#xe6b9;</i>
+			{{ else }}
+				<i class="iconfont color-green">&#xe6b8;</i>
+			{{ /if }}	
+			<span class='name'>&nbsp;&nbsp;{{peoName}}</span>
+			<span class='info'>({{peoNum}})</span>
+		</a>
+	</li>
+</script>
+<script id='areaFlatFloorListTpl' type='template/text'>
+	<a class="li {{picId == id ? 'active' : ''}}" data-event='change' data-id='{{id}}' >
+		<span class='zh'>{{picName}}</span>
+	</a>
+</script>
+<script id='areaFlatOrganTpl'  type='template/text'>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#collapse-organ-{{id}}" data-parent="#accordion-organ" data-toggle="collapse"  data-index="{{index}}" data-info='{{index}}' class="accordion-toggle nowarp collapsed" aria-expanded="false">
+					{{pcoName}}
+				</a>
+				{{if index == 0 && i == 0 }}<a class="accordion-action" data-event="refresh" data-fun='renderGroups'><i class="iconfont ">&#xe644;</i>&nbsp;刷新</a>{{/if}}
+			</h4>
+		</div>
+		<div class="panel-collapse collapse" id="collapse-organ-{{id}}">
+			<div class="panel-body atuo">
+				<div class="accordion-tree-container">
+					{{each ploList as plo}}
+						{{each plo.dormList as dorm}}
+						<div class="accordion-tree-container">
+							<div class="accordion-tree-list">
+								<div class="header">
+                                   {{ if dorm.peoDorm }}
+									<a class="collapse tree"></a>
+									<a class="text" data-event='distribute' >
+										<i class="iconfont color-267be6">&#xe679;</i>&ensp;{{dorm.peoDorm== 0 ? '警察': '第'+dorm.peoDorm+'组'}}[{{plo.ploName}}]
+									</a>
+                                    {{ /if }}
+								</div>
+								<div class="bodyer">
+									<ul class='index-tree auto'>
+										{{each dorm.peoList as peo}}
+											{{if peo.peoType == 1}}
+												<li><a data-event='info' data-id='{{peo.id}}' data-watnum='{{peo.watNum}}'><i class="iconfont color-green">&#xe6ba;&ensp;</i>{{peo.peoName}}（普通）</a></li>
+											{{else if peo.peoType == 2}}
+												<li><a data-event='info' data-id='{{peo.id}}' data-watnum='{{peo.watNum}}'><i class="iconfont color-red">&#xe6ba;&ensp;</i>{{peo.peoName}}（重点）</a></li>
+											{{else if peo.peoType == 3}}
+												<li><a data-event='info' data-id='{{peo.id}}' data-watnum='{{peo.watNum}}'><i class="iconfont color-blue">&#xe6b9;&ensp;</i>{{peo.peoName}}（民警）</a></li>
+											{{else}}
+												<li><a data-event='info' data-id='{{peo.id}}' data-watnum='{{peo.watNum}}'><i class="iconfont color-5c9cec">&#xe66c;&ensp;</i>{{peo.peoName}}（其他）</a></li>
+											{{/if}}
+										{{/each}}
+									</ul>
+								</div>
+							</div>
+						</div>
+						{{/each}}
+				    {{/each}}
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script id='areaFlatFloorTpl' type='template/text'>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<a aria-expanded="{{picId == id ? 'true' : 'false'}}" class="accordion-toggle collapsed nowarp" data-event='change' data-id='{{id}}' data-toggle="collapse" data-parent="#accordion-floor" href="#collapse-floor-{{id}}">
+				{{picName}}
+			</a>
+		</h4>
+	</div>
+	<div aria-expanded="{{picId == id ? 'true' : 'false'}}" id="collapse-floor-{{id}}" class="panel-collapse collapse {{picId == id ? 'in' : ''}}">
+		<div class="panel-body atuo">
+			<div class="accordion-tree-container">
+				{{each locareas as area i}}
+				<div class="accordion-tree-list">
+					<div class="header">
+						<a data-sub="39" data-sup="4" class="collapse tree"></a>
+						<a data-id="{{area.id}}" data-event="areaLocate" class="text">
+							<i class="iconfont color-333">&#xe68e;</i>&nbsp;{{area.locName}}
+						</a>
+					</div>
+					<div class="bodyer">
+						<ul>
+							{{if area.peoList && area.peoList.length > 0}}
+								{{ each area.peoList as peo k }}
+									{{if peo}}
+										{{ if peo.peoType === '1' }}
+											<li><a data-event='info' data-id='{{peo.id}}' ><i class="iconfont color-green">&#xe6ba;&nbsp;</i>{{peo.peoName}}（普通）</a></li>
+										{{ else if peo.peoType === '2' }}
+											<li><a data-event='info' data-id='{{peo.id}}' ><i class="iconfont color-red">&#xe6ba;&nbsp;</i>{{peo.peoName}}（重点）</a></li>
+										{{ else if peo.peoType === '3' }}
+											<li><a data-event='info' data-id='{{peo.id}}' ><i class="iconfont color-blue">&#xe6b9;&nbsp;</i>{{peo.peoName}}（民警）</a></li>
+										{{ else }}
+											<li><a data-event='info' data-id='{{peo.id}}' ><i class="iconfont color-5c9cec">&#xe6ba;&nbsp;</i>{{peo.peoName}}（其他）</a></li>
+										{{ /if }}
+									{{/if}}
+								{{ /each }}
+                            {{ else }}
+								<li><a ><i class="iconfont color-5c9cec">&#xe66c;&nbsp;</i>无人员信息（0）</a></li>
+							{{ /if }}
+						</ul>
+					</div>
+				</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+<script id='areaShowPeopleTpl' type='template/text'>
+	<div class="tooltip fade top in flat" role="tooltip"  id='tip-{{id}}'>
+		<div class="tooltip-arrow" style="left: 50%;"></div>
+		<div class="tooltip-inner">{{peoName}}-{{(wat.watNum * 1).toString(16)}}</div>
+	</div>
+</script>
+
+		

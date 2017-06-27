@@ -1,0 +1,346 @@
+<div class="content-box none" id='areaFloor'>
+	<div class="widget-table">
+		<form  class='search'>
+		<div class="widget-table-action" >
+			<ul class='left-action'>
+				<li>
+					<label>幢：</label>
+				</li>
+				<li>
+					<select class="form-control select input-small" data-placeholder='幢' name='coo.id' data-name='cooId' >
+					</select>
+				</li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+				<li>
+					<a  class="btn white btn-sm reset">重置</a>
+				</li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#areaBuildingTab" >楼层坐标</a></li>
+				</ul>
+				<ul class="right-action">
+					<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+					<!-- <li><a data-event='dels' class='btn clarity' href='/deleteAdmLoccoorInfo.do'><i class="iconfont">&#xe62a;</i>删除</a></li> -->
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="areaBuildingTab">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+								<tr>
+									<th style='width: 70px;'><span>序号</span><!-- <a class='sorting'></a> --></th>
+									<th style='width: 80px;'>所属幢</th>
+									<th>层名</th>
+									<th style='width: 80px;'>层级排序</th>
+									<th style='width: 100px;'>所属监区</th>
+									<th style='width: 100px;'>所属分监区</th>
+									<th style='width: 50px;'>层图</th>
+									<th style='width: 200px;'>操作</th>
+								</tr>
+								
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ***添加层*** -->
+	<div role="dialog" id='areaFloorAdd'   class="bootbox modal fade in"  data-height='700'>
+		<div class="modal-dialog">
+			<form action="" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">添加楼层</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属幢</label>
+							<div class="col-md-9">
+								<select name="cooId" class='input-small' data-placeholder='幢' required isnull>
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">层名</label>
+							<div class="col-md-9">
+								<input type="text" required=""  class="form-control input-small valid" placeholder="楼层名称" value="" name="picName" >
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">层级</label>
+							<div class="col-md-9">
+								<select name="picLevel" class='input-small form-iselect iselect' data-placeholder='1' required>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属监区</label>
+							<div class="col-md-9">
+								<select name="pcoId" class='input-small' data-placeholder='监区'  >
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属分监区</label>
+							<div class="col-md-9">
+								<select name="ploId" class='input-small' data-placeholder='分监区'  >
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">文件上传</label>
+							<div class="col-md-3">
+								<input type="text" class='form-control input-small' name='picPath'  />
+							</div>
+							<div class="col-md-3"><a class="btn blue " data-event='upload'>上传</a></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >添加</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- ***修改层*** -->
+	<div role="dialog" id='areaFloorEdit'   class="bootbox modal fade in" data-height='700'>
+		<div class="modal-dialog">
+			<form action="" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">楼层修改</h4>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-bb-handler="main">提交</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- ***设置区域*** -->
+	<div role="dialog" id='areaRegionSet'   class="bootbox modal fade in"  data-height='700'>
+		<div class="modal-dialog">
+			<form action="" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">区域添加</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label" data-placeholder='幢'>所属幢</label>
+							<div class="col-md-9">
+								<input type="text" name='cooName' class='form-control input-small' readonly />
+								<input type="hidden" name="cooId" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属层</label>
+							<div class="col-md-9">
+								<input type="text" name='picName' class='form-control input-small' readonly />
+								<input type="hidden" name="picId" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">区域名</label>
+							<div class="col-md-9">
+								<input type="text" name="locName" value="" placeholder="区域名称" class="form-control input-small valid"  required="" >
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">中心点坐标</label>
+							<div class="col-md-9">
+								<div class="row">
+									<div class="col-md-1"><em class="label-title">X:</em></div>
+									<div class="col-md-3"><input type="text" name="locMainx" class="form-control" placeholder='X轴坐标' /></div>
+									<div class="col-md-1"><em class="label-title">Y:</em></div>
+									<div class="col-md-3"><input type="text" name="locMainy" class="form-control" placeholder='Y轴坐标' /></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">各轴边长(m)</label>
+							<div class="col-md-9">
+								<div class="row">
+									<div class="col-md-1"><em class="label-title">X:</em></div>
+									<div class="col-md-3"><input type="text" name="locSizex" class="form-control" placeholder='X轴边长' /></div>
+									<div class="col-md-1"><em class="label-title">Y:</em></div>
+									<div class="col-md-3"><input type="text" name="locSizey" class="form-control" placeholder='y轴边长' /></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >添加</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 查看图片详细 -->
+	<div role="dialog" id="areaFloorMapDetail"   class="bootbox modal fade in"  data-height='700'>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">楼层地图详细</h4>
+				</div>
+				<div class="modal-body">
+					<img src="" alt="楼层地图详细" style='width: 100%;' />
+				</div>
+				<div class="modal-footer">
+					<a class="btn blue cancel">关闭</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <td><input type="checkbox" class='icheck-item' value='{{id}}'  /></td> -->
+	<script id="areaFloorListTpl" type='text/template'>
+        {{ if coo}}
+		<tr>
+			<td>{{index}}</td>
+			<td>{{coo.cooName}}</td>
+			<td>{{picName}}</td>
+			<td>{{picLevel}}</td>
+			<td>{{pco ? pco.pcoName : ''}}</td>
+			<td>{{plo ? plo.ploName : ''}}</td>
+			<td><a class="glyphicons glyphicons-picture font-picture" data-event='origin' data-toggle='tooltip' data-original-title='点击查看地图' data-src='{{picPath}}' ></a></td>
+			<td class='action'>
+				<a data-event='edit' data-id='{{id}}' data-cooId='{{coo.id}}' class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>	
+                <a data-event='del' data-id='{{id}}'  data-cooId='{{coo.id}}'   class='iconfont' href='/deleteAdmLoccoorInfo.do' data-toggle="tooltip"  data-original-title="删除">&#xe62a;</a>
+			</td>
+		</tr>
+        {{ /if}}
+	</script>
+	<!-- <a data-event='regionSet' data-id='{{id}}' class='iconfont' data-toggle="tooltip"  data-original-title="设置区域" >&#xe66a;</a> -->
+	<script id="areaFloorEditTpl"  type='text/template'>
+		<div class='alert-container'></div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">所属幢</label>
+				<div class="col-md-9">
+					<select name="cooId" data-placeholder='幢' class='input-small' >
+						
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">层名</label>
+				<div class="col-md-9">
+					<input type="hidden" name='id' value='{{id}}' />
+					<input type="text" value="{{picName}}" name="picName" required="" number="true" class="form-control input-small valid" placeholder="楼层名称"  >
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">层级排序</label>
+				<div class="col-md-9">
+					<select name="picLevel" class='input-small form-iselect iselect' required>
+						<option value="1" {{picLevel == 1 ? "selected": ""}} >1</option>
+						<option value="2" {{picLevel == 2 ? "selected": ""}} >2</option>
+						<option value="3" {{picLevel == 3 ? "selected": ""}} >3</option>
+						<option value="4" {{picLevel == 4 ? "selected": ""}} >4</option>
+						<option value="5" {{picLevel == 5 ? "selected": ""}} >5</option>
+						<option value="6" {{picLevel == 6 ? "selected": ""}} >6</option>
+						<option value="7" {{picLevel == 7 ? "selected": ""}} >7</option>
+						<option value="8" {{picLevel == 8 ? "selected": ""}} >8</option>
+						<option value="9" {{picLevel == 9 ? "selected": ""}} >9</option>
+						<option value="10 {{picLevel == 10 ? "selected": ""}} ">10</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">所属监区</label>
+				<div class="col-md-9">
+					<select name="pcoId" class='input-small' data-placeholder='监区'  >
+									
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">所属分监区</label>
+				<div class="col-md-9">
+					<select name="ploId" class='input-small' data-placeholder='分监区'  >
+									
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label class="col-md-3 control-label">地图文件</label>
+				<div class="col-md-3">
+					<input type="text" class='input-small form-control' name='picPath' value='{{picPath}}' />
+				</div>
+				<div class="col-md-3"><a class="btn blue" data-event='upload'>上传</a></div>
+			</div>
+		</div>
+	</script>
+</div>
