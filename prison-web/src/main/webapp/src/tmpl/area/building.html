@@ -1,0 +1,310 @@
+<div class="content-box none" id='areaBuilding'>
+	<div class="widget-table">
+		<form class='search'  onkeydown="if(event.keyCode==13){return false;}">
+		<div class="widget-table-action" >
+			<ul class='left-action'>
+				<li>
+					<label>幢名：</label>
+				</li>
+				<li>
+					<input type="text" class='form-control input-sm input-middle' placeholder='幢名' name='cooName'  />
+				</li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+				<li>
+					<a  class="btn white btn-sm reset">重置</a>
+				</li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#areaBuildingTab" >建筑坐标系</a></li>
+				</ul>
+				<ul class="right-action">
+					<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="areaBuildingTab">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+								<tr>
+									<th><span>序号</span><!-- <a class='sorting'></a> --></th>
+									<th>幢</th>
+									<th>x坐标(地图)</th>
+									<th>Y坐标(地图)</th>
+									<th>总层数</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 增加幢 -->
+	<div role="dialog" id='areaBuildingAdd' tabindex="-1"  class="bootbox modal fade in" data-height='700'>
+		<div class="modal-dialog">
+			<form action="/prison/saveAdmLoccoorInfo.do " onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+					<h4 class="modal-title">添加单幢建筑物</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<label class="col-md-4 control-label">名称</label>
+								<div class="col-md-8">
+									<input type="text" name='cooName' placeholder="幢/区域/名称" class="form-control input-small" required>
+								</div>
+							</div>
+							<div class="col-md-6">
+								
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<label class="col-md-4 control-label">总层数</label>
+								<div class="col-md-8">
+									<input type="number" max="9"
+									 name="cooLevel"  value="" class="form-control input-small valid" placeholder="建筑所包含楼层数" required>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<label class="col-md-5 control-label">地图坐标:</label>
+								<div class="col-md-7">
+									<button class="btn blue" type="button"  data-event='handleCoordinate'>选取坐标点</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							
+							<div class="col-md-6">
+								<label class="col-md-4 control-label">X坐标</label>
+								<div class="col-md-8">
+									<input type="text" name='cooMainx' value='1' placeholder="X轴坐标" readonly='readonly' class="form-control input-small">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-md-4 control-label">Y坐标</label>
+									<div class="col-md-8">
+										<input type="text" name='cooMainy' value='1' placeholder="Y轴坐标" readonly='readonly' class="form-control input-small">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-bb-handler="main">保存</button>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 修改幢 -->
+	<div role="dialog" id='areaBuildingEdit' tabindex="-1"  class="bootbox modal fade in" >
+		<div class="modal-dialog">
+			<form action="/prison/updateAdmLoccoorInfo.do" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+					<h4 class="modal-title">单幢建筑物修改</h4>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-bb-handler="main">保存</button>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 添加层   -->
+	<div role="dialog" id='areaFloorSet' tabindex="-1"  class="bootbox modal fade in"  data-height='700'>
+		<div class="modal-dialog">
+			<form action="/prison/saveAdmPictureInfo.do" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">添加层</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属幢</label>
+							<div class="col-md-9">
+								<span data-name='build'></span>
+								<input type="hidden" name="picCoorid" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">层名</label>
+							<div class="col-md-9">
+								<input type="text" required="" class="form-control input-small valid" placeholder="楼层名称" value="" name="picGrpname" >
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">楼层数</label>
+							<div class="col-md-9">
+								<select name="picGroupid" class='input-small form-iselect' data-placeholder='1' required>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属监区</label>
+							<div class="col-md-9">
+								<select name="picPcono" class='input-small' data-placeholder='监区' required >
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">所属分监区</label>
+							<div class="col-md-9">
+								<select name="picPlono" class='input-small' data-placeholder='分监区' required >
+									
+								</select>
+								
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">本层比例</label>
+							<div class="col-md-9">
+								<em class='label-title'>1:</em>
+								<input type="text" value="" name="picRatio"  required="" number="true" class="form-control valid label-box" placeholder="比例" >
+							</div>
+						</div>
+						
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-md-3 control-label">地图文件</label>
+							<div class="col-md-3">
+								<input type="text" class="form-control input-small valid" required="" name='picName' readonly />
+								<input type="hidden" name='picPath'/>
+							</div>
+							<div class="col-md-3"><a class="btn blue " data-event='upload'>上传</a></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >添加</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<script id="areaBuildingListTpl" type='text/template'>
+		<tr>
+			<td>{{=index}}</td>
+			<td>{{=cooName}}</td>
+			<td>{{=cooMainx}}</td>
+			<td>{{=cooMainy}}</td>
+			<td>{{=cooLevel}}</td>
+			<td class="action">
+				<a data-event='edit' data-id='{{=id}}' class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>
+                <a data-event='del' data-id='{{=id}}' class='iconfont' data-toggle="tooltip"  data-original-title="删除">&#xe62a;</a>
+			</td>
+		</tr>
+	</script>
+	<!-- <a data-event='setFloor' data-id='{{=id}}' class='iconfont' data-toggle="tooltip"  data-original-title="设置层" >&#xe66a;</a> -->
+	<script id="areaBuildingEditTpl" type='text/template'>
+		<div class='alert-container'></div>
+		<input type="hidden" name='id' value='{{=id}}' />
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-6">
+					<label class="col-md-4 control-label">名称</label>
+					<div class="col-md-8">
+						<input type="text" name='cooName' value='{{=cooName}}' placeholder="幢/区域/名称" class="form-control input-small" required>
+					</div>
+				</div>
+				<div class="col-md-6">
+					
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-6">
+				<label class="col-md-5 control-label">地图坐标:</label>
+				<div class="col-md-7">
+					<button class="btn blue" type="button"  data-event='handleCoordinate'>选取坐标点</button>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-6">
+					<label class="col-md-4 control-label">X坐标</label>
+						<div class="col-md-8">
+							<input type="text" name='cooMainx' value='{{=cooMainx}}' placeholder="X轴坐标" readonly='readonly' class="form-control input-small">
+						</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-6">
+					<label class="col-md-4 control-label">Y坐标</label>
+					<div class="col-md-8">
+						<input type="text" name='cooMainy' value='{{=cooMainy}}' placeholder="Y轴坐标" readonly='readonly' class="form-control input-small">
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+</div>

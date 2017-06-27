@@ -1,0 +1,3 @@
+#表字段添加-begin-20170608
+alter table war_simple_result  add column peo_id varchar(64);
+#表字段添加-end-20170608

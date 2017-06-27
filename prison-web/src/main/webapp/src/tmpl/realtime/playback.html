@@ -1,0 +1,106 @@
+<div class="content-box none" id='realtimePlayback'>
+	<div class="container-box gray auto join" >
+		<div class="container-left">
+			<div class="nav-header top">
+				<div class="title"><i class="iconfont">&#xe694;</i>&nbsp;视频回放</div>
+			</div>
+			<div data-event="unbubble" class="time-range">
+				<div class="caption">请选择时间</div>
+				<div class="time-box">
+					<div>起始时间：<input type="text" name='startTime' class='datetimepicker' value='2016-10-22 18:42:32' /></div>
+					<div>结束时间：<input type="text" name='endTime' class='datetimepicker' value='2016-10-23 14:14:32' /></div>
+				</div>
+				<!-- <a data-event='search' class="time-search iconfont"><i class="iconfont">&#xe668;</i><br>搜索</a>		 -->		
+			</div>
+			<div class="package auto" data-diff='250'>
+				<div class="tab-content nav-list-content iscroll">
+				  	<div class="tab-pane fade in active">
+				  		<div data-view="build" class="panel-group accordion accordion-search" id="accordion-build-6">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-right">
+			<div class="nav-header top">
+				<div class="title">
+					<i class="iconfont">&#xe693;</i>&nbsp;当前位置：
+					<span data-value='left'></span>&gt;
+					<span data-value='center'></span>&gt;
+					<span data-value='right'></span>
+				</div>
+			</div>
+			<div class="video-box">
+				<div class="video-box">
+					<div class="video-block" data-view='video'>
+						<div class="video-title">
+							<div class="caption"><span data-name=''></span></div>
+							<div class="action">
+								<!-- <a title='开始/停止' data-event='start'><i class="iconfont">&#xe68a;&nbsp;</i></a> -->
+								<a title='全屏' data-event='max'><i class="iconfont">&#xe67d;&nbsp;</i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script id='playbackBuildTpl' type='text/template'>
+	<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<a href="#collapse-build-6-{{id}}" data-parent="#accordion-build-6" data-toggle="collapse" data-coo='{{id}}' data-index="{{index}}" data-event="changeBuild" class="accordion-toggle nowarp collapsed" aria-expanded="false">
+				{{cooName}}
+			</a>
+			{{ if index === 0 }}
+				<a class="accordion-action" data-event="refresh" data-fun='renderBuilds'><i class="iconfont ">&#xe644;</i>&nbsp;刷新</a>
+			{{ /if }}
+		</h4>
+	</div>
+	<div class="panel-collapse collapse" id="collapse-build-6-{{id}}" aria-expanded="false" >
+		<div class="panel-body atuo">
+			<div class="accordion-tree-container">
+				{{each pictures as pic}}
+				<div class="accordion-tree-list">
+					<div class="header">
+						<a class="collapse tree"  ></a>
+						<a class="text" data-pic="{{pic.id}}" data-event='openRegion'>
+							<i class="iconfont color-333">&#xe68b;</i>&nbsp;{{pic.picName}}
+						</a>
+					</div>
+                   {{ if pic.locareas }} 
+					<div class="bodyer" data-height='{{2 * pic.locareas.length}}'>
+						<div class="accordion-tree-container">
+							
+                                {{each pic.locareas as loc}}
+							     <div class="accordion-tree-list">
+								<div class="header">
+									<a class="collapse tree" ></a>
+									<a class="text play" title='点击打开当前区域实时监控' data-event="playback" data-pic='{{pic.id}}' data-loc='{{loc.id}}'>
+										<i class="iconfont color-333">&#xe68e;</i>&nbsp;{{loc.locName}}
+									</a>
+								</div>
+								<div class="bodyer" style="height: 0px; visibility: visible;">
+									<ul>
+										{{each loc.camera as cam}}
+										<li><a data-vid='{{cam.id}}' data-event="framed"><i class="iconfont color-green">&#xe633;&nbsp;</i>{{cam.camName}}</a></li>
+										{{/each}}
+									</ul>
+								</div>
+							</div>
+							{{/each}}
+                           
+						</div>
+					</div>
+                    {{ /if }}
+				</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+

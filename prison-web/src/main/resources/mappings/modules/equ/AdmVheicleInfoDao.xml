@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.equ.dao.AdmVheicleInfoDao">
+    
+	<sql id="admVheicleInfoColumns">
+		a.id AS "id",
+		a.vhe_sys_prisonid AS "vheSysPrisonid",
+		a.vhe_user_name AS "vheUserName",
+		a.vhe_user_type AS "vheUserType",
+		a.vhe_user_unit AS "vheUserUnit",
+		a.vhe_user_card_type AS "vheUserCardType",
+		a.vhe_user_card AS "vheUserCard",
+		a.vhe_user_sex AS "vheUserSex",
+		a.vhe_user_address AS "vheUserAddress",
+		a.vhe_user_telephone AS "vheUserTelephone",
+		a.vhe_num AS "vheNum",
+		a.plc_id AS "plcId",
+		a.vhe_type AS "vheType",
+		a.vhe_category AS "vheCategory",
+		a.vhe_state AS "vheState",
+		a.vhe_unit AS "vheUnit",
+		a.vhe_papers_num AS "vhePapersNum",
+		a.vhe_plc_id AS "vhePclId",
+		a.vhe_stat_date AS "vheStatDate",
+		a.vhe_end_date AS "vheEndDate",
+		a.vhe_equ_id AS "vheEquId",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="admVheicleInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="AdmVheicleInfo">
+		SELECT 
+			<include refid="admVheicleInfoColumns"/>
+		FROM adm_vheicle_info a
+		<include refid="admVheicleInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+		<select id="findByVheEquId" resultType="AdmVheicleInfo">
+		SELECT 
+			<include refid="admVheicleInfoColumns"/>
+		FROM adm_vheicle_info a
+		<include refid="admVheicleInfoJoins"/>
+		WHERE a.vhe_equ_id = #{vheEquId}
+	</select>
+			 
+	<select id="findByVheEquIdAndStatDateAndEndDate" resultType="AdmVheicleInfo">
+		SELECT 
+			<include refid="admVheicleInfoColumns"/>
+		FROM adm_vheicle_info a
+		<include refid="admVheicleInfoJoins"/>
+		WHERE a.vhe_equ_id = #{vheEquId}
+		AND a.stat_date &gt; CURDATE()
+		AND a.end_date is Null
+	</select>
+	
+	<select id="findVheicleInfoList" resultType="AdmVheicleInfo">
+		SELECT 
+			<include refid="admVheicleInfoColumns"/>
+		FROM adm_vheicle_info a
+		<include refid="admVheicleInfoJoins"/>
+		WHERE a.vhe_equ_id != ''
+		AND a.vhe_stat_date &gt; CURDATE()
+		AND a.vhe_end_date is Null
+	</select>
+	
+		<select id="findOneByStatDate" resultType="AdmVheicleInfo">
+		SELECT 
+			<include refid="admVheicleInfoColumns"/>
+		FROM adm_vheicle_info a
+		<include refid="admVheicleInfoJoins"/>
+		<where>
+			a.del_flag = '0'
+			AND  a.vhe_num !='' 
+			 AND a.vhe_stat_date &gt; CURDATE()
+			 AND a.vhe_end_date is Null
+		</where>
+	</select>
+	
+	<select id="findList" resultType="AdmVheicleInfo">
+		SELECT 
+			<include refid="admVheicleInfoColumns"/>
+		FROM adm_vheicle_info a
+		<include refid="admVheicleInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="vhePapersNum != null and vhePapersNum != ''">
+				AND a.vhe_papers_num = #{vhePapersNum}
+			</if>
+			<if test="vheStatDate != null and vheStatDate != ''">
+				AND a.vhe_stat_date = #{vheStatDate}
+			</if>
+			<if test="vheEndDate != null and vheEndDate != ''">
+				AND a.vhe_end_date = #{vheEndDate}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="AdmVheicleInfo">
+		SELECT 
+			<include refid="admVheicleInfoColumns"/>
+		FROM adm_vheicle_info a
+		<include refid="admVheicleInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adm_vheicle_info(
+			id,
+			vhe_sys_prisonid,
+			vhe_user_name,
+			vhe_user_type,
+			vhe_user_unit,
+			vhe_user_card_type,
+			vhe_user_card,
+			vhe_user_sex,
+			vhe_user_address,
+			vhe_user_telephone,
+			vhe_num,
+			plc_id,
+			vhe_type,
+			vhe_category,
+			vhe_state,
+			vhe_unit,
+			vhe_papers_num,
+			vhe_plc_id,
+			vhe_stat_date,
+			vhe_end_date,
+			vhe_equ_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{vheSysPrisonid},
+			#{vheUserName},
+			#{vheUserType},
+			#{vheUserUnit},
+			#{vheUserCardType},
+			#{vheUserCard},
+			#{vheUserSex},
+			#{vheUserAddress},
+			#{vheUserTelephone},
+			#{vheNum},
+			#{vhePlcId},
+			#{vheType},
+			#{vheCategory},
+			#{vheState},
+			#{vheUnit},
+			#{vhePapersNum},
+			#{vhePlcId},
+			#{vheStatDate},
+			#{vheEndDate},
+			#{vheEquId},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adm_vheicle_info SET 	
+			vhe_sys_prisonid = #{vheSysPrisonid},
+			vhe_user_name = #{vheUserName},
+			vhe_user_type = #{vheUserType},
+			vhe_user_unit = #{vheUserUnit},
+			vhe_user_card_type = #{vheUserCardType},
+			vhe_user_card = #{vheUserCard},
+			vhe_user_sex = #{vheUserSex},
+			vhe_user_address = #{vheUserAddress},
+			vhe_user_telephone = #{vheUserTelephone},
+			vhe_num = #{vheNum},
+			vhe_plc_id = #{vhePlcId},
+			vhe_type = #{vheType},
+			vhe_category = #{vheCategory},
+			vhe_state = #{vheState},
+			vhe_unit = #{vheUnit},
+			vhe_papers_num = #{vhePapersNum},
+			vhe_plc_id = #{vhePlcId},
+			vhe_stat_date = #{vheStatDate},
+			vhe_end_date = #{vheEndDate},
+			vhe_equ_id = #{vheEquId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+		<update id="updateAdmVheicleInfo">
+		UPDATE adm_vheicle_info SET 	
+			vhe_sys_prisonid = #{vheSysPrisonid},
+			vhe_user_name = #{vheUserName},
+			vhe_user_type = #{vheUserType},
+			vhe_user_unit = #{vheUserUnit},
+			vhe_user_card_type = #{vheUserCardType},
+			vhe_user_card = #{vheUserCard},
+			vhe_user_sex = #{vheUserSex},
+			vhe_user_address = #{vheUserAddress},
+			vhe_user_telephone = #{vheUserTelephone},
+			vhe_num = #{vheNum},
+			vhe_plc_id = #{vhePlcId},
+			vhe_type = #{vheType},
+			vhe_category = #{vheCategory},
+			vhe_state = #{vheState},
+			vhe_unit = #{vheUnit},
+			vhe_papers_num = #{vhePapersNum},
+			vhe_plc_id = #{vhePlcId},
+			vhe_stat_date = #{vheStatDate},
+			vhe_end_date = #{vheEndDate},
+			vhe_equ_id = #{vheEquId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<update id="delete">
+		UPDATE adm_vheicle_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

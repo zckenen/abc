@@ -1,0 +1,137 @@
+<div class="content-box none" id='realtimeViptrack'>
+	<div class="container-box gray auto join" >
+		<div class="container-left">
+			<div class="nav-header top">
+				<div class="title"><i class="iconfont">&#xe612;</i>&nbsp;追踪巡检</div>
+			</div>
+			<div data-event="unbubble" class="search">
+				<input type="text" data-event="lookfor" name="condition" placeholder='请输入编号或人名'>
+				<a class="magnifier iconfont" data-event="search">&#xe668;</a>
+				<ul>
+					
+				</ul>
+			</div>
+			<div class="package auto">
+				<div class="track-box">
+					<div class="track-box-header">
+						<h5>人员列表</h5>
+						<button  data-name='push' data-event='push' class="iconfont" >&#xe6b6; 新增</button>
+					</div>
+					<div class="track-box-nav">
+						<ul>
+							<li><h5>巡检频率：</h5></li>
+							<li>
+								<select name='rate'>
+									<option value="5">5秒</option>
+									<option value="15">15秒</option>
+									<option value="30">30秒</option>
+									<option value="60">1分钟</option>
+								</select>
+							</li>
+							<li>
+								<a data-event='startTrack' class="button green active "><i class="iconfont">&#xe681;</i>开始巡检</a>
+							</li>
+							<li>
+								<a data-event='stopTrack' class="button red active">停止</a>
+							</li>
+						</ul>
+					</div>
+					<div class="track-box-count">
+						总共<span class='color-f08519' id='num'></span>人,现在进行第<span class='color-f08519' id='times'>0</span>次巡检
+					</div>
+					<div class="track-box-body" id='vipTrackList'>
+						
+					</div>
+				</div>
+			</div>
+		<!-- 	<div class="nav-header">
+				<div class="title"><i style="vertical-align: 1.5px;" class="iconfont"></i>&nbsp;全局缩略图</div>
+				<a data-event="slide" class="action color-666"><i class="iconfont"></i>&nbsp;&nbsp;</a>
+			</div>
+			<div class="tab-bodyer">
+				<div class="minify">
+					<div class="thumb">
+						<img id="monitor-thumb" src="">
+						<div id="monitor-thumb-point" class="point">
+							<div class="caption nowarp" data-value='coo' ></div>
+							<svg height="55px" width="55px">
+								<defs>
+									<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-outer-x">
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"/>
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="50%"/>
+										<stop style="stop-color:rgb(230, 53, 30); stop-opacity:0.4" offset="100%"/>
+									</radialGradient>
+									<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-inner-y>
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"/>
+										<stop style="stop-color:rgb(221, 179, 178); stop-opacity:0.7" offset="70%"/>
+										<stop style="stop-color:rgb(230, 53, 30); stop-opacity:1" offset="100%"/>
+									</radialGradient>
+								</defs>	
+								<circle style="fill:url(#rad-grad-outer-x)" stroke-width="1" stroke="rgba(242, 211, 207, 0.9)" r="27.5" cy="27.5" cx="27.5"/>
+								<circle style="fill:url(#rad-grad-inner-y)" stroke-width="1" stroke="rgba(230, 53, 30, 0.9)" r="14" cy="27.5" cx="27.5"/>
+								<text fill="rgba(230, 53, 30, 1)" dy="46%" dx="29%" style="font-size: 24px;" class="iconfont"></text>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		 --></div>
+		<div class="container-right">
+			<div class="nav-header top">
+				<div class="title" id='viptrackCrumbs'>
+					
+				</div>
+			</div>
+			<div class="video-box">
+				<div class="video-block" data-view='video'>
+					<div class="video-title">
+						<div class="caption">当前巡检罪犯 <span data-name=''></span></div>
+						<div class="action">
+							<!-- <a title='开始/停止' data-event='start'><i class="iconfont">&#xe68a;&nbsp;</i></a> -->
+							<a title='全屏' data-event='max'><i class="iconfont">&#xe67d;&nbsp;</i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script id='viptrackCrumbsTpl' type='template/text'>
+	<i class="iconfont">&#xe693;</i>&nbsp;当前位置：
+	<span data-value='left'>{{coo.cooName}}</span>&gt;
+	<span data-value='center'>{{pic.picName}}</span>&gt;
+	<span data-value='right'>{{locName}}</span>
+</script>
+<script id='realtimeVipListTpl' type='template/text'>
+	<div class="list" data-id='{{id}}' data-watnum='{{watNum}}'>
+		<div class="col-md-2"><i class="iconfont {{impType == 1 ? 'color-green' : 'color-red'}} person">&#xe6ba;</i></div>
+		<div class="col-md-7">
+			<dl>
+				<dt>{{impName}}</dt>
+				<dd>{{criNum}} {{pco.pcoName}}</dd>
+			</dl>
+		</div>
+		<div class="col-md-3">
+			{{if !remarks}}
+				<button type='button' data-event='remove' data-name='remove' data-id='{{id}}' class="action" style='display: block'><i class='iconfont'>&#xe658;</i>移除</button>
+			{{/if}}
+		</div>
+	</div>
+</script>
+<script id='realtimeSearchTpl' type='template/text'>
+	<li>
+		<a  data-event='locate' data-id='{{id}}'>
+			{{if peoType == 1}}
+				<i class="iconfont color-green">&#xe6ba;</i>
+			{{else if peoType == 2}}
+				<i class="iconfont color-red">&#xe6ba;</i>
+			{{else if peoType == 3}}
+				<i class="iconfont color-blue">&#xe6b9;</i>
+			{{else}}
+				<i class="iconfont color-green">&#xe69f;</i>
+			{{/if}}
+			<span class='name'>&nbsp;&nbsp;{{peoName}}</span>
+			<span class='info'>({{peoNum}})</span>
+		</a>
+	</li>
+</script>

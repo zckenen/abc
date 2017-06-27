@@ -1,0 +1,308 @@
+<div class="content-box none" id='aerialManagement'>
+	<!-- iLoc智能AP -->
+	<div class="widget-table">
+		<form action="/prison/loadAdmRecvunitInfo.do" class='search'>
+		<div class="widget-table-action" >
+			<ul class='left-action'>
+				<li>
+					<label>幢：</label>
+				</li>
+				<li>
+					<select name='coo.id' data-name='s_cooId' class="form-control input-small" data-placeholder="幢" tabindex="0" >
+						<option value="null">所属幢</option>
+					</select>
+				</li>
+				<li>
+					<label>层：</label>
+				</li>
+				<li>
+					<select name='pic.id' data-name='s_picId' class="form-control input-small" data-placeholder="层" tabindex="0" >
+						<option value="null">所属层</option>
+					</select>
+				</li>
+				<li>
+					<label>区域：</label>
+				</li>
+				<li>
+					<select name='loc.id' data-name='s_locId' class="form-control input-small" data-placeholder="区域" tabindex="0"></select>
+				</li>
+				<li>
+					<label>类型：</label>
+				</li>
+				<li>
+					<select name='recType' class="form-control input-small iselect"  data-placeholder="iLoc智能AP类型" tabindex="0" >
+						<option value="null">iLoc智能AP类型</option>
+						<option value="0">普通iLoc智能AP</option>
+						<option value="1">通道iLoc智能AP</option>
+					</select>
+				</li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+				<li>
+					<a  class="btn white btn-sm reset">重置</a>
+				</li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#areaBuildingTab" >iLoc智能AP</a></li>
+				</ul>
+				<ul class="right-action">
+					<!-- <li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li> -->
+					<li><a data-event='dels' class='btn clarity' href=''><i class="iconfont">&#xe62a;</i>删除</a></li>
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="areaBuildingTab">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+								<tr>
+									<th style='width: 50px;' >
+										<input type="checkbox" class='check-items all' value=''/>
+									</th>
+									<th><span>序号</span><!-- <a class='sorting'></a> --></th>
+									<th>名称</th>
+									<th>幢</th>
+									<th>层</th>
+									<th>区域</th>
+									<th>系数权重</th>
+									<th>类型</th>
+									<th>RSSI修正值</th>
+									<th>iLoc智能RP(ip:端口)</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id='aerialManagementList'>
+							
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加iLoc智能AP -->
+	<div role="dialog" id='aerialManagementAdd'   class="bootbox modal fade in" data-height='600' >
+		<div class="modal-dialog">
+			<form action="/prison/saveAdmRecvunitInfo.do" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+					<h4 class="modal-title">添加iLoc智能AP</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">iLoc智能AP名称</div>
+							<div class="col-md-10">
+								<input type="text" name='recName' class='form-control input-large' required />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">系数权重</div>
+							<div class="col-md-10">
+								<input type="text" name='recWeight' class='form-control input-large' required />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2">安装区域</div>
+							<div class="col-md-3">
+								<select name='cooId' data-name='cooId' class="form-control input-small" data-placeholder="幢" >
+									
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select name='picId' data-name='picId' class="form-control input-small" data-placeholder="层" >
+									
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select name='locId' data-name='locId' class="form-control input-small" data-placeholder="区域" >
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">iLoc智能RP</div>
+							<div class="col-md-10">
+								<select name='rcvId' class="form-control input-small" data-placeholder="iLoc智能RP" >
+									
+								</select>
+								<select name="recIndex" class="form-control input-small" required>
+									<option value="">端口</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">iLoc智能AP修正值</div>
+							<div class="col-md-10">
+								<input type="text" name='recRssidiff' class='form-control input-large' />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">iLoc智能AP类型</div>
+							<div class="col-md-10">
+								<select name='recType' class="form-control input-small iselect"  tabindex="0" >
+									<option value="0">普通iLoc智能AP</option>
+									<option value="1">通道iLoc智能AP</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-bb-handler="main">绑定</button>
+					<a class="btn default cancel" >取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 修改iLoc智能AP-->
+	<div role="dialog" id='aerialManagementEdit' tabindex="-1"  class="bootbox modal fade in" >
+		<div class="modal-dialog">
+			<form action="/prison/updateAdmRecvunitInfo.do" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+					<h4 class="modal-title">修改iLoc智能AP</h4>
+				</div>
+				<div class="modal-body">
+					
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-bb-handler="main">修改</button>
+					<a class="btn default cancel" >取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<script id="aerialManagementListTpl" type='text/template'>
+		<tr>
+			<td><input type="checkbox" class='check-item' value='{{id}}' /></td>
+			<td>{{index}}</td>
+			<td>{{recName}}</td>
+			<td>{{coo.cooName}}</td>
+			<td>{{pic.picName}}</td>
+			<td>{{loc.locName}}</td>
+			<td>{{recWeight}}</td>
+			<td>{{recType == 1 ? '通道iLoc智能AP': '普通iLoc智能AP'}}</td>
+			<td>{{recRssidiff}}</td>
+			<td>{{rcv.rcvName}}:{{rcv.rcvIp}}:{{recIndex}}</td>
+			<td class="action">
+				<a data-event='edit' data-id='{{id}}'  class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>	
+			</td>
+		</tr>
+	</script>
+	<script id="aerialManagementEditTpl" type='text/template'>
+		<div class='alert-container'></div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">iLoc智能AP名称</div>
+					<div class="col-md-10">
+						<input type="hidden" name='id' value='{{id}}' class='form-control input-large' />
+						<input type="text" name='recName' value='{{recName}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">系数权重</div>
+					<div class="col-md-10">
+						<input type="text" name='recWeight' value='{{recWeight}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2">安装区域</div>
+					<div class="col-md-3">
+						<select name='cooId' data-name='cooId' class="form-control input-small" data-placeholder="幢" >
+							
+						</select>
+					</div>
+					<div class="col-md-3">
+						<select name='picId' data-name='picId' class="form-control input-small" data-placeholder="层" >
+							
+						</select>
+					</div>
+					<div class="col-md-3">
+						<select name='loc.id' data-name='locId' class="form-control input-small" data-placeholder="区域" >
+							
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">iLoc智能RP</div>
+					<div class="col-md-10">
+						<select name='rcv.id' data-name='rcvId' value='{{rcv.id}}' class="form-control input-small" data-placeholder="iLoc智能RP" >
+							
+						</select>
+						
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">iLoc智能RP端口</div>
+					<div class="col-md-10">
+						<select name="recIndex" class="form-control input-small" required>
+							<option value="">端口</option>
+							<option value="1" {{recIndex == 1 ? "selected" : ''}}>1</option>
+							<option value="2" {{recIndex == 2 ? "selected" : ''}}>2</option>
+							<option value="3" {{recIndex == 3 ? "selected" : ''}}>3</option>
+							<option value="4" {{recIndex == 4 ? "selected" : ''}}>4</option>
+							<option value="5" {{recIndex == 5 ? "selected" : ''}}>5</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">iLoc智能AP修正值</div>
+					<div class="col-md-10">
+						<input type="text" name='recRssidiff'  value='{{=recRssidiff}}' class='form-control input-large' />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">iLoc智能AP类型</div>
+					<div class="col-md-10">
+						<select name='recType' class="form-control input-small iselect"  tabindex="0" >
+							<option value="0" {{=recType == 0 ? 'selected' : ''}}>普通iLoc智能AP</option>
+							<option value="1" {{=recType == 1 ? 'selected' : ''}}>通道iLoc智能AP</option>
+						</select>
+					</div>
+				</div>
+			</div>
+	</script>
+</div>

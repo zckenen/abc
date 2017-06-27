@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.equ.dao.WatchDao">
+	<select id="AdmWatchInfoCount"  resultType="int" parameterType="map">
+		SELECT 
+			COUNT(*)
+		FROM adm_people_info a
+		JOIN adm_prisonloc_info b ON a.plo_id=b.id
+		JOIN adm_prisoncoo_info c ON a.pco_id=c.id
+		LEFT OUTER JOIN adm_watch_info d ON d.wat_num=a.wat_num 
+		WHERE 1=1 
+		<if test="peo_type != null and peo_type !='' "> 
+			AND a.peo_type=#{peo_type}  
+		</if>
+		<if test="wat_type != null and wat_type !='' "> 
+			AND d.wat_type=#{wat_type}   
+		</if>
+		<if test="peo_id != null and peo_id !='' "> 
+			AND a.cri_id  LIKE CONCAT(CONCAT('%',#{peo_id}),'%') 
+		</if>
+		<if test="peo_name != null and peo_name!='' "> 
+			AND a.peo_name LIKE CONCAT(CONCAT('%',#{peo_name}),'%') 
+		</if>
+		<if test="peo_watid != null and peo_watid!='' "> 
+			AND a.wat_num LIKE CONCAT(CONCAT('%',#{peo_watid}),'%') 
+		</if>
+		<if test="peo_coo != null and peo_coo!='' "> 
+			AND a.pco_id=#{peo_coo}  
+		</if>
+		<if test="peo_loc != null and peo_loc!='' "> 
+			AND a.plo_id=#{peo_loc}  
+		</if>
+		
+	</select>
+
+	
+	<sql id="watchColumns">
+		a.id,
+		a.cri_id,
+		a.peo_name,
+		a.peo_num,
+		a.peo_type,
+		a.peo_dorm,
+		a.update_date AS "updateDate",
+		b.id AS "wat.id",
+		b.wat_num AS "wat.watNum",
+		b.wat_type AS "wat.watType",
+		b.wat_rfid AS "wat.watRfid",
+		c.id AS "pco.id",
+		c.pco_name AS "pco.pcoName",
+		d.id AS "plo.id",
+		d.plo_name AS "plo.ploName",
+		b.create_by AS "wat.createBy.id",
+		b.create_date AS "wat.createDate", 
+		b.update_by AS "wat.updateBy.id",
+		b.update_date AS "wat.updateDate",
+		b.del_flag AS "wat.delFlag",
+		e.id AS "bed.id",
+		e.bed_type AS "bed.bedType",
+		e.bed_num AS "bed.bedNum",
+		e.loc_id AS "bed.locId",
+		f.id AS "wrk.id",
+		f.wrk_name AS "wrk.wrkName",
+		f.wrk_num AS "wrk.wrkNum",
+		f.loc_id AS "wrk.locId"<!-- ,
+		g.cri_picpath AS "cri.criPicpath" -->
+    </sql>
+    <sql id="watchJoins">
+		LEFT JOIN`adm_watch_info`b ON a.wat_num=b.wat_num AND b.del_flag = 0 and b.wat_status=0
+		LEFT JOIN`adm_prisoncoo_info`c ON a.pco_id=c.id
+		LEFT JOIN`adm_prisonloc_info`d ON a.plo_id=d.id 
+		left join adm_bed e on a.bed_id=e.id and e.del_flag = #{DEL_FLAG_NORMAL}
+		left join adm_worker f on a.worker_id=f.id and f.del_flag = #{DEL_FLAG_NORMAL}
+	<!-- 	left join adm_criminal_info g ON a.`peo_num`=g.`cri_num` AND a.`peo_name`=g.`cri_criminalname` AND g.`del_flag` = #{DEL_FLAG_NORMAL} -->
+    </sql>
+	
+	
+	<select id="selAdmWatchInfoCountByWatid"  parameterType="string"  resultType="com.gt.prison.modules.equ.entity.AdmWatchInfo">
+		SELECT * FROM `adm_watch_info` WHERE wat_num=#{newWatNum}  AND  del_flag = 0
+	</select>
+   <update id="bindWatchId" parameterType="com.gt.prison.modules.equ.entity.AdmWatchInfo" >
+   		UPDATE adm_people_info SET 
+   		wat_num=#{watNum} 
+   		WHERE id=#{peo.id};
+   </update>
+   
+   <insert id="changeSaveAdmWatchInfo" parameterType="com.gt.prison.modules.equ.entity.AdmWatchInfo"  >
+   		insert into adm_watch_info (
+	   		id,
+	   		wat_num,
+	   		wat_type,
+	   		wat_rfid,
+	   		peo_type,
+	   		create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag) 
+	   	values (
+		   	#{id},
+		   	#{newWatNum},
+		   	#{watType},
+		   	#{watRfid},
+		   	#{peo.peoType},
+		   	#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag})
+   </insert>
+   
+   
+   <insert id="saveAdmWatchInfo" parameterType="com.gt.prison.modules.equ.entity.AdmWatchInfo"  >
+   		insert into adm_watch_info (
+	   		id,
+	   		wat_num,
+	   		wat_type,
+	   		wat_rfid,
+	   		peo_type,
+	   		create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag) 
+	   	values (
+		   	#{id},
+		   	#{watNum},
+		   	#{watType},
+		   	#{watRfid},
+		   	#{peo.peoType},
+		   	#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag})
+   </insert>
+   
+   <update id="unBindWatchId" parameterType="com.gt.prison.modules.equ.entity.AdmWatchInfo" >
+   		UPDATE adm_people_info SET wat_num=0 WHERE id=#{peo.id};
+    </update>
+     <update id="unBindWatchInfo" parameterType="com.gt.prison.modules.equ.entity.AdmWatchInfo">
+   		UPDATE adm_watch_info SET 
+	   		wat_status=1,
+	   		del_flag=1,
+	   		update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks} 
+		WHERE wat_num=#{watNum};
+    </update>
+    <update id="unBindWatchInfoById" parameterType="com.gt.prison.modules.equ.entity.AdmWatchInfo">
+   		UPDATE adm_watch_info SET 
+	   		wat_status=1,
+	   		del_flag=1,
+	   		update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks} 
+		WHERE wat_num=#{watNum};
+    </update>
+    
+    <update id="changeWatchId" parameterType="com.gt.prison.modules.equ.entity.AdmWatchInfo" >
+   		UPDATE adm_people_info SET wat_num=#{newWatNum} WHERE id=#{peo.id};
+    </update>
+     <insert id="saveNewWatchInfo" parameterType="com.gt.prison.modules.equ.entity.AdmWatchInfo" >
+   		insert into adm_watch_info (id,wat_num) values (#{id},#{watNum})
+   </insert>
+   
+    <select id="findAdmWatchInfoById" resultType="AdmPeopleInfo">
+		SELECT 
+			<include refid="watchColumns"/> , 
+			g.cri_picpath AS "cri.criPicpath"
+		FROM `adm_people_info`a 
+		LEFT JOIN`adm_watch_info`b ON a.wat_num=b.wat_num AND b.del_flag = 0 AND b.wat_status=0
+		LEFT JOIN`adm_prisoncoo_info`c ON a.pco_id=c.id
+		LEFT JOIN`adm_prisonloc_info`d ON a.plo_id=d.id 
+		LEFT JOIN adm_bed e ON a.bed_id=e.id AND e.del_flag = 0
+		LEFT JOIN adm_worker f ON a.worker_id=f.id AND f.del_flag = 0
+		LEFT JOIN adm_criminal_info g ON a.`peo_num`=g.`cri_num` AND a.`peo_name`=g.`cri_criminalname` AND g.`del_flag` =0		
+		where  a.del_flag = #{DEL_FLAG_NORMAL}
+		AND	a.id=#{id}
+			<choose>  
+                 <when test='peoWatStatus != null and peoWatStatus !="" and peoWatStatus =="1" '>
+                 	  AND a.wat_num  <![CDATA[ <> ]]>  '0'
+                 </when>  
+                 <when test='peoWatStatus != null and peoWatStatus !="" and peoWatStatus =="0" '>
+                 	  AND a.wat_num  = '0'  AND a.peo_type!='3'
+                 </when> 
+                 <otherwise>
+	                AND a.peo_type!='3'
+	            </otherwise>
+        	</choose>
+
+	</select>
+   
+   
+   <select id="loadAdmWatchInfo" resultType="AdmPeopleInfo">
+		SELECT 
+			<include refid="watchColumns"/> 
+		FROM `adm_people_info`a 
+		<include refid="watchJoins"/>
+		
+		<where>
+			 a.del_flag = #{DEL_FLAG_NORMAL}
+			
+			<if test="pco != null and pco.id !='' and  pco.id !=null"> 
+				AND a.pco_id=#{pco.id}  
+			</if>
+			<if test="plo != null and plo.id !='' and plo.id !=null"> 
+				AND a.plo_id=#{plo.id}  
+			</if>
+			<if test="wat!=null and wat.watType != null and wat.watType !=''"> 
+				AND b.wat_type=#{wat.watType}   
+			</if>
+			<if test="wat!=null and wat.watNum != null and wat.watNum !='' "> 
+				AND a.wat_num LIKE CONCAT(CONCAT('%',#{wat.watNum}),'%') 
+			</if>
+	 		 <if test="peoType != null and peoType !='' "> 
+				AND a.peo_type=#{peoType}  
+			</if>
+			 <if test="peoDorm != null and peoDorm !='' "> 
+				AND a.peo_dorm=#{peoDorm}  
+			</if>
+			<if test="criId != null and criId !='' "> 
+				AND a.cri_id  LIKE CONCAT(CONCAT('%',#{criId}),'%') 
+			</if>
+			<if test="peoNum != null and peoNum !='' "> 
+				AND a.peo_num  LIKE CONCAT(CONCAT('%',#{peoNum}),'%') 
+			</if>
+			<if test="peoName != null and peoName !='' "> 
+				AND a.peo_name LIKE CONCAT(CONCAT('%',#{peoName}),'%') 
+			</if>
+			<choose>  
+                 <when test='peoWatStatus != null and peoWatStatus !="" and peoWatStatus =="1" '>
+                 	  AND a.wat_num  <![CDATA[ <> ]]>  '0'
+                 </when>  
+                 <when test='peoWatStatus != null and peoWatStatus !="" and peoWatStatus =="0" '>
+                 	  AND a.wat_num  = '0'  AND a.peo_type!='3'
+                 </when> 
+                  <when test='peoWatStatus != null and peoWatStatus !="" and peoWatStatus =="2" '>
+                 	  AND a.wat_num  = '0'  AND a.peo_type!='3' and a.pco_id='3319140000'
+                 </when> 
+                 <otherwise>
+	                AND a.peo_type!='3'
+	            </otherwise>
+        	</choose>
+                 <if test='peoBedStatus != null and peoBedStatus !="" and peoBedStatus =="1" '>
+                 	  AND (a.bed_id="" OR a.bed_id IS NULL) and a.pco_id='3319140000'
+                 </if>  
+                 <if test='peoWrkStatus != null and peoWrkStatus !="" and peoWrkStatus =="1" '>
+                 	   AND (a.worker_id="" OR a.worker_id IS NULL) and a.pco_id='3319140000'
+                 </if>  
+        	<if test='peoDormStatus != null and peoDormStatus !="" and peoDormStatus =="1" '>
+                 	   AND (a.peo_dorm="" OR a.peo_dorm IS NULL) and a.pco_id='3319140000'
+        	</if>
+		</where>
+	</select>
+	
+		<!-- 查询全部用户 -->
+	<select id="findAllList" resultType="AdmWatchInfo">
+		SELECT
+			a.id,
+			a.wat_num,
+			a.wat_rfid,
+			a.wat_status,
+			a.wat_type,
+			a.remarks,
+			a.create_by AS "createBy.id",
+			a.create_date,
+			a.update_by AS "updateBy.id",
+			a.update_date,
+			a.del_flag
+		FROM adm_watch_info a
+		WHERE a.del_flag = 0
+		and  a.wat_status = 0
+	</select>
+
+</mapper>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.per.dao.AdmCriminalChangeDao">
+    
+	<sql id="admCriminalChangeColumns">
+		a.id AS "id",
+		a.num AS "num",
+		a.name AS "name",
+		a.peo_id AS "peoId",
+		a.pco_id AS "pcoId",
+		a.state AS "state",
+		a.use_name AS "useName",
+		a.type AS "type",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		b.peo_dorm AS 'peo.peoDorm',
+		b.worker_id AS 'peo.workerId',
+		b.bed_id  AS 'peo.bedId',
+		b.`pco_id` AS 'peo.pcoId',
+		b.`plo_id` AS 'peo.ploId',
+		d.`id` AS 'bedLoc.id',
+		e.`id` AS 'bedPic.id',
+		f.`id` AS 'bedCoo.id',
+        h.`id` AS 'wrkLoc.id',
+		i.`id` AS 'wrkPic.id',
+		j.`id` AS 'wrkCoo.id'
+	</sql>
+	
+	<sql id="admCriminalChangeJoins">
+		LEFT JOIN adm_people_info b ON b.id=a.peo_id
+		LEFT JOIN adm_bed c ON b.`bed_id`=c.`id`		
+		LEFT JOIN adm_locarea_info d ON c.`loc_id`=d.`id`
+		LEFT JOIN adm_picture_info e ON  d.pic_id=e.`id`
+		LEFT JOIN adm_loccoor_info f ON e.`coo_id`=f.`id`		
+		LEFT JOIN adm_worker g ON b.`worker_id`=g.`id`		
+		LEFT JOIN adm_locarea_info h ON g.`loc_id`=h.`id`
+		LEFT JOIN adm_picture_info i ON  h.pic_id=i.`id`
+		LEFT JOIN adm_loccoor_info j ON i.`coo_id`=j.`id`
+	</sql>
+    
+	<select id="get" resultType="AdmCriminalChange">
+		SELECT 
+			<include refid="admCriminalChangeColumns"/>
+		FROM adm_criminal_change a
+		<include refid="admCriminalChangeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AdmCriminalChange">
+		SELECT 
+			<include refid="admCriminalChangeColumns"/>
+		FROM adm_criminal_change a
+		<include refid="admCriminalChangeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="num != null and num != ''">
+				AND a.num = #{num}
+			</if>
+			<if test="pcoId != null and pcoId != ''">
+				AND a.pco_id = #{pcoId}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="createDate != null and createDate !='' ">
+				AND create_date <![CDATA[  >=  ]]> #{startTime} AND create_date <![CDATA[   <=  ]]> #{endTime} 
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="findLists" resultType="AdmCriminalChange">
+		SELECT 
+			<include refid="admCriminalChangeColumns"/>
+		FROM adm_criminal_change a
+		<include refid="admCriminalChangeJoins"/>
+		<where>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			AND a.del_flag = #{DEL_FLAG_NORMAL}
+			ORDER BY a.create_date desc
+		</where>
+	</select>
+	
+	
+	<select id="findAllList" resultType="AdmCriminalChange">
+		SELECT 
+			<include refid="admCriminalChangeColumns"/>
+		FROM adm_criminal_change a
+		<include refid="admCriminalChangeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adm_criminal_change(
+			id,
+			num,
+			name,
+			peo_id,
+			pco_id,
+			state,
+			use_name,
+			type,
+			create_by,
+			update_by,
+			create_date,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{num},
+			#{name},
+			#{peoId},
+			#{pcoId},
+			#{state},
+			#{useName},
+			#{type},
+			#{createBy.id},
+			#{updateBy.id},
+			#{createDate},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adm_criminal_change SET 	
+			state = #{state},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE adm_criminal_change SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="upDate">
+		UPDATE adm_criminal_change SET 	
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE peo_id = #{peoId} 
+		AND type = #{type}
+		AND state='0'
+	</update>
+	
+	<insert id="insertNew">
+		INSERT INTO adm_criminal_change(
+			id,
+			num,
+			name,
+			peo_id,
+			pco_id,
+			type,
+			create_by,
+			update_by,
+			create_date,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{num},
+			#{name},
+			#{peoId},
+			#{pcoId},
+			#{type},
+			#{createBy.id},
+			#{updateBy.id},
+			#{createDate},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="updateState">
+		UPDATE adm_criminal_change SET 	
+			state = #{state},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE peo_id = #{peoId} 
+		AND type = #{type}
+	</update>
+</mapper>

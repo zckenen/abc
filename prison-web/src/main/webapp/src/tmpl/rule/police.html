@@ -1,0 +1,357 @@
+<div class="content-box none" id='rulePolice'>
+	<ul class='nav nav-tabs nav-custom-list'>
+		<li class='active'>
+			<a href='#tab-police-list' data-toggle='tab' >民警规则列表</a>
+		</li>
+		<li>
+			<a href='#tab-police-add' data-toggle='tab'>民警规则添加</a>
+		</li>
+		<li>
+			<a href='#tab-police-edit' data-toggle='tab' style='display: none;' class='tab-close'>
+				民警规则修改&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class='glyphicons glyphicons-remove' data-event='close'></span>
+			</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<!-- 罪犯规则列表 -->
+		<div id="tab-police-list" class="tab-pane fade in active">
+			<div class="portlet box gray">
+				<div class="portlet-body">
+					<div class="action">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								<a class="btn btn-sm blue" data-event='edit' href='#area/building/edit'><i class="fa fa-edit"></i>&nbsp;修改</a>
+								<a class="btn btn-sm default" data-event='dels' ><i class="fa fa-trash"></i>&nbsp;删除</a>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								<form action="/prison/assets/json/rulePolice.json" onsubmit='return false;'>
+								
+								</form>
+							</div>
+						</div>
+					</div>
+					<table class="table table-striped table-bordered table-hover" >
+						<thead>
+							<tr>
+								<th style='width: 50px;' rowspan='2'>
+									<div class="icheck">
+										<input type="checkbox" class='icheck-box all' value=''/>
+									</div>
+								</th>
+								<th><span>序号</span><!-- <a class='sorting'></a> --></th>
+								<th>报警名称</th>
+								<th>区域范围</th>
+								<th>时间范围</th>
+								<th>时间设置</th>
+								<th>持续时间</th>
+								<th>占比</th>
+								<th>民警范围</th>
+							</tr>
+						</thead>
+						<tbody id='rulePoliceContainer'>
+						
+						</tbody>
+					</table>
+					<div class="row pagination-container" >
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 民警规则添加 -->
+		<div id="tab-police-add" class="tab-pane fade in">
+			<div class="portlet box gray" id='rulePoliceAdd'>
+				<div class="portlet-body">
+					<form action="" onsubmit='return false;' style='max-width: 600px;'>
+						<div class="form-group">
+							<div class="col-md-3"><label class="control-label">报警名称</label></div>
+							<div class="col-md-9"><input type="text" class='form-control input-medium'  /></div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3"><label class="control-label">时间点</label></div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-md-5"><input type="text" class='form-control input-xsmall timepicker' /></div>
+									<div class="col-md-2"><label class="control-label">──</label></div>
+									<div class="col-md-5"><input type="text" class='form-control input-xsmall timepicker' /></div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3"><label class="control-label">受限频率</label></div>
+							<div class="col-md-9">
+								<select name="" class='form-control input-medium'>
+									<option value="0">每天</option>
+									<option value="1">工作日</option>
+									<option value="1">周末</option>
+									<option value="1">夜间(18:00-6:00)</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3"><label class="control-label">持续时间</label></div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-md-6">
+										<select name="" class='form-control' style='width: 120px;'>
+											<option value="lt">小于</option>
+											<option value="gt">大于</option>
+											<option value="le">小于等于</option>
+											<option value="ge">大于等于</option>
+											<option value="#61">等于</option>
+											<option value="ne">不等于</option>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<input type="text" class='form-control' />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3"><label class="control-label">民警范围</label></div>
+							<div class="col-md-6">
+								<div class="iradio checked">
+									<em class='iradio-show'></em>
+									<input type="radio" class='iradio-box' name='police_name' checked='checked' />
+									<span class='iradio-text'>所有民警</span>
+								</div>
+								<div class="iradio">
+									<em class='iradio-show'></em>
+									<input type="radio" class='iradio-box' name='police_name' />
+									<span>责任民警</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3"><label class="control-label">区域范围设置</label></div>
+							<div class="col-md-6">
+								<a class="btn blue btn-sm" data-event='regionSet'><i class="glyphicons glyphicons-cogwheelSmall"></i>区域设置</a>
+								<input type="hidden" value='' name='area' />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-group-action">
+								<button type='submit'  data-event='submit' class="btn blue btn-sm">保&nbsp;&nbsp;存</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- 罪犯规则修改 -->
+		<div id="tab-police-edit" class="tab-pane fade in">
+			<div class="portlet box gray" id='rulePoliceEdit'>
+				
+			</div>
+		</div>
+		<!-- 区域设置  -->
+		<div role="dialog" id='regionSet' tabindex="-1"  class="bootbox modal fade in" data-width='1080' data-height='800'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+						<h4 class="modal-title">区域设置</h4>
+					</div>
+					<div class="modal-body">
+						<div class='alert-container'></div>
+						<div class="row">
+							<div class="col-md-5">
+								<div class="portlet box blue">
+									<div class="portlet-title">
+										<div class="caption">待选择的区域列表</div>
+										<div class="tools"></div>
+									</div>
+									<div class="portlet-body">
+										<div class="action">
+											<div class="search">
+												<form action="/prison/loadAdmLocareaInfo.do" onsubmit='return false;'>
+												
+												</form>
+											</div>
+										</div>
+										<table class="table table-striped table-bordered table-hover linear-none" >
+											<thead>
+												<tr>
+													<th style='width: 50px;' rowspan='2'>
+														<div class="icheck">
+															<input type="checkbox" class='icheck-box all' value=''/>
+														</div>
+													</th>
+													<th>所属幢</th>
+													<th>所属层</th>
+													<th>区域</th>
+												</tr>
+											</thead>
+											<tbody  id='regionSetContainer'>
+											</tbody>
+										</table>
+										<div class="row pagination-container" ></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class='move-action'>
+									<div class='move-left'>
+										<a class="btn blue" data-event='moveRight' href=''><i class="glyphicons glyphicons-arrow-right"></i></a>
+									</div>
+									<div class='move-right'>
+										<a class="btn blue" data-event='moveLeft' href=''><i class="glyphicons glyphicons-arrow-left"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="portlet box blue">
+									<div class="portlet-title">
+										<div class="caption">已经选中的区域列表</div>
+										<div class="tools"></div>
+									</div>
+									<div class="portlet-body">
+										<div class="action"></div>
+										<table class="table table-striped table-bordered table-hover linear-none" >
+											<thead>
+												<tr>
+													<th style='width: 50px;' rowspan='2'>
+														<div class="icheck">
+															<input type="checkbox" class='icheck-box all' value=''/>
+														</div>
+													</th>
+													<th>所属幢</th>
+													<th>所属层</th>
+													<th>区域</th>
+												</tr>
+											</thead>
+											<tbody  id='regionUnsetContainer'>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a class="btn blue" data-event='save'>保存</a>
+						<a class="btn default cancel">取消</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script id="rulePoliceEditTpl" type='template/text'>
+	<div class="portlet-body">
+		<form action="" onsubmit='return false;' style='max-width: 600px;'>
+			<div class="form-group">
+				<div class="col-md-3"><label class="control-label">报警名称</label></div>
+				<div class="col-md-9"><input type="text" class='form-control input-medium' name='' value='{{=name}}' /></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3"><label class="control-label">时间点</label></div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-5"><input type="text" class='form-control input-xsmall timepicker' value='{{=time_start}}'/></div>
+						<div class="col-md-2"><label class="control-label">──</label></div>
+						<div class="col-md-5"><input type="text" class='form-control input-xsmall timepicker' value='{{=time_end}}' /></div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3"><label class="control-label">受限频率</label></div>
+				<div class="col-md-9">
+					<select name="" class='form-control input-medium'>
+						<option value="0">每天</option>
+						<option value="1">工作日</option>
+						<option value="1">周末</option>
+						<option value="1">夜间(18:00-6:00)</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3"><label class="control-label">持续时间</label></div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-6">
+							<select name="" class='form-control' style='width: 120px;'>
+								<option value="lt">小于</option>
+								<option value="gt">大于</option>
+								<option value="le">小于等于</option>
+								<option value="ge">大于等于</option>
+								<option value="#61">等于</option>
+								<option value="ne">不等于</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class='form-control' />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3"><label class="control-label">民警范围</label></div>
+				<div class="col-md-6">
+					<div class="iradio checked">
+						<em class='iradio-show'></em>
+						<input type="radio" class='iradio-box' name='police_name' checked='checked' />
+						<span class='iradio-text'>所有民警</span>
+					</div>
+					<div class="iradio">
+						<em class='iradio-show'></em>
+						<input type="radio" class='iradio-box' name='police_name' />
+						<span>责任民警</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3"><label class="control-label">区域范围设置</label></div>
+				<div class="col-md-6">
+					<a class="btn blue btn-sm" data-event='regionSet'><i class="glyphicons glyphicons-cogwheelSmall"></i>区域设置</a>
+					<input type="hidden" value='{{=JSON.stringify(area)}}' name='area' />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="form-group-action">
+					<button type='submit'  data-event='submit' class="btn blue btn-sm">保&nbsp;&nbsp;存</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</script>
+<script id='criminalSetTpl' type='template/text'>
+	<tr>
+		<td><div class="icheck"><input type="checkbox" class='icheck-box' value='{{=id}}' data-name='{{=name}}' /></div></td>
+		<td>{{=no}}</td>
+		<td>{{=name}}</td>
+	</tr>
+</script>
+<script id='regionSetTpl' type='template/text'>
+	<tr>
+		<td><div class="icheck"><input type="checkbox" class='icheck-box' value='{{=loc_id}}' data-name='{{=loc_name}}' /></div></td>
+		<td>{{=coo_name}}</td>
+		<td>{{=pic_grpname}}</td>
+		<td>{{=loc_name}}</td>
+	</tr>
+</script>
+<script id='rulePoliceListTpl' type='template/text'>
+	<tr>
+		<td><div class="icheck"><input type="checkbox" class='icheck-box' value='{{=id}}' /></div></td>
+		<td>{{=id}}</td>
+		<td>{{=name}}</td>
+		<td>
+			<- var temp = []; ->
+			<- 
+				for( var i = 0; i < area.length; i++ ) {
+					temp.push(area[i].name);
+				} 
+			    temp.join(); 
+			->
+			{{=temp}}
+		</td>
+		<td>{{=time_start}}-{{=time_end}}</td>
+		<td>{{=time_set}}</td>
+		<td>&{{=time_last.oper}};{{=time_last.time}}</td>
+		<td>{{=percentage}}</td>
+		<td>{{=police_range == 'all' ? '所有' : ''}}</td>
+		
+	</tr>
+</script>

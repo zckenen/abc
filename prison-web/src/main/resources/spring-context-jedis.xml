@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd"
+       >
+       
+<!-- 加载配置属性文件 -->
+	<context:property-placeholder
+		ignore-unresolvable="true" location="classpath:prison.properties" />
+
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- 池中最大链接数 -->
+        <property name="maxTotal" value="800"/>
+        <!-- 池中最大空闲链接数 -->
+        <property name="maxIdle" value="100"/>
+        <!-- 池中最小空闲链接数 -->
+        <property name="minIdle" value="20"/>
+        <!-- 当池中链接耗尽，调用者最大阻塞时间，超出此时间将跑出异常。（单位：毫秒；默认为-1，表示永不超时） -->
+        <property name="maxWaitMillis" value="2000"/>
+        <!-- 参考：http://biasedbit.com/redis-jedispool-configuration/ -->
+        <!-- 调用者获取链接时，是否检测当前链接有效性。无效则从链接池中移除，并尝试继续获取。（默认为false） -->
+        <property name="testOnBorrow" value="true" />
+        <!-- 向链接池中归还链接时，是否检测链接有效性。（默认为false） -->
+        <property name="testOnReturn" value="true" />
+        <!-- 调用者获取链接时，是否检测空闲超时。如果超时，则会被移除（默认为false） -->
+        <property name="testWhileIdle" value="true" />
+        <!-- 空闲链接检测线程一次运行检测多少条链接 -->
+        <property name="numTestsPerEvictionRun" value="10" />
+        <!-- 空闲链接检测线程检测周期。如果为负值，表示不运行检测线程。（单位：毫秒，默认为-1） -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <!-- 链接获取方式。队列：false；栈：true -->
+        <!--<property name="lifo" value="false" />-->
+    </bean>
+
+    <bean id="masterJedisPool" class="redis.clients.jedis.JedisPool">
+          <constructor-arg name="poolConfig" ref="poolConfig"/>
+        <constructor-arg name="host"  value="${redis.host}" type="java.lang.String"/>
+        <constructor-arg name="port"  value="${redis.port}" type="int"/>
+       <constructor-arg name="timeout" value="${redis.timeout}" type="int" />
+        <constructor-arg name="password" value="#{'${redis.password}'!=''?'${redis.password}':null}" />
+        <constructor-arg name="database" value="${redis.db.index}" type="int" />
+    </bean>
+
+    <bean id="slaveJedisPool" class="redis.clients.jedis.JedisPool">
+         <constructor-arg name="poolConfig" ref="poolConfig"/>
+        <constructor-arg name="host"  value="${redis.host}" type="java.lang.String"/>
+        <constructor-arg name="port"  value="${redis.port}" type="int"/>
+         <constructor-arg name="timeout" value="${redis.timeout}" type="int" />
+        <constructor-arg name="password" value="#{'${redis.password}'!=''?'${redis.password}':null}" />
+        <constructor-arg name="database" value="${redis.db.index}" type="int" />
+    </bean>
+    
+       <bean id="slave2JedisPool" class="redis.clients.jedis.JedisPool">
+         <constructor-arg name="poolConfig" ref="poolConfig"/>
+        <constructor-arg name="host"  value="${redis.host}" type="java.lang.String"/>
+        <constructor-arg name="port"  value="${redis.port}" type="int"/>
+        <constructor-arg name="timeout" value="${redis.timeout}" type="int" />
+        <constructor-arg name="password" value="#{'${redis.password}'!=''?'${redis.password}':null}" />
+        <constructor-arg name="database" value="${redis.db.index}" type="int" />
+    </bean>
+
+  <!--  <bean id="redisUtils" class="com.gt.prison.modules.redis.util.RedisUtils">
+        <property name="masterJedisPool" ref="masterJedisPool"/>
+        <property name="slaveJedisPool" ref="slaveJedisPool"/>
+        <property name="slaveJedisPool2" ref="slaveJedisPool2"/>
+    </bean> -->
+
+    <!--  java帮我们同步sentinel的信息，将主从信息同步到客户端来 
+     <bean class="redis.clients.jedis.JedisSentinelPool">
+        <constructor-arg index="0" value="mymaster"/>
+        <constructor-arg index="1">
+            <set>
+                <value>192.68.75.4:26379</value>
+            </set>
+        </constructor-arg>
+        <constructor-arg index="2" ref="jedisPoolConfig"/>
+    </bean> -->
+
+</beans>

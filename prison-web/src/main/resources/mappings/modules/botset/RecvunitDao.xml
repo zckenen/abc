@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.botset.dao.RecvunitDao">
+	<insert id="saveAdmRecvunitInfo" parameterType="com.gt.prison.modules.botset.entity.AdmRecvunitInfo" useGeneratedKeys="true" keyProperty="id">
+   		insert into adm_recvunit_info (
+   			id,
+   			rec_name,
+   			rcv_id,
+   			rec_ip,
+   			rec_index,
+   			rec_smallloc,
+   			loc_id,
+   			rec_rssidiff,
+   			rec_type,
+   			rec_weight,
+   			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+   		)values (
+   			#{id},
+   			#{recName},
+   			#{rcv.id},
+   			#{recIp},
+   			#{recIndex},
+   			#{recSmallloc},
+   			#{loc.id},
+   			#{recRssidiff},
+   			#{recType},
+   			#{recWeight},
+   			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+   		)
+   </insert>
+   <update id="deleteAdmRecvunitInfoById"  parameterType="string">
+		update adm_recvunit_info set del_flag=1 where id=#{id}
+	</update>
+	<update id="updateAdmRecvunitInfo" parameterType="com.gt.prison.modules.botset.entity.AdmRecvunitInfo" >
+   		UPDATE adm_recvunit_info SET 
+   			rec_name=#{recName},
+   			rcv_id=#{rcv.id}, 
+   			rec_ip=#{recIp},
+   			rec_index=#{recIndex},
+   			rec_smallloc=#{recSmallloc},
+   			loc_id=#{loc.id},
+   			rec_rssidiff=#{recRssidiff},
+   			rec_type=#{recType},
+   			rec_weight=#{recWeight},
+   			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+   			WHERE id=#{id};
+    </update>
+   
+	<sql id="recvunitColumns">
+		a.id,
+		a.rec_name,
+		a.rcv_id,
+		a.rec_ip,
+		a.rec_index,
+		a.rec_smallloc,
+		a.rec_type,
+		a.rec_rssidiff,
+		a.loc_id,
+		a.rec_weight,
+		b.id AS "rcv.id",
+		b.rcv_ip AS "rcv.rcvIp",
+		b.rcv_name AS "rcv.rcvName",
+		c.id AS "loc.id",
+		c.loc_name AS "loc.locName",
+		d.id AS "pic.id",
+		d.pic_name AS "pic.picName",
+		e.id AS "coo.id",
+		e.coo_name AS "coo.cooName"
+    </sql>
+	<!-- 分页查询区域信息 -->
+	<select id="loadAdmRecvunitInfo" resultType="AdmRecvunitInfo">
+		SELECT 
+			<include refid="recvunitColumns"/> 
+		FROM `adm_recvunit_info` a
+		left join `adm_receiver_info` b on a.rcv_id=b.id
+		left join `adm_locarea_info` c on a.loc_id=c.id
+		left join `adm_picture_info` d on c.pic_id=d.id
+		left join `adm_loccoor_info` e on d.coo_id=e.id
+		WHERE a.del_flag = '0'
+		AND b.del_flag = '0'
+		AND c.del_flag = '0'
+		AND d.del_flag = '0'
+		AND e.del_flag = '0'
+		
+		<if test="recType != null and recType !='' ">
+			AND rec_type=#{recType}
+		</if>
+		<if test="coo!=null and coo.id != null and coo.id !='' ">
+			AND e.id=#{coo.id}  
+		</if>
+		<if test="pic!=null and  pic.id != null and pic.id !='' ">
+			AND d.id=#{pic.id}  
+		</if>	
+		<if test="loc!=null and loc.id != null and loc.id !='' ">
+			AND c.id=#{loc.id}  
+		</if>
+	</select>
+</mapper>

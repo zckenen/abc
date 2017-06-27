@@ -1,0 +1,75 @@
+
+<div class="content-box none" id='criminalManagement'>
+	<!-- 罪犯列表 -->
+	<div class="widget-table">
+		<form  class='search'  onkeydown="if(event.keyCode==13){return false;}">
+		<div class="widget-table-action">
+			<ul class='left-action'>
+				<li>
+					<label>罪犯姓名:</label>
+				</li>
+				<li>
+					<input type="text" name='criCriminalname' placeholder="罪犯名字" class="form-control input-small">
+				</li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+			</ul>
+		</div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#policeManagementTab" >罪犯列表</a></li>
+				</ul>
+				<ul class="right-action">
+					<li><a data-event='async' class="btn clarity"><i class="glyphicons glyphicons-cloud-download"></i>&nbsp;罪犯同步</a></li>
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="policeManagementTab">
+					<div class="table-list">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th style='width: 50px;'>
+										<input type="checkbox" class='icheck-box all' value=''/>
+									</th>
+									<th>罪犯编号</th>
+									<th>罪犯姓名</th>
+									<th>手环编号</th>
+									<!-- <th>操作</th> -->
+								</tr>
+							</thead>
+							<tbody>
+							
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <td>
+			<a data-event='detail' data-id='{{id}}'>详细</a>
+		</td> -->
+<script id="criminalManagementListTpl" type='text/template'>
+{{if peo}}
+	<tr>
+		<td><input type="checkbox" class='icheck-box' value='{{id}}' /></td>
+		<td>{{criNum}}</td>
+		<td>
+			<span></span>
+			<span>{{criCriminalname}}</span>
+			<span></span>
+			<span></span>
+		</td>
+		<td>{{(peo.watNum * 1).toString(16)}}</td>
+	</tr>
+{{/if}}
+</script>
+</div>

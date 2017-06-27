@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.botset.dao.PictureDao">
+
+	<select id="checkPicgroupidExist" resultType="int"
+		parameterType="com.gt.prison.modules.botset.entity.AdmPictureInfo">
+		SELECT
+		count(*)
+		from adm_picture_info
+		where del_flag=0
+		and
+		coo_id=#{coo.id}
+		and pic_level=#{picLevel};
+	</select>
+
+	<insert id="saveAdmPictureInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPictureInfo">
+		insert into
+		adm_picture_info (
+		id,
+		coo_id,
+		pic_path,
+		pic_level,
+		pic_name,
+		pco_id,
+		plo_id,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		)
+		values (
+		#{id},
+		#{cooId},
+		#{picPath},
+		#{picLevel},
+		#{picName},
+		#{pcoId},
+		#{ploId},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag})
+	</insert>
+
+	<update id="updateIndexPicture" parameterType="com.gt.prison.modules.botset.entity.AdmPictureInfo">
+		update
+		adm_picture_info SET
+		coo_id=0,
+		pic_path=#{picPath},
+		pic_level=0,
+		pic_name=#{picName},
+		pco_id=#{pco.id},
+		plo_id=#{plo.id},
+		update_by =
+		#{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		where
+		id=#{id}
+	</update>
+	<update id="updateAdmPictureInfo" parameterType="com.gt.prison.modules.botset.entity.AdmPictureInfo">
+		update
+		adm_picture_info SET
+		coo_id=#{cooId},
+		pic_path=#{picPath},
+		pic_level=#{picLevel},
+		pic_name=#{picName},
+		pco_id=#{pcoId},
+		plo_id=#{ploId},
+		update_by = #{updateBy.id},
+		update_date =#{updateDate},
+		remarks = #{remarks}
+		where
+		id=#{id}
+	</update>
+
+	<select id="AdmPictureInfoCooIdAndGrpId" resultType="map">
+		select
+		id,
+		coo_id,
+		pic_path,
+		pic_level,
+		pic_name,
+		pco_id,
+		plo_id,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		from
+		adm_picture_info
+		where id=#{id};
+	</select>
+
+	<update id="deleteAdmPictureInfo" parameterType="string">
+		update
+		adm_picture_info set del_flag='1' where id=#{id};
+	</update>
+
+
+	<select id="loadIndexPicture" resultType="AdmPictureInfo">
+		SELECT
+		id,
+		coo_id,
+		pic_path,
+		pic_level,
+		pic_name,
+		pco_id,
+		plo_id,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag FROM adm_picture_info
+		WHERE
+		coo_id=0
+		AND pic_level=0
+	</select>
+
+	<sql id="pictureColumns">
+		a.id,
+		a.coo_id AS "coo.id",
+		b.coo_name AS "coo.cooName",
+		a.pic_level AS "picLevel",
+		a.pco_id AS "pco.id",
+		c.pco_name
+		AS"pco.pcoName",
+		a.plo_id AS "plo.id",
+		d.plo_name AS "plo.ploName",
+		a.pic_name AS "picName",
+		a.pic_path AS "picPath"
+	</sql>
+
+	<sql id="pictureJoins">
+		LEFT JOIN adm_loccoor_info b ON a.coo_id=b.id
+		LEFT JOIN
+		adm_prisoncoo_info c ON a.pco_id=c.id
+		LEFT JOIN adm_prisonloc_info d ON
+		a.plo_id=d.id
+	</sql>
+
+	<!-- 分页查询区域信息 -->
+	<select id="loadAmdPictureInfo" resultType="AdmPictureInfo">
+		SELECT
+		<include refid="pictureColumns" />
+		FROM adm_picture_info a
+		<include refid="pictureJoins" />
+		WHERE a.coo_id NOT IN ('0')
+		AND a.del_flag=0
+		AND b.del_flag=0
+		<if test="coo!=null and coo.id != null and coo.id !='' ">
+			AND coo_id =#{coo.id}
+		</if>
+	</select>
+	
+	<select id="findListPic" resultType="AdmPictureInfo">
+		SELECT
+		<include refid="pictureColumns" />
+		FROM adm_picture_info a
+		<include refid="pictureJoins" />
+		WHERE a.coo_id NOT IN ('0')
+		AND a.del_flag=0
+		AND b.del_flag=0
+		<if test="cooId != null and cooId !='' ">
+			AND a.coo_id =#{cooId}
+		</if>
+<!-- 		<if test="cooId != null and cooId !='' ">
+			AND pic_path =#{cooId}
+		</if> -->
+<!-- 		<if test="cooId != null and cooId !='' ">
+			AND pic_level =#{picLevel}
+		</if> -->
+		<if test="picName != null and picName !='' ">
+			AND a.pic_name =#{picName}
+		</if>
+		<if test="pcoId != null and pcoId !='' ">
+			AND a.pco_id =#{pcoId}
+		</if>
+		<if test="ploId != null and ploId !='' ">
+			AND a.plo_id =#{ploId}
+		</if>
+	</select>
+
+	<select id="findPictureByCooId" resultType="AdmPictureInfo">
+		SELECT
+		a.id,
+		<!-- a.coo_id AS "coo.id", -->
+		a.pic_level AS "picLevel",
+		<!-- a.pco_id AS "pco.id", a.plo_id AS "plo.id", -->
+		a.pic_name AS "picName",
+		a.pic_path AS "picPath"
+		FROM adm_picture_info a
+		WHERE a.coo_id !='0'
+		AND
+		a.del_flag=0
+		<if test="cooId != null and cooId !='' ">
+			AND coo_id =#{cooId}
+		</if>
+		order by pic_level
+	</select>
+
+	<select id="findPictureById" resultType="AdmPictureInfo">
+		SELECT
+		a.id,
+		a.coo_id AS "coo.id",
+		a.pic_level AS "picLevel",
+		a.pco_id AS
+		"pco.id",
+		a.plo_id AS "plo.id",
+		a.pic_name AS "picName",
+		a.pic_path AS
+		"picPath"
+		FROM adm_picture_info a
+		WHERE a.del_flag=0
+		<if test="id != null and id !='' ">
+			AND id =#{id}
+		</if>
+	</select>
+
+	<select id="loadPictureInfo" resultType="AdmPictureInfo" parameterType="string">
+		SELECT
+		a.id,
+		a.coo_id ,
+		a.pic_level ,
+		a.pco_id AS
+		"pco.id",
+		a.plo_id ,
+		a.pic_name ,
+		a.pic_path
+		FROM adm_picture_info a
+		WHERE a.del_flag=0
+		AND id =#{id}
+	</select>
+</mapper>

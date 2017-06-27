@@ -1,0 +1,165 @@
+<div class="content-box none" id='eventReview' >
+	<div class="container-box grid auto" >
+		<div class="container-header" >
+			<div class="title" id='head'>
+				
+			</div>
+			<div class="action">
+				<a data-event='goBack' class='closed'><i class="iconfont">&#xe658;</i> 返回</a>
+			</div>
+		</div>
+		<div class="container-bodyer" style='overflow: auto; margin-top: 36px;'>
+			<div id="map-container">
+				<!-- <div class="floor-map" id='eventMap'> -->
+				<div class='layer magenta enter show' id='info' style='left: 600px; z-index: 9999;' ></div>
+				<div style="width: 360px; " data-layer="hover" class="layer default" id='detailList'></div>
+				<div class='bubble-model default' id='detail'></div>
+				<div class='layer default' id='infoDetail' style='width: 330px;'>
+					<div class="layer-header">
+						<ul class="nav nav-tabs nav-search left-tabs">
+							<li class="active"><a data-event='toggle' data-value='yestoday' data-toggle="tab" href="#page-person-events" >事件记录</a></li>
+							<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-detail" >奖惩信息</a></li>
+							<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-action" >谈话信息</a></li>
+							<li><a data-event='toggle' data-value='today' data-toggle="tab" href="#page-person-meeting" >会见信息</a></li>
+						</ul>
+						<a data-toggle-closed="layer"  class="closed iconfont color-black"></a>
+					</div>
+					<div class="layer-body" style="max-height: 240px; overflow: auto;">
+						
+					</div>
+				</div>
+				<svg id='eventMap' version="1.1" xmlns="http://www.w3.org/2000/svg">
+					 
+				</svg>
+				<!-- </div> -->
+			</div>
+		</div>
+		<div class='container-fix video'>
+			<div class="video-box">
+					<div class="video-block none" data-view='video'>
+						<div class="video-title">
+							<div class="caption">事件视频回顾</span></div>
+							<div class="action">
+								<a title='全屏/还原' data-event='max'><i class="iconfont">&#xe67d;&nbsp;</i></a>
+								<a title='关闭' data-event='close'><i  class="iconfont">&#xe658;</i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+		<div class='bubble-model default'>
+			
+		</div>
+	</div>
+</div>
+
+<script id='eventReviewHeaderTpl' type='template/text'>
+	<i class="iconfont color-e6351e">&#xe664;</i>
+	<b class='color-333'>{{warName}}{{warType == 0 ? "预警" : "告警"}}&nbsp;-&nbsp;</b>
+	<b class='color-e6351e'>{{warPeoName}}({{(watNum * 1).toString(16)}})</b>
+</script>
+<script id='eventRegionTpl' type='template/text'>
+	<a data-event='playback' class="video lt"><i class="iconfont">&#xe633;</i></a>
+	<a data-event='playback' class="video rb"><i class="iconfont">&#xe633;</i></a>
+	<div class="mark"><i class="iconfont">&#xe693;</i>&nbsp;&nbsp;<span>{{warLocName}}</span></div>
+</script>
+<script id='eventInfoTpl' type='template/text'>
+	<div class="layer-header">
+		<p class="title nowarp"><i class="iconfont">&#xe64e;</i> {{warName}}</p>
+		<a data-toggle-closed="layer" class="closed iconfont"></a>
+	</div>
+	<div class="layer-body" style='width: 300px;'>
+		<div class="info-list">
+			<ul>
+				<li>
+					<label>触发人员:</label><span>
+					{{each warPeo as peo i}}
+						<a data-event='detail' data-id='{{peo.id}}'>{{peo.peoName}},</a></span>
+					{{/each}}
+				</li>
+				<li><label>发生时间:</label><span class='color-black'>{{warTime}}</span></li>
+				<li>
+					<label>相关人员:</label>
+					<span>
+						{{if !loc.peoList}}
+							无
+						{{else}}
+							{{each loc.peoList as peo}}
+								<a data-event='detail' data-id='{{peo.id}}'>{{peo.peoName}},</a>
+							{{/each}}
+						{{/if}}
+					</span>
+				</li>
+				<li>
+					<label>发生位置:</label>
+					<span class='color-black'>{{warLocName}}</span>
+				</li>
+				<li>
+					<label>所属监区:</label>
+					<span class='color-black'>#{{warPeo[0].pco.pcoName}}>{{warPeo[0].plo.ploName}}>第{{warPeo[0].peoDorm}}组</span>
+				</li>
+				
+			</ul>
+			{{if warStatus != 1}}
+				<a class="btn sienna" href='#realtime/monitor/{{warPeo.id}}'>实时追踪</a>
+			{{/if}}
+		</div>
+	</div>
+</script>
+<script id='eventPersonListTpl' type='text/template'>
+		<div class="layer-header">
+			<p class="title nowarp color-black">{{locName}}(
+				<span class='color-red iconfont font-small'>&#xe6ba; {{locCountMap.important}}</span>
+				<span class='color-green iconfont font-small'>&#xe6ba; {{locCountMap.general}}</span>
+				<span class='color-blue iconfont font-small'>&#xe6b9; {{locCountMap.police}}</span>
+			)</p>
+			<a data-toggle-closed="layer" class="closed iconfont color-black" data-event='closed'></a>
+		</div>
+		{{if peoList.length > 5}}
+		<div class="layer-body" style='max-height: 140px; overflow: auto;' >
+		{{else}}
+		<div class="layer-body" >
+		{{/if}}
+			<div class="tablebox">
+			<table>
+				<thead>
+					<tr>
+						<th><i class="iconfont" style='font-size: 12px;'>&#xe65b;</i></th>
+						<th>姓名</th>
+						<th>小组</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{each peoList as peo i}}
+					<tr>
+						<td> 
+							{{if peo.peoType == 3}}
+								<a class='color-blue iconfont'>&#xe6b9;</a>
+							{{else if peo.peoType == 2 }}
+								<a class='color-red iconfont'>&#xe6ba;</a>
+							{{else if peo.peoType == 1}}
+								<a class='color-green iconfont'>&#xe6ba;</a>
+							{{/if}}
+						</td>
+						<td>{{peo.peoName}}</td>
+						<td>{{peo.peoDorm == 0 ? '警察': '第'+ peo.peoDorm + '组'}}</td>
+						<td><a data-event='info' data-id='{{peo.id}}'>详情</a></td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+			</div>
+		</div>
+</script>
+<script id='eventPersonTpl' type='template/text'>
+	<a class='point' id='war-person-{{id}}' data-event='show' data-toggle="tooltip" data-placement="top" title="{{peoName}}">
+		<span class="flicker-warning-outer"></span>
+		<span class="flicker-warning-inner"></span>
+		<span class="flicker-warning-img" >
+			<img src="{{criPicpath}}" alt=""/>
+		</span>
+	</a>
+</script>
+
+

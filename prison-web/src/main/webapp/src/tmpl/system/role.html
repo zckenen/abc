@@ -1,0 +1,264 @@
+<div class="content-box none" id='systemRole'>
+	<div class="widget-table">
+		<form action="" class='search'>
+		<!-- <div class="widget-table-action" >
+			<ul class='left-action'>
+				<li>
+					<label>幢：</label>
+				</li>
+				<li>
+					<select class="form-control select input-small" data-placeholder='幢' name='loc_coorid' >
+						<option value="null">所属幢</option>
+					</select>
+				</li>
+				<li>
+					<label>层：</label>
+				</li>
+				<li>
+					<select class="form-control select input-small" data-placeholder='层' name='pic_groupid' >
+						<option value="null">所属层</option>
+					</select>
+				</li>
+				<li>
+					<label>区域：</label>
+				</li>
+				<li>
+					<input type="text" class="form-control input-small" data-placeholder='区域' name='loc_name' />
+				</li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+				<li>
+					<a  class="btn white btn-sm reset">重置</a>
+				</li>
+			</ul>
+		</div> -->
+		<div class="clearfix"></div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#areaBuildingTab" >角色管理</a></li>
+				</ul>
+				<ul class="right-action">
+					<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="areaBuildingTab">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+									<tr>
+										<th style='width: 50px;'>
+											<input type="checkbox" class='check-items' value=''/>
+										</th>
+										<th style='width: 80px;'><span>序号</span><!-- <a class='sorting' data-field='loc_id'></a> --></th>
+										<th style='width: 120px;'>角色分组</th>
+										<th>角色名称</th>
+										<th style='width: 120px;'>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+								</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div role="dialog" id='setActionPower'  class="bootbox modal fade in"  data-height='700'>
+		<div class="modal-dialog">
+			<form  onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">设置功能权限</h4>
+				</div>
+				<div class="modal-body">
+					
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-event='submit' >保存</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<div role="dialog" id='setPerson' tabindex="-1"  class="bootbox modal fade in" data-height='700'>
+		<div class="modal-dialog">
+			<form action="/prison/updateAdmLocareaInfo.do" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">xxx角色所包含的用户</h4>
+				</div>
+				<div class="modal-body">
+					<table class='table table-striped table-bordered table-hover'>
+						<thead>
+								<tr>
+									<th style='width: 50px;'>
+										<input type="checkbox" class='check-items' value=''/>
+									</th>
+									<th style='width: 80px;'><span>序号</span><!-- <a class='sorting' data-field='loc_id'></a> --></th>
+									<th style='width: 120px;'>用户名</th>
+									<th style='width: 120px;'>用户描述</th>
+									<th style='width: 120px;'>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-bb-handler="main">提交</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<div role="dialog" id='systemRoleAdd' tabindex="-1"  class="bootbox modal fade in" data-height='700'>
+		<div class="modal-dialog">
+			<form onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button"></button>
+					<h4 class="modal-title">添加角色</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<label class="col-md-3 col-xs-3 control-label">角色名称</label>
+						<div class="col-md-9 col-xs-9">
+							<input type="hidden" name='office' value='1' />
+							<input type="text" name='name' value='视频监控' placeholder="角色名称" class="form-control input-large" required="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 col-xs-3 control-label">角色所属组织</label>
+						<div class="col-md-9 col-xs-9">
+							<select class="form-control select input-large" name='office'  data-placeholder='角色所属组织' required="">
+								<option value="1">指挥中心</option>
+								<option value="2">行政部门</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group" >
+						<label class="col-md-3 col-xs-3 control-label">角色菜单</label>
+						<div class="col-md-9 col-xs-9" id='tree' style='max-height: 350px; overflow: auto;'>
+							
+						</div>
+					</div>
+				</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-event='submit' data-bb-handler="main">提交</button>
+					<a class="btn default cancel">取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- <a data-event='setPersons' class='fa fa-user' data-id='{{id}}' data-toggle="tooltip"  data-original-title="查看该角色下用户"></a> -->
+	<script id="systemRoleListTpl" type='text/template'>
+		<tr>
+			<td><input type="checkbox" class='check-item' value='{{id}}' /></td>
+			<td>{{index}}</td>
+			<td>{{office.name}}</td>
+			<td>{{name}}</td>
+			<td class='action'>
+				<a data-event='setActionPower' class='fa fa-pencil-square' data-id='{{id}}' data-toggle="tooltip"  data-original-title="修改"></a>
+				<a data-event='del' class='fa fa-trash' data-id='{{id}}' data-toggle="tooltip"  data-original-title="删除角色"></a>				
+			</td>
+		</tr>
+	</script>
+	<script type="text/html" id='roleMenuTreeTpl'>
+	<ul>
+		{{each child as itema a  }}
+		<li data-jstree='{ "opened" : true}' id='ui-tree-{{itema.id}}'>
+		    <a href="javascript:;" data-event='edit' data-id='{{itema.id}}' class='{{a == 0 ? "jstree-clicked" : ""}}'>
+				{{itema.name}}
+			</a>
+			<ul>
+				{{each itema.child as itemb b}}
+				<li data-jstree='{ "opened" : true}' id='ui-tree-{{itemb.id}}'>
+					<a href="javascript:;" data-event='edit' data-id='{{itemb.id}}'>
+						{{itemb.name}}
+					</a>
+					<ul>
+						{{each itemb.child as itemc c}}
+						<li id='ui-tree-{{itemc.id}}'>
+							 <a href="javascript:;" data-event='edit' data-id='{{itemc.id}}'>
+								{{itemc.name}} 
+							 </a>
+						</li>
+						{{/each}}
+					</ul>
+				</li>
+				{{/each}}
+		  </ul>
+		</li>
+		{{/each}}
+	</ul>
+	</script>
+	<script id='setActionPowerTpl' type='text/template'>
+		<div class='alert-container'></div>
+			<div class="form-group">
+				<label class="col-md-3 col-xs-3 control-label">角色名称</label>
+				<div class="col-md-9 col-xs-9">
+					<input type="hidden" name='id' value='{{id}}' />
+                    <input type="hidden" name='oldName' value='{{name}}' />
+					<input type="text" name='name' value='{{name}}' placeholder="角色名称" class="form-control input-large" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 col-xs-3 control-label">角色所属组织</label>
+				<div class="col-md-9 col-xs-9">
+					<select class="form-control select input-large" name='office'  data-placeholder='角色所属组织' >
+						<option value="1" {{office.id == 1 ? "selected" : ""}}>指挥中心</option>
+						<option value="2" {{office.id == 2 ? "selected" : ""}}>行政部门</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group" >
+				<label class="col-md-3 col-xs-3 control-label">角色菜单</label>
+				<div class="col-md-9 col-xs-9" id='tree' style='max-height: 350px; overflow: auto;'>
+					<ul>
+						{{each child as itema a  }}
+						<li data-jstree='{{itema.treeState}}' id='ui-tree-{{itema.id}}'>
+						    <a href="javascript:;" data-event='edit' data-id='{{itema.id}}' class='{{a == 0 ? "jstree-clicked" : ""}}'>
+								{{itema.name}}
+							</a>
+							<ul>
+								{{each itema.child as itemb b}}
+								<li data-jstree='{{itema.treeState}}' id='ui-tree-{{itemb.id}}'>
+									<a href="javascript:;" data-event='edit' data-id='{{itemb.id}}'>
+										{{itemb.name}}
+									</a>
+									<ul>
+										{{each itemb.child as itemc c}}
+										<li id='ui-tree-{{itemc.id}}' data-jstree='{{itema.treeState}}'>
+											 <a href="javascript:;" data-event='edit' data-id='{{itemc.id}}'>
+												{{itemc.name}} 
+											 </a>
+										</li>
+										{{/each}}
+									</ul>
+								</li>
+								{{/each}}
+						  </ul>
+						</li>
+						{{/each}}
+						</ul>
+				</div>
+			</div>
+	</script>
+</div>

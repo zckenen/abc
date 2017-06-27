@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.per.dao.PeopleInfoDao">
+
+
+<sql id="userColumns">
+   		a.id,
+   		a.peo_num,
+		a.cri_id,
+		a.peo_name,
+    	a.peo_type,
+		a.pco_id AS "pco.id",
+		a.plo_id AS "plo.id",
+		a.peo_dorm,
+		a.bed_id,
+		a.worker_id, 
+		a.wat_num AS "wat.watNum",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.peo_depid AS "peoDepid",
+		a.del_flag AS "delFlag",
+		c.id AS "pco.id",
+		c.pco_name AS "pco.pcoName",
+		l.id AS "Plo.id",
+		l.plo_name AS "plo.ploName"
+    </sql>
+    
+    <sql id="peopleInfoJoins">
+	LEFT JOIN adm_prisoncoo_info c ON c.id = a.pco_id
+	LEFT JOIN adm_prisonloc_info l ON l.id = a.plo_id
+	</sql>
+	<select id="get" resultType="AdmPeopleInfo">
+		SELECT 
+			<include refid="userColumns"/>
+		FROM adm_people_info a
+		<include refid="peopleInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="getPeopleInfoPeoWaitIsNull" resultType="AdmPeopleInfo">
+		SELECT
+		count(*) AS "watNum"
+		FROM adm_people_info WHERE wat_num IS NULL
+	</select>
+	
+
+	<select id="getPeopleInfoByPeoWait" resultType="AdmPeopleInfo">
+		SELECT
+			a.id,
+	   		a.peo_num,
+			a.cri_id,
+			a.peo_name,
+			a.peo_type,
+			a.pco_id AS "pco.id",
+			a.plo_id AS "plo.id",
+			a.peo_dorm,
+			a.wat_num AS "wat.watNum",
+			a.peo_depid AS "peoDepid",
+			c.id AS "pco.id",
+			c.pco_name AS "pco.pcoName",
+			l.id AS "Plo.id",
+			l.plo_name AS "plo.ploName",
+			b.`id` AS "wrk.id",
+			b.`loc_id` AS "wrk.locId",
+			d.`id` AS "bed.id",
+			d.`loc_id` AS "bed.locId",
+			d.`bed_type` AS "bed.bedType"
+		FROM adm_people_info a
+		LEFT JOIN adm_prisoncoo_info c ON c.id = a.pco_id
+		LEFT JOIN adm_prisonloc_info l ON l.id = a.plo_id
+		left join adm_worker b on b.`id`=a.`worker_id` and b.del_flag = 0
+		left join adm_bed d on d.`id`=a.`bed_id` and d.del_flag = 0
+		WHERE a.del_flag = 0
+		AND  a.peo_type !=3
+		<if test="watNum != null and watNum != ''">
+			AND a.wat_num = #{watNum}
+		</if>
+	</select>
+
+
+	<select id="findList" resultType="AdmPeopleInfo">
+		SELECT
+		<include refid="userColumns" />
+		FROM adm_people_info a
+	<include refid="peopleInfoJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		AND  a.peo_type !=3
+		<if test="pco != null and pco.id != null and pco.id != ''">
+			AND a.pco_id = #{pco.id}
+		</if>		
+		<if test="plo != null and plo.id!= null and plo.id!= ''">
+			AND a.plo_id=#{plo.id}
+		</if>
+		<if test="criId != null and criId != ''">
+			AND a.cri_id = #{criId}
+		</if>
+		<if test="peoName != null and peoName != ''">
+			AND a.peo_name LIKE 
+				<if test="dbName == 'oracle'">#{peoName}||'%'</if>
+				<if test="dbName == 'mssql'">#{peoName}+'%'</if>
+				<if test="dbName == 'mysql'">concat(#{peoName},'%')</if>
+		</if>
+	</select>
+	<update id="unbindWorkerId"   parameterType="com.gt.prison.modules.per.entity.AdmPeopleInfo">
+		update adm_people_info set 
+			worker_id=""
+		where worker_id=#{workerId}
+	</update>
+	<update id="updateWorkerId"   parameterType="com.gt.prison.modules.per.entity.AdmPeopleInfo">
+		update adm_people_info set 
+			worker_id=#{workerId}
+		where id=#{id}
+	</update>
+	<update id="unbindBedId"  parameterType="com.gt.prison.modules.per.entity.AdmPeopleInfo">
+		update adm_people_info set 
+			bed_id=""
+		where bed_id=#{bedId}
+	</update>
+	<update id="updateBedId"  parameterType="com.gt.prison.modules.per.entity.AdmPeopleInfo">
+		update adm_people_info set 
+			bed_id=#{bedId}
+		where id=#{id}
+	</update>
+	<update id="delete">
+		UPDATE adm_people_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<update id="updatePloAndDorm">
+		UPDATE adm_people_info SET 
+			plo_id=#{ploId},
+			peo_dorm=#{peoDorm}
+		WHERE id = #{id}
+		AND del_flag = #{DEL_FLAG_NORMAL}
+	</update>
+</mapper>

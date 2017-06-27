@@ -1,0 +1,54 @@
+<div class="content-box" id="areaMap">
+	<div class="portlet box blue-hoki">
+		<div class="portlet-title">
+			<div class="caption">
+				<i class="fa fa-globe"></i>全监地图总览
+			</div>
+			<div class="tools"></div>
+		</div>
+		<div class="portlet-body">
+			<div class='content data-list'>
+				<form action='/prison/updateIndexPicture.do' onsubmit='return false;'>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+	<script id='areaMapTpl' type='text/template'>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-2 col-sm-1">
+					<label class="control-label">比例</label>
+				</div>
+				<div class="col-md-1 col-sm-1 specific-map-title">
+					1:
+				</div>
+				<div class="col-md-7 col-sm-1">
+					<input type="hidden" name='id' value='{{=id}}' />
+					<input type="hidden" name='picPath' value='{{=picPath}}' />
+					<input type="text" name='picRatio' value='{{=picRatio}}' placeholder="比例" class="form-control" number='true' required>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-2">
+					<label class="control-label">首页总览地图</label>
+				</div>
+				<div class="col-md-8">
+					<a class="thumbnail" data-event='upload' title="点击重新上传图片">
+						<img src="{{=path}}" alt="暂无图片请点击上传图片" style='min-height: 50px;' />
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group" >
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-8">
+					<button data-event='edit' class='btn btn-sm blue'>修&nbsp;改</button>
+				</div>
+			</div>
+		</div>
+	</script>
+</div>

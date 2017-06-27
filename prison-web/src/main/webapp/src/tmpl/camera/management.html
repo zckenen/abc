@@ -1,0 +1,283 @@
+<div class="content-box none" id='cameraManagement'>
+	<!-- 添加DT服务器 -->
+	<div class="widget-table">
+		<form  class='search' onsubmit='return false;'>
+			<div class="widget-table-action" >
+			<ul class='left-action'>
+				<li>
+					<label>关键字：</label>
+				</li>
+				<li>
+					<input class="form-control select input-small" data-placeholder='监控名' name='camName' />
+				</li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+			</ul>
+			</div>
+			<div class="clearfix"></div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#areaBuildingTab" >监控列表</a></li>
+				</ul>
+				<ul class="right-action">
+					<li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li>
+					<!-- <li><a data-event='del' class='btn clarity' ><i class="iconfont">&#xe62a;</i>删除</a></li> -->
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="areaBuildingTab">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+								<tr>
+									<th style='width: 30px;'>
+										<input type="checkbox" class='check-items' value=''/>
+									</th>
+									<th style='width: 80px;'><span>序号</span><!-- <a class='sorting'></a> --></th>
+									<th>监控编号</th>
+									<th>IP</th>
+									<th>端口</th>
+									<th>所属幢</th>
+									<th>所属层</th>
+									<th>所属区域</th>
+									<th>X坐标</th>
+									<th>Y坐标</th>
+									<th style='width: 120px;'>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加监控 -->
+	<div role="dialog" id='cameraManagementAdd'   class="bootbox modal fade in" data-width='650' data-height='700' >
+		<div class="modal-dialog">
+			<form action="" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+					<h4 class="modal-title">添加监控</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3 control-label">监控编号</div>
+							<div class="col-md-9">
+								<input type="text" name='camName' value='' class='form-control input-large' required/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3 control-label">DVR IP</div>
+							<div class="col-md-9">
+								<input type="text" name='camRecevieIp' placeholder='例:192.168.1.1' value='' class='form-control input-large' required/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3 control-label">DVR通道号</div>
+							<div class="col-md-9">
+								<input type="text"  name='camChannel' value='' placeholder='' class='form-control input-large' required number='true'/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3 control-label">监控IP</div>
+							<div class="col-md-9">
+								<input type="text" name='camIp' value='' class='form-control input-large' required/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3 control-label">用户名</div>
+							<div class="col-md-9">
+								<input type="text" name='camLoginName' value='' class='form-control input-large' required/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3 control-label">密码</div>
+							<div class="col-md-9">
+								<input type="password" name='camLoginPwd' value='' class='form-control input-large' required/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3 control-label">监控所属区域</div>
+							<div class="col-md-3">
+								<select data-name="cooId" name='coo.id' class='form-control' data-placeholder='幢' ></select>
+							</div>
+							<div class="col-md-3">
+								<select data-name="picId" class='form-control' data-placeholder='层' ></select>
+							</div>
+							<div class="col-md-3">
+								<select name="locId" data-name='locId' class='form-control' data-placeholder='区域' required>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class='form-group'>
+						<div class="row">
+							<div class="col-md-3 control-label">监控位置</div>
+							<div class="col-md-3">
+								<input type="text" class='form-control' name='camMainx' value='' placeholder='x轴坐标'  readonly="readonly"/>
+							</div>
+							<div class="col-md-3">
+								<input type="text" class='form-control' name='camMainy' value='' placeholder='y轴坐标' readonly="readonly"/>
+							</div>
+							<div class="col-md-3">
+								<a data-event='handlePosition' class="btn blue">选取位置</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-bb-handler="main">添加</button>
+					<a class="btn default cancel" >取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 修改监控 -->
+	<div role="dialog" id='cameraManagementEdit' tabindex="-1"  class="bootbox modal fade in" data-width='650'>
+		<div class="modal-dialog">
+			<form  onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+					<h4 class="modal-title">修改监控</h4>
+				</div>
+				<div class="modal-body">
+					
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" data-bb-handler="main">修改</button>
+					<a class="btn default cancel" >取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<script id="cameraManagementListTpl" type='text/template'>
+		<tr>
+			<td><input type="checkbox" class='check-item' value='{{id}}' /></td>
+			<td>{{index}}</td>
+			<td>{{camName}}</td>
+			<td>{{camIp}}</td>
+			<td>8000</td>
+			<td>{{coo.cooName}}</td>
+			<td>{{pic.picName}}</td>
+			<td>{{loc.locName}}</td>
+			<td>{{camMainx}}</td>
+			<td>{{camMainy}}</td>
+			<td class="action">
+				<a data-event='edit' data-id='{{id}}'  class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>
+				<a data-event='del' data-id='{{id}}'  class='iconfont' data-toggle="tooltip"  data-original-title="删除" >&#xe62a;</a>	
+			</td>
+		</tr>
+	</script>
+	<script id="cameraManagementEditTpl"  type='text/template'>
+			<div class='alert-container'></div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-3 control-label">监控编号</div>
+					<div class="col-md-9">
+						<input type="hidden" name='id' value='{{=id}}' />
+						<input type="text" name='camName' value='{{=camName}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-3 control-label">DVR IP</div>
+					<div class="col-md-9">
+						<input type="text" name='camRecevieIp' value='{{=camRecevieIp}}' placeholder='例:192.168.1.1' value='' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-3 control-label">DVR通道号</div>
+					<div class="col-md-9">
+						<input type="text"  name='camChannel' value='{{=camChannel}}' placeholder='' class='form-control input-large' required number='true'/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-3 control-label">监控ip</div>
+					<div class="col-md-9">
+						<input type="text" name='camIp' value='{{=camIp}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-3 control-label">用户名</div>
+					<div class="col-md-9">
+						<input type="text" name='camLoginName' value='{{=camLoginName}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-3 control-label">密码</div>
+					<div class="col-md-9">
+						<input type="password" name='camLoginPwd' value='{{=camLoginPwd}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-3 control-label">监控所属区域</div>
+					<div class="col-md-3">
+						<select data-name="cooId" name='coo.id' class='form-control' data-placeholder='幢' ></select>
+					</div>
+					<div class="col-md-3">
+						<select data-name="picId" class='form-control' data-placeholder='层' ></select>
+					</div>
+					<div class="col-md-3">
+						<select name="locId" data-name='locId' class='form-control' data-placeholder='区域' required>
+							<option value="{{loc.id}}" data-tag='true'>{{loc.locName}}</option>
+						</select>
+						<input type="hidden" name='camMainx' value='{{camMainx}}'/>
+						<input type="hidden" name='camMainy' value='{{camMainy}}'/>
+					</div>
+				</div>
+			</div>
+			<div class='form-group'>
+				<div class="row">
+					<div class="col-md-3 control-label">监控位置</div>
+					<div class="col-md-3">
+						<input type="text" class='form-control' name='camMainx' value='{{camMainx}}' placeholder='x轴坐标' />
+					</div>
+					<div class="col-md-3">
+						<input type="text" class='form-control' name='camMainy' value='{{camMainy}}' placeholder='y轴坐标' />
+					</div>
+					<div class="col-md-3">
+						<a data-event='handlePosition' data-image='{{pic.picPath}}' class="btn blue">选取位置</a>
+					</div>
+				</div>
+			</div>
+	</script>
+</div>

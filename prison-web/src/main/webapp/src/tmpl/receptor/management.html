@@ -1,0 +1,334 @@
+<div class="content-box none" id='receptorManagement'>
+	<div class="widget-table">
+		<form action="/prison/loadAdmReceiverInfo.do" class='search'>
+		<div class="widget-table-action" >
+			<ul class='left-action'>
+				<li>
+					<label>幢：</label>
+				</li>
+				<li>
+					<select name='coo.id' data-name='cooId' class="form-control input-small" data-placeholder="幢" tabindex="0" >
+						<option value="null">幢</option>
+					</select>
+				</li>
+				<li>
+					<label>层：</label>
+				</li>
+				<li>
+					<select name='pic.id' data-name='picId' class="form-control input-small" data-placeholder="层" tabindex="0" >
+						<option value="null">层</option>
+					</select>
+				</li>
+				<li>
+					<a data-event='search' class="btn blue-deep btn-sm"><i class="fa fa-search"></i>查询</a>
+				</li>
+				<li>
+					<a  class="btn white btn-sm reset">重置</a>
+				</li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+		</form>
+		<div class="widget-table-content">
+			<div class="table-header">
+				<ul class="nav nav-tabs nav-search left-tabs">
+					<li class="active"><a data-event='toggle' data-status='all' data-toggle="tab" href="#areaBuildingTab" >iLoc智能RP</a></li>
+				</ul>
+				<ul class="right-action">
+					<!-- <li><a data-event='add' class='btn clarity'><i class="iconfont">&#xe6b6;</i>添加</a></li> -->
+					<li><a data-event='dels' class='btn clarity' href=''><i class="iconfont">&#xe62a;</i>删除</a></li>
+					<li><a data-event='refresh' class='btn clarity'><i class="iconfont">&#xe644;</i>刷新</a></li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="areaBuildingTab">
+					<div class="table-list">
+						<table class='table table-striped table-bordered table-hover'>
+							<thead>
+								<tr>
+									<th style='width: 50px;'>
+										<input type="checkbox" class='check-items all' value=''/>
+									</th>
+									<th><span>序号</span><!-- a class='sorting'></a> --></th>
+									<th>名称</th>
+									<th>本机IP</th>
+									<th>首选DNS</th>
+									<th>备选DNS</th>
+									<th>本机网关</th>
+									<th>子网掩码</th>
+									<th>MAC地址</th>
+									<th>幢</th>
+									<th>层</th>
+									<th>区域</th>
+									<th>DT服务单元</th>
+									<th>备注</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+							</tbody>
+						</table>
+					</div>
+					<div class="table-footer">
+						<div class="pagination-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加iLoc智能RP -->
+	<div role="dialog" id='receptorManagementAdd'   class="bootbox modal fade in" data-height='700' >
+		<div class="modal-dialog">
+			<form action="/prison/saveAdmReceiverInfo.do" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+					<h4 class="modal-title">添加iLoc智能RP</h4>
+				</div>
+				<div class="modal-body">
+					<div class='alert-container'></div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">iLoc智能RP名称</div>
+							<div class="col-md-10">
+								<input type="text" name='rcvId' class='form-control input-large' required/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2">安装区域</div>
+							<div class="col-md-3">
+								<select name='coo.id' data-name='cooId' class="form-control input-small rcvCooid" data-placeholder="幢" tabindex="0" >
+									
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select name='pic.id' data-name='picId'  class="form-control input-small rcvGroupid" data-placeholder="层" tabindex="0" >
+									
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select name='loc.id' data-name='locId' class="form-control input-small rcvLocid" data-placeholder="区域" tabindex="0">
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">DT服务单元</div>
+							<div class="col-md-10">
+								<select name='ser.id' data-name='serId' class="form-control input-large rcvSerid" data-placeholder='DT服务单元' >
+									
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">本机IP</div>
+							<div class="col-md-10">
+								<input type="text" name='rcvIp' placeholder='例:192.168.1.1' class='form-control input-large' required/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">子网掩码</div>
+							<div class="col-md-10">
+								<input type="text" name='rcvSubnetmask' class='form-control input-large' />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">网关</div>
+							<div class="col-md-10">
+								<input type="text" name='rcvGateway' class='form-control input-large' required/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">首选DNS</div>
+							<div class="col-md-10">
+								<input type="text" name='rcvFristnds' class='form-control input-large' required />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">备选DNS</div>
+							<div class="col-md-10">
+								<input type="text" name='rcvSecondnds' class='form-control input-large' />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">MAC地址</div>
+							<div class="col-md-10">
+								<input type="text" name='rcvMac' class='form-control input-large' />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-2 control-label">备注</div>
+							<div class="col-md-10">
+								<textarea  name='remarks' class='form-control input-large' ></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >添加</button>
+					<a class="btn default cancel" >取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<!-- 修改iLoc智能RP -->
+	<div role="dialog" id='receptorManagementEdit'   class="bootbox modal fade in" data-height='700' >
+		<div class="modal-dialog">
+			<form action="" onsubmit='return false;'>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="bootbox-close-button close" type="button">×</button>
+					<h4 class="modal-title">修改iLoc智能RP</h4>
+				</div>
+				<div class="modal-body">
+				</div>	
+				<div class="modal-footer">
+					<button class="btn blue" type="submit" >修改</button>
+					<a class="btn default cancel" >取消</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<script id="receptorManagementListTpl" type='text/template'>
+		<tr>
+			<td><input type="checkbox" class='check-item' value='{{=id}}' /></td>
+			<td>{{index}}</td>
+			<td>{{rcvName}}</td>
+			<td>{{rcvIp}}</td>
+			<td>{{rcvFristnds}}</td>
+			<td>{{rcvSecondnds}}</td>
+			<td>{{rcvGateway}}</td>
+			<td>{{rcvSubnetmask}}</td>
+			<td>{{rcvMac}}</td>
+			<td>{{coo ? coo.cooName : ''}}</td>
+			<td>{{pic ? pic.picName : ''}}</td>
+			<td>{{loc ? loc.locName : ''}}</td>
+			<td>{{ser.serName}}</td>
+			<td>{{remarks}}</td>
+			<td class="action">
+				<a data-event='edit' data-id='{{id}}' class='iconfont' data-toggle="tooltip"  data-original-title="修改" >&#xe636;</a>
+			</td>
+		</tr>
+	</script>
+	<script id="receptorManagementEditTpl" type='text/template' >
+		<div class='alert-container'></div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">iLoc智能RP名字</div>
+					<div class="col-md-10">
+						<input type="hidden" name='id' value='{{id}}' />
+						<input type="text" name='rcvName' value='{{rcvName}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2">安装区域</div>
+					<div class="col-md-3">
+						<select name='coo.id' data-name='cooId' class="coo form-control input-small" data-placeholder="幢" tabindex="0" >
+							
+						</select>
+					</div>
+					<div class="col-md-3">
+						<select name='pic.id' data-name='picId' class="pic form-control input-small" data-placeholder="层" tabindex="0" >
+							
+						</select>
+					</div>
+					<div class="col-md-3">
+						<select name='loc.id' data-name='locId' class="loc form-control input-small" data-placeholder="区域" tabindex="0">
+							
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">DT服务单元</div>
+					<div class="col-md-10">
+						<select name='ser.id' data-name='serId' class="form-control input-large ser" data-placeholder='DT服务单元' >
+							
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">本机IP</div>
+					<div class="col-md-10">
+						<input type="text" name='rcvIp' value='{{rcvIp}}' placeholder='例:192.168.1.1' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">子网掩码</div>
+					<div class="col-md-10">
+						<input type="text" name='rcvSubnetmask' value='{{rcvSubnetmask}}' class='form-control input-large' />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">网关</div>
+					<div class="col-md-10">
+						<input type="text" name='rcvGateway' value='{{rcvGateway}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">首选DNS</div>
+					<div class="col-md-10">
+						<input type="text" name='rcvFristnds' value='{{rcvFristnds}}' class='form-control input-large' required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">备选DNS</div>
+					<div class="col-md-10">
+						<input type="text" name='rcvSecondnds' value='{{rcvSecondnds}}' class='form-control input-large' />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">MAC地址</div>
+					<div class="col-md-10">
+						<input type="text" name='rcvMac' value="{{rcvMac}}" class='form-control input-large' />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 control-label">备注</div>
+					<div class="col-md-10">
+						<textarea  name='remarks'  class='form-control input-large' >{{rcvRem}}</textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+	
+</div>

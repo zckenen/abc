@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.gt.prison.modules.axis.dao.CriminalDao">
+	<insert id ="saveCriminal" parameterType="java.util.List" >
+		<selectKey resultType ="java.lang.Integer" keyProperty= "id" order= "AFTER">
+        	SELECT LAST_INSERT_ID()
+        </selectKey >
+			insert into adm_criminal_info
+			(id,
+			cri_xuhao,
+			cri_num,
+			cri_criminalname,
+			cri_prisonid,
+			cri_prisonname,
+			cri_prisonarea,
+			cri_zoneofdivision,
+			cri_picpath,
+			cri_criminallvl,
+			cri_beforename,
+			cri_brithday,
+			cri_idcard,
+			cri_marriage,
+			cri_nation,
+			cri_healthy,
+			cri_residence,
+			cri_priarchives,
+			cri_priareaarchives,
+			cri_origin,
+			cri_peraddress,
+			cri_homeaddress,
+			cri_eventlvl,
+			cri_chargetype,
+			cri_criminaltype,
+			cri_monitoringtime,
+			cri_culturallvl,
+			cri_nowculturallvl,
+			cri_political,
+			cri_occupation,
+			cri_charge,
+			cri_originalsentence,
+			cri_startdate,
+			cri_enddate,
+			cri_currentsentence,
+			cri_nowstartdate,
+			cri_nowenddate,
+			cri_specialty,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag)
+			values
+            <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+		        (#{reddemCode.id},
+		        #{reddemCode.criXuhao},
+				#{reddemCode.criNum},
+				#{reddemCode.criCriminalname},
+				#{reddemCode.criPrisonid},
+				#{reddemCode.criPrisonname},
+				#{reddemCode.criPrisonarea},
+				#{reddemCode.criZoneofdivision},
+				#{reddemCode.criPicpath},
+				#{reddemCode.criCriminallvl},
+				#{reddemCode.criBeforename},
+				#{reddemCode.criBrithday},
+				#{reddemCode.criIdcard},
+				#{reddemCode.criMarriage},
+				#{reddemCode.criNation},
+				#{reddemCode.criHealthy},
+				#{reddemCode.criResidence},
+				#{reddemCode.criPriarchives},
+				#{reddemCode.criPriareaarchives},
+				#{reddemCode.criOrigin},
+				#{reddemCode.criPeraddress},
+				#{reddemCode.criHomeaddress},
+				#{reddemCode.criEventlvl},
+				#{reddemCode.criChargetype},
+				#{reddemCode.criCriminaltype},
+				#{reddemCode.criMonitoringtime},
+				#{reddemCode.criCulturallvl},
+				#{reddemCode.criNowculturallvl},
+				#{reddemCode.criPolitical},
+				#{reddemCode.criOccupation},
+				#{reddemCode.criCharge},
+				#{reddemCode.criOriginalsentence},
+				#{reddemCode.criStartdate},
+				#{reddemCode.criEnddate},
+				#{reddemCode.criCurrentsentence},
+				#{reddemCode.criNowstartdate},
+				#{reddemCode.criNowenddate},
+				#{reddemCode.criSpecialty},
+				#{reddemCode.createBy.id},
+				#{reddemCode.createDate},
+				#{reddemCode.updateBy.id},
+				#{reddemCode.updateDate},
+				#{reddemCode.remarks},
+				#{reddemCode.delFlag})
+			</foreach >
+	</insert >
+	<insert id ="savePeople" parameterType="java.util.List" >
+		<selectKey resultType ="java.lang.Integer" keyProperty= "id" order= "AFTER">
+        	SELECT LAST_INSERT_ID()
+        </selectKey >
+			insert into adm_people_info
+			(id,
+			peo_num,
+			cri_id,
+			peo_name,
+			peo_type,
+			pco_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag)
+			VALUES
+            <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+		        (#{reddemCode.id},
+				#{reddemCode.criNum},
+				#{reddemCode.id},
+				#{reddemCode.criCriminalname},
+				#{reddemCode.criCriminaltype},
+				#{reddemCode.criPrisonarea},
+				#{reddemCode.createBy.id},
+				#{reddemCode.createDate},
+				#{reddemCode.updateBy.id},
+				#{reddemCode.updateDate},
+				#{reddemCode.remarks},
+				#{reddemCode.delFlag})
+			</foreach >
+	</insert >
+	<update id ="updateCriminal" parameterType="AdmCriminalDemo" >
+		update adm_criminal_info set 
+			cri_num = #{criNum},
+			cri_xuhao = #{criXuhao},
+			cri_criminalname = #{criCriminalname},
+			cri_sex = #{criSex},
+			cri_prisonname = #{criPrisonname},
+			cri_age = #{criAge},
+			cri_prisonarea = #{criPrisonarea},
+			cri_picpath = #{criPicpath},
+			cri_criminallvl = #{criCriminallvl},
+			cri_brithday = #{criBrithday},
+			cri_idcard = #{criIdcard},
+			cri_bed = #{criBed},
+			cri_dorm = #{criDorm},
+			cri_nation = #{criNation},
+			cri_bedid = #{criBedid},
+			cri_orgnum = #{criOrgnum},
+			cri_origin = #{criOrigin},
+			cri_homeaddress = #{criHomeaddress},
+			cri_sslx = #{criSslx},
+			cri_eventlvl = #{criEventlvl},
+			cri_tglb = #{criTglb},
+			cri_chargetype = #{criChargetype},
+			cri_zyaflb = #{criZyaflb},
+			cri_monitoringtime = #{criMonitoringtime},
+			cri_charge = #{criCharge},
+			cri_criminalfacts = #{criCriminalfacts},
+			cri_originalsentence = #{criOriginalsentence},
+			cri_enddate = #{criEnddate},
+			cri_wanwei = #{criWanwei},
+			cri_hybd = #{criHybd},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		where cri_num=#{criNum} and cri_criminalname=#{criCriminalname}
+	</update>
+	
+	<insert id ="saveCriminalInfo" parameterType="AdmCriminalDemo" >
+		insert into adm_criminal_info
+			(id,
+			cri_num,
+			cri_xuhao,
+			cri_criminalname,
+			cri_sex,
+			cri_prisonname,
+			cri_age,
+			cri_prisonarea,
+			cri_picpath,
+			cri_criminallvl,
+			cri_brithday,
+			cri_idcard,
+			cri_bed,
+			cri_dorm,
+			cri_nation,
+			cri_bedid,
+			cri_orgnum,
+			cri_origin,
+			cri_homeaddress,
+			cri_sslx,
+			cri_eventlvl,
+			cri_tglb,
+			cri_chargetype,
+			cri_zyaflb,
+			cri_monitoringtime,
+			cri_charge,
+			cri_criminalfacts,
+			cri_originalsentence,
+			cri_enddate,
+			cri_wanwei,
+			cri_hybd,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag)
+		values
+	        (#{id},
+			#{criNum},
+			#{criXuhao},
+			#{criCriminalname},
+			#{criSex},
+			#{criPrisonname},
+			#{criAge},
+			#{criPrisonarea},
+			#{criPicpath},
+			#{criCriminallvl},
+			#{criBrithday},
+			#{criIdcard},
+			#{criBed},
+			#{criDorm},
+			#{criNation},
+			#{criBedid},
+			#{criOrgnum},
+			#{criOrigin},
+			#{criHomeaddress},
+			#{criSslx},
+			#{criEventlvl},
+			#{criTglb},
+			#{criChargetype},
+			#{criZyaflb},
+			#{criMonitoringtime},
+			#{criCharge},
+			#{criCriminalfacts},
+			#{criOriginalsentence},
+			#{criEnddate},
+			#{criWanwei},
+			#{criHybd},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag})
+	</insert >
+	
+	<update id ="updatePeopleInfo" parameterType="AdmCriminalDemo" >
+		update adm_people_info set 
+			peo_num=#{criNum},
+			peo_name=#{criCriminalname},
+<!-- 			peo_type=#{criCriminaltype}, -->
+			pco_id=#{criPrisonarea},
+			update_by=#{updateBy.id},
+			update_date=#{updateDate},
+			remarks=#{remarks}
+		where peo_num=#{criNum} and peo_name=#{criCriminalname}
+	</update>
+	<insert id ="savePeopleInfo" parameterType="AdmCriminalDemo" >
+			insert into adm_people_info
+				(id,
+				peo_num,
+				cri_id,
+				peo_name,
+				peo_type,
+				pco_id,
+				wat_num,
+				create_by,
+				create_date,
+				update_by,
+				update_date,
+				remarks,
+				del_flag)
+			VALUES
+		        (#{id},
+				#{criNum},
+				#{id},
+				#{criCriminalname},
+				'1',
+				#{criPrisonarea},
+				'0',
+				#{createBy.id},
+				#{createDate},
+				#{updateBy.id},
+				#{updateDate},
+				#{remarks},
+				#{delFlag})
+	</insert >
+	
+	<select id="findDisUpdateInfo" resultType="AdmPeopleInfo">
+		SELECT 
+		id,
+		wat_num,
+		plo_id,
+		peo_name,
+		peo_dorm 
+		FROM `adm_people_info` 
+		WHERE update_date &lt; (SELECT DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00')) 
+		AND peo_type!=3 
+	</select>
+</mapper>

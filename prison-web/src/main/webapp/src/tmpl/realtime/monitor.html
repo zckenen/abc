@@ -1,0 +1,218 @@
+<div class="content-box none" id='realtimeMonitor'>
+	<div class="container-box gray auto join" >
+		<div class="container-left">
+			<div class="nav-header top">
+				<div class="title"><i class="iconfont">&#xe633;</i>&nbsp;实时监控</div>
+			</div>
+			<div data-event="unbubble" class="search">
+				<input type="text" data-event="lookfor" name="condition" placeholder='请输入编号或人名'>
+				<a class="magnifier iconfont" data-event="search">&#xe668;</a>
+				<ul>
+					
+				</ul>
+			</div>
+			<div class="package auto">
+				<div class="page-quick-search show">
+					<div class="page-quick-title">
+						<ul id="" class="nav nav-tabs nav-search">
+							<li class="active"><a href="#by-build-1" data-toggle="tab">按楼层</a></li>
+							<li class=""><a href="#by-organ-1" data-toggle="tab" id='byOrgan'>按组织</a></li>
+						</ul>
+						<a class="accordion-action" data-event="refresh" data-fun='renderBuilds'><i class="iconfont ">&#xe644;</i></a>
+					</div>
+					<div class="tab-content nav-list-content">
+					  	<div id="by-build-1" class="tab-pane fade in active">
+					  		<div data-view="build" class="panel-group accordion accordion-search" id="accordion-build-5">
+								
+								
+							</div>
+						</div>
+						<div id="by-organ-1" class="tab-pane fade in ">
+							<div data-view="organ" class="panel-group accordion accordion-search" id="accordion-organ-1">
+								
+							</div>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		<!-- 	<div class="nav-header">
+				<div class="title"><i style="vertical-align: 1.5px;" class="iconfont"></i>&nbsp;全局缩略图</div>
+				<a data-event="slide" class="action color-666"><i class="iconfont"></i>&nbsp;&nbsp;</a>
+			</div>
+			<div class="tab-bodyer">
+				<div class="minify">
+					<div class="thumb">
+						<img id="monitor-thumb" src="">
+						<div id="monitor-thumb-point" class="point">
+							<div class="caption nowarp" data-value='coo' ></div>
+							<svg height="55px" width="55px">
+								<defs>
+									<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-outer-3">
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"/>
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="50%"/>
+										<stop style="stop-color:rgb(230, 53, 30); stop-opacity:0.4" offset="100%"/>
+									</radialGradient>
+									<radialGradient fy="50%" fx="50%" r="50%" cy="50%" cx="50%" id="rad-grad-inner-3">
+										<stop style="stop-color:rgb(255, 255, 255); stop-opacity:0" offset="0%"/>
+										<stop style="stop-color:rgb(221, 179, 178); stop-opacity:0.7" offset="70%"/>
+										<stop style="stop-color:rgb(230, 53, 30); stop-opacity:1" offset="100%"/>
+									</radialGradient>
+								</defs>	
+								<circle style="fill:url(#rad-grad-outer-3)" stroke-width="1" stroke="rgba(242, 211, 207, 0.9)" r="27.5" cy="27.5" cx="27.5"/>
+								<circle style="fill:url(#rad-grad-inner-3)" stroke-width="1" stroke="rgba(230, 53, 30, 0.9)" r="14" cy="27.5" cx="27.5"/>
+								<text fill="rgba(230, 53, 30, 1)" dy="46%" dx="29%" style="font-size: 24px;" class="iconfont"></text>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		 --></div>
+		<div class="container-right" >
+			<div class="nav-header top" hidden>
+				<div class="title">
+					<i class="iconfont">&#xe693;</i>&nbsp;当前位置：
+					<span data-value='left'></span>
+					<span data-value='center'></span>
+					<span data-value='right'></span>
+				</div>
+			</div>
+			<div class="video-box">
+				<div class="video-block" data-view='video' >
+					<div class="video-title">
+						<div class="caption">
+						    <div class="title">
+						       <i class="iconfont">&#xe693;</i>&nbsp;当前位置：
+					           <span data-value='left'></span>
+					           <span data-value='center'></span>
+								<span data-value='right'></span>
+						    </div>
+						</div>
+						<div class="action">
+							<!-- <a title='开始/停止' data-event='start'><i class="iconfont">&#xe68a;&nbsp;</i></a> -->
+							<a title='全屏' data-event='max'><i class="iconfont">&#xe67d;&nbsp;</i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script id='realtimeSearchTpl' type='template/text'>
+	<li>
+		<a  data-event='monitor' data-id='{{id}}' data-name='{{peoName}}' data-watnum='{{watNum}}'>
+			{{if peoType == 1}}<i class="iconfont color-green">&#xe6ba;</i>
+			{{else if peoType == 2}}<i class="iconfont color-red">&#xe6ba;</i>
+			{{else if peoType == 3}}<i class="iconfont color-blue">&#xe6b9;</i>
+			{{else}}<i class="iconfont color-green">&#xe69f;</i>
+			{{/if}}
+			<span class='name'>&nbsp;&nbsp;{{peoName}}</span>
+			<span class='info'>({{peoNum}})</span>
+		</a>
+	</li>
+</script>
+<script id='realtimeBuildTpl' type='text/template'>
+	<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<a href="#collapse-build-5-{{id}}" data-parent="#accordion-build-5" data-toggle="collapse" data-coo='{{id}}' data-index="{{index}}" data-event="changeBuild" class="accordion-toggle nowarp collapsed" aria-expanded="false">
+				{{cooName}}
+			</a>
+			{{ if index === 0 }}
+				<a class="accordion-action" data-event="refresh" data-fun='renderBuilds' hidden><i class="iconfont " hidden>&#xe644;</i>&nbsp;刷新</a>
+			{{ /if }}
+		</h4>
+	</div>
+	<div class="panel-collapse collapse" id="collapse-build-5-{{id}}" aria-expanded="false" >
+		<div class="panel-body atuo">
+			<div class="accordion-tree-container">
+				{{each pictures as pic}}
+				<div class="accordion-tree-list">
+					<div class="header">
+						<a class="collapse tree"  ></a>
+						<a class="text" data-pic="{{pic.id}}" data-event='openRegion'>
+							<i class="iconfont color-333">&#xe68b;</i>&nbsp;{{pic.picName}}
+						</a>
+					</div>
+					{{if pic.locareas}}
+						<div class="bodyer" data-height='{{=2 * pic.locareas.length}}'>
+							<div class="accordion-tree-container">
+								{{each pic.locareas as loc}}
+								<div class="accordion-tree-list">
+									<div class="header">
+										<a class="collapse tree" ></a>
+										<a class="text play" title='点击打开当前区域实时监控' data-event="liveVideo" data-pic='{{pic.id}}' data-loc='{{loc.id}}'>
+											<i class="iconfont color-333">&#xe68e;</i>&nbsp;{{loc.locName}}
+										</a>
+									</div>
+									<div class="bodyer" style="height: 0px; visibility: visible;">
+										<ul>
+											{{each loc.camera as cam}}
+											<li><a data-vid='{{cam.id}}' data-event="framed"><i class="iconfont color-green">&#xe633;&nbsp;</i>{{cam.camName}}</a></li>
+											{{/each}}
+										</ul>
+									</div>
+								</div>
+							{{/each}}
+							</div>
+						</div>
+					{{/if}}
+				</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+<script id='realtimeOrganTpl' type='text/template'>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a href="#collapse-organ-{{index}}" data-parent="#accordion-organ-1" data-toggle="collapse"  data-index="{{index}}" data-info='{{id}}' class="accordion-toggle nowarp collapsed" aria-expanded="false">
+					{{pcoName}}
+				</a>
+				{{if index == 0 && i == 0 }}<a class="accordion-action" data-event="refresh" data-fun='renderGroups'><i class="iconfont ">&#xe644;</i>&nbsp;刷新</a>{{/if}}
+			</h4>
+		</div>
+		<div class="panel-collapse collapse" id="collapse-organ-{{index}}" aria-expanded="false" >
+			<div class="panel-body atuo">
+				<div class="accordion-tree-container">
+					{{each ploList as plo}}
+						{{each plo.dormList as dorm}}
+						<div class="accordion-tree-container">
+							<div class="accordion-tree-list">
+								<div class="header">
+                                    {{ if dorm.peoDorm }}
+									<a class="collapse tree"></a>
+									<a class="text" data-event='distribute' >
+										<i class="iconfont color-267be6">&#xe679;</i>&ensp;{{dorm.peoDorm== 0 ? '警察': '第'+dorm.peoDorm+'组'}}[{{plo.ploName}}]
+									</a>
+                                    {{ /if }}
+								</div>
+								<div class="bodyer">
+									<ul class='index-tree auto'>
+										{{each dorm.peoList as peo}}
+											{{if peo.peoType == 1}}
+												<li><a data-event='monitor' data-id='{{peo.id}}' data-name='{{peo.peoName}}' data-watnum='{{peo.watNum}}'><i class="iconfont color-green">&#xe6ba;&ensp;</i>{{peo.peoName}}（普通）</a></li>
+											{{else if peo.peoType == 2}}
+												<li><a data-event='monitor' data-id='{{peo.id}}' data-name='{{peo.peoName}}' data-watnum='{{peo.watNum}}'><i class="iconfont color-red">&#xe6ba;&ensp;</i>{{peo.peoName}}（重点）</a></li>
+											{{else if peo.peoType == 3}}
+												<li><a data-event='monitor' data-id='{{peo.id}}' data-name='{{peo.peoName}}' data-watnum='{{peo.watNum}}'><i class="iconfont color-blue">&#xe6b9;&ensp;</i>{{peo.peoName}}（民警）</a></li>
+											{{else}}
+												<li><a data-event='monitor' data-id='{{peo.id}}' data-name='{{peo.peoName}}' data-watnum='{{peo.watNum}}'><i class="iconfont color-5c9cec">&#xe66c;&ensp;</i>{{peo.peoName}}（其他）</a></li>
+											{{/if}}
+										{{/each}}
+									</ul>
+								</div>
+							</div>
+						</div>
+						{{/each}}
+				    {{/each}}
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id='realtimeOrganCameraTpl'  type='text/template'>
+	<li><a data-vid='{{id}}' data-event="framed"><i class="iconfont color-green">&#xe633;&nbsp;</i>{{cam_name}}</a></li>
+</script>
