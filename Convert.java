@@ -1,6 +1,7 @@
 package solution;
 
 public class Convert {
+//adfjakjhfajk
 	public String convert(String s,int nRows)
 	{
 		char[] c=s.toCharArray();
