@@ -7,6 +7,8 @@ public class Convert {
 		int len=s.length();
 		StringBuffer sb=new StringBuffer(nRows);
 		while()
+			
+			 加快还款计划 
 		{
 			
 		}
